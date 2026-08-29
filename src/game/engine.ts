@@ -79,10 +79,10 @@ export function applyAnswer(
   };
 }
 
-export function accuracyPercent(stats: Pick<GameStats, "correct" | "incorrect">): number {
+export function accuracyPercent(stats: Pick<GameStats, "score" | "correct" | "incorrect">): number {
   const total = stats.correct + stats.incorrect;
   if (total === 0) return 0;
-  return Math.round((stats.correct / total) * 1000) / 10;
+  return Math.round((stats.score / (total * 3)) * 1000) / 10;
 }
 
 export function scoreFromStats(stats: Pick<GameStats, "score">): number {

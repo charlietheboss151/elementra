@@ -393,6 +393,12 @@ button {
   min-width: 980px;
 }
 
+.element-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(108px, 1fr));
+  gap: 8px;
+}
+
 .tile,
 .f-placeholder {
   border: 0;

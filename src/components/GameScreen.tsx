@@ -6,11 +6,12 @@ import {
   scoreFromStats,
 } from "../game/engine";
 import { ELEMENT_SET_LABELS } from "../game/types";
-import { formatAnswer, getMode } from "../game/modes";
+import { formatAnswer, getMode, usesListLayout } from "../game/modes";
 import type { GameConfig, GameResult } from "../game/types";
 import { MAX_GUESSES } from "../game/types";
 import { useGame } from "../game/useGame";
 import { CategoryLegend } from "./CategoryLegend";
+import { ElementList } from "./ElementList";
 import { PeriodicTable } from "./PeriodicTable";
 import { WrongPickToast } from "./WrongPickToast";
 
@@ -131,23 +132,38 @@ export function GameScreen({ config, onComplete, onQuit }: GameScreenProps) {
         ) : null}
       </ul>
 
-      {game.hintsAllowed ? (
+      {game.hintsAllowed && !usesListLayout(config.modeId) ? (
         <button type="button" className="hint-button" onClick={game.useHint} disabled={waiting}>
           Hint
         </button>
       ) : null}
 
-      <PeriodicTable
-        reveal={game.question.reveal}
-        hint={game.hint}
-        correctAtomicNumber={game.question.target.atomicNumber}
-        wrongGuesses={game.wrongGuesses}
-        resolution={game.resolution}
-        answeredMarks={game.answeredMarks}
-        playableNumbers={game.playableNumbers}
-        disabled={waiting}
-        onSelect={game.selectElement}
-      />
+      {usesListLayout(config.modeId) ? (
+        <ElementList
+          elements={game.listElements}
+          reveal={game.question.reveal}
+          hint={game.hint}
+          correctAtomicNumber={game.question.target.atomicNumber}
+          wrongGuesses={game.wrongGuesses}
+          resolution={game.resolution}
+          answeredMarks={game.answeredMarks}
+          playableNumbers={game.playableNumbers}
+          disabled={waiting}
+          onSelect={game.selectElement}
+        />
+      ) : (
+        <PeriodicTable
+          reveal={game.question.reveal}
+          hint={game.hint}
+          correctAtomicNumber={game.question.target.atomicNumber}
+          wrongGuesses={game.wrongGuesses}
+          resolution={game.resolution}
+          answeredMarks={game.answeredMarks}
+          playableNumbers={game.playableNumbers}
+          disabled={waiting}
+          onSelect={game.selectElement}
+        />
+      )}
       <CategoryLegend />
     </div>
   );

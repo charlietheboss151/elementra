@@ -1,5 +1,5 @@
 import { poolForSet, QUESTION_TIME_MS } from "../game/elementSets";
-import { GAME_MODES } from "../game/modes";
+import { GAME_MODES, usesListLayout } from "../game/modes";
 import {
   ELEMENT_SET_IDS,
   ELEMENT_SET_LABELS,
@@ -8,6 +8,7 @@ import {
   type GameConfig,
 } from "../game/types";
 import { CategoryLegend } from "./CategoryLegend";
+import { ElementList } from "./ElementList";
 import { PeriodicTable } from "./PeriodicTable";
 
 function TimerNote({ timed }: { timed: boolean }) {
@@ -23,7 +24,20 @@ interface HomeScreenProps {
 
 export function HomeScreen({ config, onChange, onPlay }: HomeScreenProps) {
   const selectedMode = GAME_MODES.find((mode) => mode.id === config.modeId);
-  const poolCount = poolForSet(config.elementSet).length;
+  const pool = poolForSet(config.elementSet);
+  const poolCount = pool.length;
+  const previewList = [...pool].sort((a, b) => a.name.localeCompare(b.name));
+  const listMode = usesListLayout(config.modeId);
+  const boardProps = {
+    hint: { kind: null, period: null, category: null } as const,
+    correctAtomicNumber: null,
+    wrongGuesses: [] as number[],
+    resolution: null,
+    answeredMarks: {},
+    playableNumbers: pool.map((element) => element.atomicNumber),
+    disabled: true,
+    onSelect: () => undefined,
+  };
 
   return (
     <div className="screen home">
@@ -85,23 +99,24 @@ export function HomeScreen({ config, onChange, onPlay }: HomeScreenProps) {
       </section>
 
       <section className="preview">
-        <h2>The table is the answer sheet</h2>
+        <h2>{listMode ? "A shuffled list, not the table" : "The table is the answer sheet"}</h2>
         <p>
-          Pick a chemical family — or the whole table — then click to answer.
-          First try lights green, second yellow, third orange. Miss all three
-          and the right element turns red. Finished tiles keep that color.
+          {listMode
+            ? "Atomic numbers are hidden and the order is mixed, so you have to know which element is which."
+            : "Pick a chemical family — or the whole table — then click to answer. First try lights green, second yellow, third orange. Miss all three and the right element turns red. Finished tiles keep that color."}
         </p>
-        <PeriodicTable
-          reveal={{ atomicNumber: true, symbol: true, name: true }}
-          hint={{ kind: null, period: null, category: null }}
-          correctAtomicNumber={null}
-          wrongGuesses={[]}
-          resolution={null}
-          answeredMarks={{}}
-          playableNumbers={poolForSet(config.elementSet).map((element) => element.atomicNumber)}
-          disabled
-          onSelect={() => undefined}
-        />
+        {listMode ? (
+          <ElementList
+            elements={previewList}
+            reveal={{ atomicNumber: false, symbol: true, name: true }}
+            {...boardProps}
+          />
+        ) : (
+          <PeriodicTable
+            reveal={{ atomicNumber: true, symbol: true, name: true }}
+            {...boardProps}
+          />
+        )}
         <CategoryLegend />
       </section>
     </div>

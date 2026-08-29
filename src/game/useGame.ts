@@ -6,6 +6,7 @@ import {
   emptyStats,
   isCorrectAnswer,
   markForAnswer,
+  shuffle,
   summarizeResult,
 } from "./engine";
 import { MAX_GUESSES, type AnswerRecord, type GameConfig, type GameResult, type GameStats, type HintState, type Question, type ResolveKind } from "./types";
@@ -29,6 +30,7 @@ export type WrongPick = {
 
 export function useGame(config: GameConfig, onComplete: (result: GameResult) => void) {
   const [questions] = useState(() => buildQuestions(config));
+  const [listElements] = useState(() => shuffle(poolForSet(config.elementSet)));
   const [index, setIndex] = useState(0);
   const [stats, setStats] = useState<GameStats>(() => emptyStats(config));
   const [answers, setAnswers] = useState<AnswerRecord[]>([]);
@@ -246,6 +248,7 @@ export function useGame(config: GameConfig, onComplete: (result: GameResult) => 
     hint,
     hintsAllowed,
     playableNumbers,
+    listElements,
     selectElement,
     useHint,
   };

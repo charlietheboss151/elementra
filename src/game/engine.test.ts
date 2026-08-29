@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import { ELEMENTS_BY_NUMBER } from "../data/elements";
 import { poolForSet } from "./elementSets";
 import {
+  accuracyPercent,
   applyAnswer,
   buildQuestions,
   emptyStats,
@@ -47,13 +48,11 @@ describe("buildQuestions", () => {
     }
   });
 
-  it("builds Element Information clues from atom facts", () => {
+  it("builds Element Information clues from electron count", () => {
     const questions = buildQuestions({ ...base, modeId: "element-info" });
-    const allowed = new Set(getMode("element-info").clueKinds("all"));
     for (const question of questions) {
-      expect(allowed.has(question.clueKind)).toBe(true);
+      expect(question.clueKind).toBe("electrons");
       expect(promptFor(question.target, question.clueKind)).toBe(question.prompt);
-      expect(question.target.protons).toBe(question.target.atomicNumber);
     }
   });
 
@@ -93,5 +92,8 @@ describe("applyAnswer", () => {
     expect(afterMiss.incorrect).toBe(1);
     expect(afterMiss.streak).toBe(0);
     expect(afterMiss.bestStreak).toBe(1);
+    expect(accuracyPercent(afterMiss)).toBe(50);
+    const secondTry = applyAnswer(emptyStats({ ...base, modeId: "find-element" }), true, 2);
+    expect(accuracyPercent(secondTry)).toBe(66.7);
   });
 });

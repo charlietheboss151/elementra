@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.3.0] - 2026-08-28
+
+### Added
+
+- Atomic-number mode uses a shuffled list instead of the periodic table, so counting across the grid does not give the answer away.
+
+### Changed
+
+- Accuracy uses points earned (first try 100%, second ~67%, third ~33%, miss 0%) instead of treating any success within three guesses as a perfect question.
+- Element Information and Mixed no longer ask proton or atomic-number clues, which were the same as atomic number.
+
 ## [0.2.2] - 2026-08-28
 
 ### Added

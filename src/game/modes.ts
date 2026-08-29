@@ -1,12 +1,5 @@
-import { CATEGORY_LABELS, type ChemicalElement } from "../data/elements";
-import type { ClueKind, ElementSetId, GameModeDefinition, TileReveal } from "./types";
-
-function infoClueKinds(elementSet: ElementSetId): ClueKind[] {
-  if (elementSet === "all") {
-    return ["protons", "electrons", "atomic-number", "category-protons"];
-  }
-  return ["protons", "electrons", "atomic-number"];
-}
+import type { ChemicalElement } from "../data/elements";
+import type { ClueKind, GameModeDefinition, TileReveal } from "./types";
 
 export const GAME_MODES: GameModeDefinition[] = [
   {
@@ -18,7 +11,7 @@ export const GAME_MODES: GameModeDefinition[] = [
   {
     id: "atomic-number",
     title: "Find Element by Atomic Number",
-    description: "Find the element that matches the atomic number.",
+    description: "Find the matching element in a shuffled list — not the table, so you cannot count across.",
     clueKinds: () => ["atomic-number"],
   },
   {
@@ -30,16 +23,20 @@ export const GAME_MODES: GameModeDefinition[] = [
   {
     id: "element-info",
     title: "Element Information",
-    description: "Use protons, electrons, and other clues to identify the atom.",
-    clueKinds: infoClueKinds,
+    description: "Identify a neutral atom from its electron count on the table.",
+    clueKinds: () => ["electrons"],
   },
   {
     id: "mixed",
     title: "Mixed Practice",
-    description: "A shuffle of names, numbers, symbols, and atom clues.",
-    clueKinds: (elementSet) => ["name", "symbol", "atomic-number", ...infoClueKinds(elementSet)],
+    description: "A shuffle of names, symbols, and electron-count clues on the table.",
+    clueKinds: () => ["name", "symbol", "electrons"],
   },
 ];
+
+export function usesListLayout(modeId: string): boolean {
+  return modeId === "atomic-number";
+}
 
 export function getMode(modeId: string): GameModeDefinition {
   const mode = GAME_MODES.find((item) => item.id === modeId);
@@ -57,12 +54,8 @@ export function promptFor(element: ChemicalElement, clue: ClueKind): string {
       return `Find ${element.symbol}`;
     case "atomic-number":
       return `Find element #${element.atomicNumber}`;
-    case "protons":
-      return `This element has ${element.protons} protons.`;
     case "electrons":
       return `A neutral atom of this element has ${element.electrons} electrons.`;
-    case "category-protons":
-      return `This ${CATEGORY_LABELS[element.category].toLowerCase()} has ${element.protons} protons.`;
   }
 }
 

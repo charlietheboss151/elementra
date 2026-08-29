@@ -1,7 +1,12 @@
-import { ELEMENTS } from "../data/elements";
+import type { ChemicalElement } from "../data/elements";
 import { ElementTileButton, handleTileClick, tileClass, type TileViewProps } from "./elementTile";
 
-export function PeriodicTable({
+interface ElementListProps extends TileViewProps {
+  elements: ChemicalElement[];
+}
+
+export function ElementList({
+  elements,
   reveal,
   hint,
   correctAtomicNumber,
@@ -11,24 +16,18 @@ export function PeriodicTable({
   playableNumbers,
   disabled,
   onSelect,
-}: TileViewProps) {
+}: ElementListProps) {
   const playable = new Set(playableNumbers);
 
   return (
     <div className="table-wrap">
       <div
-        className="periodic-table"
+        className="element-list"
         role="group"
-        aria-label="Periodic table"
+        aria-label="Shuffled element list"
         onClick={(event) => handleTileClick(event, disabled, onSelect)}
       >
-        <div className="f-placeholder" style={{ gridRow: 6, gridColumn: 3 }}>
-          57–71
-        </div>
-        <div className="f-placeholder" style={{ gridRow: 7, gridColumn: 3 }}>
-          89–103
-        </div>
-        {ELEMENTS.map((element) => (
+        {elements.map((element) => (
           <ElementTileButton
             key={element.atomicNumber}
             element={element}
@@ -41,7 +40,6 @@ export function PeriodicTable({
               answeredMarks,
               playable.has(element.atomicNumber),
             )}
-            style={{ gridRow: element.gridRow, gridColumn: element.gridColumn }}
             reveal={reveal}
             disabled={disabled}
           />
