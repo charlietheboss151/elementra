@@ -9,7 +9,7 @@ import {
   isCorrectAnswer,
   pointsForTry,
 } from "./engine";
-import { getMode, promptFor } from "./modes";
+import { getMode } from "./modes";
 import type { GameConfig } from "./types";
 
 const base: Omit<GameConfig, "modeId"> = {
@@ -45,14 +45,6 @@ describe("buildQuestions", () => {
     for (const question of questions) {
       expect(question.clueKind).toBe("symbol");
       expect(question.prompt).toBe(`Find ${question.target.symbol}`);
-    }
-  });
-
-  it("builds Element Information clues from electron count", () => {
-    const questions = buildQuestions({ ...base, modeId: "element-info" });
-    for (const question of questions) {
-      expect(question.clueKind).toBe("electrons");
-      expect(promptFor(question.target, question.clueKind)).toBe(question.prompt);
     }
   });
 

@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.4.0] - 2026-08-28
+
+### Removed
+
+- Element Information mode (electron-count clues). Mixed Practice is names and symbols only.
+
+### Changed
+
+- Home, README, and page description no longer mention property clues.
+
 ## [0.3.4] - 2026-08-28
 
 ### Added

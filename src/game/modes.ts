@@ -21,16 +21,10 @@ export const GAME_MODES: GameModeDefinition[] = [
     clueKinds: () => ["symbol"],
   },
   {
-    id: "element-info",
-    title: "Element Information",
-    description: "Identify a neutral atom from its electron count on the table.",
-    clueKinds: () => ["electrons"],
-  },
-  {
     id: "mixed",
     title: "Mixed Practice",
-    description: "A shuffle of names, symbols, and electron-count clues on the table.",
-    clueKinds: () => ["name", "symbol", "electrons"],
+    description: "A shuffle of names and symbols on the table.",
+    clueKinds: () => ["name", "symbol"],
   },
 ];
 
@@ -54,16 +48,13 @@ export function promptFor(element: ChemicalElement, clue: ClueKind): string {
       return `Find ${element.symbol}`;
     case "atomic-number":
       return `Find element #${element.atomicNumber}`;
-    case "electrons":
-      return `A neutral atom of this element has ${element.electrons} electrons.`;
   }
 }
 
 export function revealFor(clue: ClueKind): TileReveal {
   if (clue === "name") return { atomicNumber: true, symbol: true, name: false };
   if (clue === "symbol") return { atomicNumber: true, symbol: false, name: true };
-  if (clue === "atomic-number") return { atomicNumber: false, symbol: true, name: true };
-  return { atomicNumber: false, symbol: true, name: false };
+  return { atomicNumber: false, symbol: true, name: true };
 }
 
 export function formatAnswer(element: ChemicalElement): string {
