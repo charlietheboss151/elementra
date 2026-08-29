@@ -43,8 +43,12 @@ export function HomeScreen({ config, onChange, onPlay }: HomeScreenProps) {
   return (
     <div className="screen home">
       <header className="hero">
-        <p className="eyebrow">The periodic table game</p>
-        <h1>Elementra</h1>
+        <h1 className="sr-only">Elementra</h1>
+        <img
+          className="brand-logo"
+          src="/logo.jpg"
+          alt="Elementra. Master the table. Beat the clock."
+        />
         <p className="byline">
           <span className="byline-label">Designed &amp; built by</span>
           <span className="byline-name">Charlie Bishop</span>
