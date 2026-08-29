@@ -10,7 +10,7 @@ import { formatAnswer, getMode, hidesFamilyColors, usesListLayout } from "../gam
 import type { GameConfig, GameResult } from "../game/types";
 import { MAX_GUESSES } from "../game/types";
 import { useGame } from "../game/useGame";
-import { playClick } from "../audio/sounds";
+import { playClick, playUi } from "../audio/sounds";
 import { useGameSounds } from "../audio/useGameSounds";
 import { CategoryLegend } from "./CategoryLegend";
 import { ElementList } from "./ElementList";
@@ -71,7 +71,14 @@ export function GameScreen({ config, onComplete, onQuit }: GameScreenProps) {
     <div className="screen play">
       <WrongPickToast pick={game.wrongPick} />
       <div className="play-bar">
-        <button type="button" className="text-button" onClick={onQuit}>
+        <button
+          type="button"
+          className="text-button"
+          onClick={() => {
+            playUi();
+            onQuit();
+          }}
+        >
           Quit
         </button>
         <p className="mode-chip">
@@ -151,7 +158,15 @@ export function GameScreen({ config, onComplete, onQuit }: GameScreenProps) {
       </ul>
 
       {game.hintsAllowed && !usesListLayout(config.modeId) && game.question.clueKind !== "properties" ? (
-        <button type="button" className="hint-button" onClick={game.useHint} disabled={waiting}>
+        <button
+          type="button"
+          className="hint-button"
+          onClick={() => {
+            playUi();
+            game.useHint();
+          }}
+          disabled={waiting}
+        >
           Hint
         </button>
       ) : null}

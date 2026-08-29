@@ -1,4 +1,4 @@
-import { unlockAudio } from "../audio/sounds";
+import { playUi, unlockAudio } from "../audio/sounds";
 import { poolForSet, QUESTION_TIME_MS } from "../game/elementSets";
 import { GAME_MODES, usesListLayout } from "../game/modes";
 import {
@@ -72,7 +72,11 @@ export function HomeScreen({ config, onChange, onPlay }: HomeScreenProps) {
               key={mode.id}
               type="button"
               className={`mode-card ${config.modeId === mode.id ? "is-selected" : ""}`}
-              onClick={() => onChange({ ...config, modeId: mode.id })}
+              onClick={() => {
+                if (config.modeId === mode.id) return;
+                playUi();
+                onChange({ ...config, modeId: mode.id });
+              }}
             >
               <strong>{mode.title}</strong>
               <span>{mode.description}</span>
@@ -87,7 +91,11 @@ export function HomeScreen({ config, onChange, onPlay }: HomeScreenProps) {
               key={setId}
               type="button"
               className={`group-pill ${config.elementSet === setId ? "is-selected" : ""}`}
-              onClick={() => onChange({ ...config, elementSet: setId })}
+              onClick={() => {
+                if (config.elementSet === setId) return;
+                playUi();
+                onChange({ ...config, elementSet: setId });
+              }}
             >
               <span className={`legend-swatch ${setId === "all" ? "swatch-all" : `tile--${setId}`}`} />
               {ELEMENT_SET_LABELS[setId]}
@@ -99,7 +107,10 @@ export function HomeScreen({ config, onChange, onPlay }: HomeScreenProps) {
           <input
             type="checkbox"
             checked={config.timed}
-            onChange={(event) => onChange({ ...config, timed: event.target.checked })}
+            onChange={(event) => {
+              playUi();
+              onChange({ ...config, timed: event.target.checked });
+            }}
           />
           Race the clock
           <TimerNote timed={config.timed} />
@@ -110,6 +121,7 @@ export function HomeScreen({ config, onChange, onPlay }: HomeScreenProps) {
           className="play-button"
           onClick={() => {
             unlockAudio();
+            playUi();
             onPlay();
           }}
         >

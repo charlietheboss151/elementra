@@ -72,9 +72,9 @@ function playNoise(duration: number, peak: number, highpassHz: number) {
   source.stop(start + duration + 0.02);
 }
 
-export function playClick() {
-  playNoise(0.028, 0.22, 1800);
-  playTone(1650, 0.04, 0.12, "triangle");
+export function playUi() {
+  playNoise(0.02, 0.14, 2100);
+  playTone(1420, 0.032, 0.09, "triangle");
 }
 
 export function playCorrect() {

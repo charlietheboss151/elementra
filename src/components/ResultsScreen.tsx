@@ -1,3 +1,4 @@
+import { playUi } from "../audio/sounds";
 import { accuracyPercent, formatDuration, scoreFromStats } from "../game/engine";
 import { formatAnswer, getMode } from "../game/modes";
 import { ELEMENT_SET_LABELS } from "../game/types";
@@ -66,10 +67,24 @@ export function ResultsScreen({ result, onReplay, onHome }: ResultsScreenProps) 
       )}
 
       <div className="result-actions">
-        <button type="button" className="play-button" onClick={onReplay}>
+        <button
+          type="button"
+          className="play-button"
+          onClick={() => {
+            playUi();
+            onReplay();
+          }}
+        >
           Play again
         </button>
-        <button type="button" className="text-button" onClick={onHome}>
+        <button
+          type="button"
+          className="text-button"
+          onClick={() => {
+            playUi();
+            onHome();
+          }}
+        >
           Home
         </button>
       </div>
