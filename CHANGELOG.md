@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.7.1] - 2026-08-29
+
+### Changed
+
+- Spoken names use US classroom pronunciations for all 118 elements (for example Lead as “led”, Yttrium as “it-tree-um”), not a letter-by-letter reading of the spelling.
+
 ## [0.7.0] - 2026-08-29
 
 ### Added
