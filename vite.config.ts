@@ -2,8 +2,8 @@ import react from '@vitejs/plugin-react'
 import { defineConfig } from 'vite'
 
 export default defineConfig({
-  // Relative URLs so the logo, icon, and scripts load on GitHub Pages,
-  // itch.io, and other hosts that are not the domain root.
-  base: "./",
+  // Apex domain (charlietheboss.com). Logo and other files are bundled into
+  // /assets so they still load; do not hard-code /logo.jpg.
+  base: "/",
   plugins: [react()],
 })

@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.6.4] - 2026-08-28
+
+### Changed
+
+- Production builds use site-root asset URLs (`base: '/'`) for the charlietheboss.com apex deploy. The title art is still bundled under `/assets`, so it is not requested as `/logo.jpg`.
+
 ## [0.6.3] - 2026-08-28
 
 ### Fixed
