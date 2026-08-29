@@ -107,7 +107,7 @@ export function HomeScreen({ config, onChange, onPlay }: HomeScreenProps) {
         <p>
           {listMode
             ? "Atomic numbers are hidden and the order is mixed, so you have to know which element is which."
-            : "Pick a chemical family — or the whole table — then click to answer. First try lights green, second yellow, third orange. Miss all three and the right element turns red. Finished tiles keep that color."}
+            : "This is your map of the elements. Match the clue, click the tile, and watch the table light up as you go — green for a first-try strike, gold when you needed a second look, orange on a last-chance save. Miss all three and the real answer flares red, then every mark stays so you can see the round take shape."}
         </p>
         {listMode ? (
           <ElementList

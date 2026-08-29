@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.3.3] - 2026-08-28
+
+### Changed
+
+- Home-page copy under the table preview is a short invitation instead of a dry recap of the scoring colors.
+
 ## [0.3.2] - 2026-08-28
 
 ### Changed
