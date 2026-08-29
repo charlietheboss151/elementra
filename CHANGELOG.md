@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-08-28
+
+### Added
+
+- Three guesses per question, with green / yellow / orange tiles for 1st / 2nd / 3rd-try hits and a red reveal of the correct element after a miss.
+- Element-group selection (the same families as the table) plus an All elements set, available in every game mode.
+
+### Removed
+
+- Easy / Medium / Hard / Expert difficulty tiers.
+
 ## [0.1.1] - 2026-08-28
 
 ### Fixed

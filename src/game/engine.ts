@@ -1,5 +1,4 @@
-import { ELEMENTS, type ChemicalElement } from "../data/elements";
-import { DIFFICULTY_SETTINGS } from "./difficulty";
+import { poolForSet, QUESTION_TIME_MS } from "./elementSets";
 import { getMode, promptFor, revealFor } from "./modes";
 import type {
   AnswerRecord,
@@ -9,6 +8,7 @@ import type {
   GameStats,
   Question,
 } from "./types";
+import { MAX_GUESSES } from "./types";
 
 export function shuffle<T>(items: T[]): T[] {
   const copy = [...items];
@@ -19,18 +19,18 @@ export function shuffle<T>(items: T[]): T[] {
   return copy;
 }
 
-export function pickPool(config: GameConfig): ChemicalElement[] {
-  return DIFFICULTY_SETTINGS[config.difficulty].pool(ELEMENTS);
+export function pickPool(config: GameConfig) {
+  return poolForSet(config.elementSet);
 }
 
 export function buildQuestions(config: GameConfig): Question[] {
   const mode = getMode(config.modeId);
   const pool = pickPool(config);
   if (pool.length === 0) {
-    throw new Error("Element pool is empty for this difficulty.");
+    throw new Error("Element pool is empty for this group.");
   }
 
-  const clues = mode.clueKinds(config.difficulty);
+  const clues = mode.clueKinds(config.elementSet);
   const questions: Question[] = [];
   let remaining = shuffle(pool);
 
@@ -45,7 +45,7 @@ export function buildQuestions(config: GameConfig): Question[] {
       target,
       clueKind,
       prompt: promptFor(target, clueKind),
-      reveal: revealFor(clueKind, config.difficulty),
+      reveal: revealFor(clueKind),
     });
   }
 
@@ -53,23 +53,31 @@ export function buildQuestions(config: GameConfig): Question[] {
 }
 
 export function emptyStats(config: GameConfig): GameStats {
-  const limit = config.timed
-    ? DIFFICULTY_SETTINGS[config.difficulty].questionTimeMs
-    : null;
   return {
+    score: 0,
     correct: 0,
     incorrect: 0,
     streak: 0,
     bestStreak: 0,
     elapsedMs: 0,
-    remainingQuestionMs: limit,
+    remainingQuestionMs: config.timed ? QUESTION_TIME_MS : null,
   };
 }
 
-export function applyAnswer(stats: GameStats, correct: boolean): GameStats {
+export function pointsForTry(tryNumber: 1 | 2 | 3): number {
+  return 4 - tryNumber;
+}
+
+export function applyAnswer(
+  stats: GameStats,
+  correct: boolean,
+  tryNumber: 1 | 2 | 3 | null,
+): GameStats {
   const nextStreak = correct ? stats.streak + 1 : 0;
+  const points = correct && tryNumber ? pointsForTry(tryNumber) : 0;
   return {
     ...stats,
+    score: stats.score + points,
     correct: stats.correct + (correct ? 1 : 0),
     incorrect: stats.incorrect + (correct ? 0 : 1),
     streak: nextStreak,
@@ -83,8 +91,8 @@ export function accuracyPercent(stats: Pick<GameStats, "correct" | "incorrect">)
   return Math.round((stats.correct / total) * 1000) / 10;
 }
 
-export function scoreFromStats(stats: Pick<GameStats, "correct">): number {
-  return stats.correct;
+export function scoreFromStats(stats: Pick<GameStats, "score">): number {
+  return stats.score;
 }
 
 export function isCorrectAnswer(
@@ -96,6 +104,10 @@ export function isCorrectAnswer(
 
 export function remainingAfterCurrent(total: number, questionNumber: number): number {
   return Math.max(0, total - questionNumber);
+}
+
+export function guessesLeft(guessCount: number): number {
+  return Math.max(0, MAX_GUESSES - guessCount);
 }
 
 export function formatDuration(ms: number): string {

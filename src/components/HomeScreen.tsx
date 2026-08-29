@@ -1,14 +1,20 @@
-import { DIFFICULTY_SETTINGS } from "../game/difficulty";
+import { poolForSet, QUESTION_TIME_MS } from "../game/elementSets";
 import { GAME_MODES } from "../game/modes";
-import { DIFFICULTIES, QUESTION_COUNTS, type Difficulty, type GameConfig, type QuestionCount } from "../game/types";
+import {
+  ELEMENT_SET_IDS,
+  ELEMENT_SET_LABELS,
+  QUESTION_COUNTS,
+  elementSetBlurb,
+  type ElementSetId,
+  type GameConfig,
+  type QuestionCount,
+} from "../game/types";
 import { CategoryLegend } from "./CategoryLegend";
 import { PeriodicTable } from "./PeriodicTable";
 
-function TimerNote({ timed, difficulty }: { timed: boolean; difficulty: Difficulty }) {
-  const limitMs = DIFFICULTY_SETTINGS[difficulty].questionTimeMs;
+function TimerNote({ timed }: { timed: boolean }) {
   if (!timed) return null;
-  if (limitMs == null) return " (untimed on Easy)";
-  return ` (${limitMs / 1000}s each)`;
+  return ` (${QUESTION_TIME_MS / 1000}s each)`;
 }
 
 interface HomeScreenProps {
@@ -19,6 +25,7 @@ interface HomeScreenProps {
 
 export function HomeScreen({ config, onChange, onPlay }: HomeScreenProps) {
   const selectedMode = GAME_MODES.find((mode) => mode.id === config.modeId);
+  const poolCount = poolForSet(config.elementSet).length;
 
   return (
     <div className="screen home">
@@ -27,7 +34,7 @@ export function HomeScreen({ config, onChange, onPlay }: HomeScreenProps) {
         <h1>Find it on the table.</h1>
         <p className="lede">
           A Seterra-style practice game: read a prompt, click the right element,
-          and learn the table by repetition.
+          and learn the table by repetition. Three guesses per question.
         </p>
       </header>
 
@@ -49,20 +56,21 @@ export function HomeScreen({ config, onChange, onPlay }: HomeScreenProps) {
 
         <div className="setup-row">
           <div>
-            <h3>Difficulty</h3>
+            <h3>Element group</h3>
             <div className="pills">
-              {DIFFICULTIES.map((difficulty: Difficulty) => (
+              {ELEMENT_SET_IDS.map((setId: ElementSetId) => (
                 <button
-                  key={difficulty}
+                  key={setId}
                   type="button"
-                  className={config.difficulty === difficulty ? "is-selected" : ""}
-                  onClick={() => onChange({ ...config, difficulty })}
+                  className={`group-pill ${config.elementSet === setId ? "is-selected" : ""}`}
+                  onClick={() => onChange({ ...config, elementSet: setId })}
                 >
-                  {DIFFICULTY_SETTINGS[difficulty].label}
+                  <span className={`legend-swatch ${setId === "all" ? "swatch-all" : `tile--${setId}`}`} />
+                  {ELEMENT_SET_LABELS[setId]}
                 </button>
               ))}
             </div>
-            <p className="hint-text">{DIFFICULTY_SETTINGS[config.difficulty].blurb}</p>
+            <p className="hint-text">{elementSetBlurb(config.elementSet, poolCount)}</p>
           </div>
           <div>
             <h3>Questions</h3>
@@ -85,7 +93,7 @@ export function HomeScreen({ config, onChange, onPlay }: HomeScreenProps) {
                 onChange={(event) => onChange({ ...config, timed: event.target.checked })}
               />
               Race the clock
-              <TimerNote timed={config.timed} difficulty={config.difficulty} />
+              <TimerNote timed={config.timed} />
             </label>
           </div>
         </div>
@@ -98,14 +106,17 @@ export function HomeScreen({ config, onChange, onPlay }: HomeScreenProps) {
       <section className="preview">
         <h2>The table is the answer sheet</h2>
         <p>
-          Every tile is clickable. During a round we hide the details that would
-          give the question away.
+          Pick a chemical family — or the whole table — then click to answer.
+          First try lights green, second yellow, third orange. Miss all three
+          and the right element turns red.
         </p>
         <PeriodicTable
           reveal={{ atomicNumber: true, symbol: true, name: true }}
-          feedback={null}
           hint={{ kind: null, period: null, category: null }}
           correctAtomicNumber={null}
+          wrongGuesses={[]}
+          resolution={null}
+          playableNumbers={poolForSet(config.elementSet).map((element) => element.atomicNumber)}
           disabled
           onSelect={() => undefined}
         />

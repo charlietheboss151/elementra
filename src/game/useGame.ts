@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { DIFFICULTY_SETTINGS } from "./difficulty";
+import { poolForSet, QUESTION_TIME_MS, setHasHints } from "./elementSets";
 import {
   applyAnswer,
   buildQuestions,
@@ -15,21 +15,26 @@ import type {
   HintState,
   Question,
 } from "./types";
+import { MAX_GUESSES } from "./types";
 
-const FEEDBACK_MS = 850;
+const SUCCESS_MS = 1100;
+const FAIL_MS = 2200;
 
-export type Feedback = {
+export type ResolveKind = "try1" | "try2" | "try3" | "fail";
+
+export type QuestionResolution = {
+  kind: ResolveKind;
   selectedAtomicNumber: number | null;
-  correct: boolean;
   timedOut: boolean;
-} | null;
+};
 
 export function useGame(config: GameConfig, onComplete: (result: GameResult) => void) {
   const [questions] = useState(() => buildQuestions(config));
   const [index, setIndex] = useState(0);
   const [stats, setStats] = useState<GameStats>(() => emptyStats(config));
   const [answers, setAnswers] = useState<AnswerRecord[]>([]);
-  const [feedback, setFeedback] = useState<Feedback>(null);
+  const [wrongGuesses, setWrongGuesses] = useState<number[]>([]);
+  const [resolution, setResolution] = useState<QuestionResolution | null>(null);
   const [hint, setHint] = useState<HintState>({
     kind: null,
     period: null,
@@ -39,6 +44,7 @@ export function useGame(config: GameConfig, onComplete: (result: GameResult) => 
   const statsRef = useRef(stats);
   const answersRef = useRef(answers);
   const indexRef = useRef(index);
+  const wrongRef = useRef(wrongGuesses);
   const startedAt = useRef(0);
   const feedbackTimer = useRef<number>(0);
   const onCompleteRef = useRef(onComplete);
@@ -46,7 +52,6 @@ export function useGame(config: GameConfig, onComplete: (result: GameResult) => 
   useEffect(() => {
     onCompleteRef.current = onComplete;
   }, [onComplete]);
-
   useEffect(() => {
     statsRef.current = stats;
   }, [stats]);
@@ -57,6 +62,9 @@ export function useGame(config: GameConfig, onComplete: (result: GameResult) => 
     indexRef.current = index;
   }, [index]);
   useEffect(() => {
+    wrongRef.current = wrongGuesses;
+  }, [wrongGuesses]);
+  useEffect(() => {
     startedAt.current = performance.now();
     return () => {
       window.clearTimeout(feedbackTimer.current);
@@ -64,29 +72,19 @@ export function useGame(config: GameConfig, onComplete: (result: GameResult) => 
   }, []);
 
   const question: Question | undefined = questions[index];
-  const settings = DIFFICULTY_SETTINGS[config.difficulty];
+  const hintsAllowed = setHasHints(config.elementSet);
+  const playableNumbers = poolForSet(config.elementSet).map((element) => element.atomicNumber);
 
-  const finishAnswer = useCallback(
-    (selectedAtomicNumber: number | null, timedOut: boolean) => {
-      if (locked.current) return;
-      const current = questions[indexRef.current];
-      if (!current) return;
+  const settle = useCallback(
+    (record: AnswerRecord, kind: ResolveKind, selectedAtomicNumber: number | null, timedOut: boolean) => {
       locked.current = true;
-
-      const correct = !timedOut && isCorrectAnswer(current, selectedAtomicNumber);
-      const record: AnswerRecord = {
-        question: current,
-        selectedAtomicNumber,
-        correct,
-        timedOut,
-      };
       const nextAnswers = [...answersRef.current, record];
-      const nextStats = applyAnswer(statsRef.current, correct);
+      const nextStats = applyAnswer(statsRef.current, record.correct, record.tryNumber);
       answersRef.current = nextAnswers;
       statsRef.current = nextStats;
       setAnswers(nextAnswers);
       setStats(nextStats);
-      setFeedback({ selectedAtomicNumber, correct, timedOut });
+      setResolution({ kind, selectedAtomicNumber, timedOut });
       setHint({ kind: null, period: null, category: null });
 
       window.clearTimeout(feedbackTimer.current);
@@ -97,15 +95,65 @@ export function useGame(config: GameConfig, onComplete: (result: GameResult) => 
           return;
         }
         locked.current = false;
+        wrongRef.current = [];
+        setWrongGuesses([]);
+        setResolution(null);
         setIndex(nextIndex);
-        setFeedback(null);
         setStats((prev) => ({
           ...prev,
-          remainingQuestionMs: config.timed ? settings.questionTimeMs : null,
+          remainingQuestionMs: config.timed ? QUESTION_TIME_MS : null,
         }));
-      }, FEEDBACK_MS);
+      }, kind === "fail" ? FAIL_MS : SUCCESS_MS);
     },
-    [config, questions, settings.questionTimeMs],
+    [config, questions],
+  );
+
+  const selectElement = useCallback(
+    (atomicNumber: number) => {
+      if (locked.current) return;
+      const current = questions[indexRef.current];
+      if (!current) return;
+      if (!playableNumbers.includes(atomicNumber)) return;
+      if (wrongRef.current.includes(atomicNumber)) return;
+
+      if (isCorrectAnswer(current, atomicNumber)) {
+        const tryNumber = (wrongRef.current.length + 1) as 1 | 2 | 3;
+        const kind: ResolveKind = tryNumber === 1 ? "try1" : tryNumber === 2 ? "try2" : "try3";
+        settle(
+          {
+            question: current,
+            guesses: [...wrongRef.current, atomicNumber],
+            correct: true,
+            timedOut: false,
+            tryNumber,
+          },
+          kind,
+          atomicNumber,
+          false,
+        );
+        return;
+      }
+
+      const nextWrong = [...wrongRef.current, atomicNumber];
+      wrongRef.current = nextWrong;
+      setWrongGuesses(nextWrong);
+
+      if (nextWrong.length >= MAX_GUESSES) {
+        settle(
+          {
+            question: current,
+            guesses: nextWrong,
+            correct: false,
+            timedOut: false,
+            tryNumber: null,
+          },
+          "fail",
+          atomicNumber,
+          false,
+        );
+      }
+    },
+    [playableNumbers, questions, settle],
   );
 
   useEffect(() => {
@@ -113,33 +161,44 @@ export function useGame(config: GameConfig, onComplete: (result: GameResult) => 
       if (locked.current) return;
       setStats((prev) => {
         const elapsedMs = performance.now() - startedAt.current;
-        if (!config.timed || settings.questionTimeMs == null) {
-          return { ...prev, elapsedMs };
-        }
+        if (!config.timed) return { ...prev, elapsedMs };
         const remaining = Math.max(0, (prev.remainingQuestionMs ?? 0) - 100);
         return { ...prev, elapsedMs, remainingQuestionMs: remaining };
       });
     }, 100);
     return () => window.clearInterval(timer);
-  }, [config.timed, settings.questionTimeMs]);
+  }, [config.timed]);
 
   useEffect(() => {
-    if (!config.timed || settings.questionTimeMs == null) return;
-    if (feedback) return;
+    if (!config.timed) return;
+    if (resolution) return;
     if ((stats.remainingQuestionMs ?? 1) > 0) return;
-    finishAnswer(null, true);
-  }, [config.timed, feedback, finishAnswer, settings.questionTimeMs, stats.remainingQuestionMs]);
-
-  const selectElement = useCallback(
-    (atomicNumber: number) => {
-      finishAnswer(atomicNumber, false);
-    },
-    [finishAnswer],
-  );
+    const current = questions[index];
+    if (!current || locked.current) return;
+    settle(
+      {
+        question: current,
+        guesses: wrongRef.current,
+        correct: false,
+        timedOut: true,
+        tryNumber: null,
+      },
+      "fail",
+      null,
+      true,
+    );
+  }, [config.timed, index, questions, resolution, settle, stats.remainingQuestionMs]);
 
   const useHint = useCallback(() => {
-    if (!settings.hints || !question || locked.current) return;
+    if (!hintsAllowed || !question || locked.current) return;
     setHint((prev) => {
+      if (config.elementSet !== "all") {
+        return {
+          kind: "period",
+          period: question.target.period,
+          category: null,
+        };
+      }
       if (prev.kind === "category") return prev;
       if (prev.kind === "period") {
         return {
@@ -154,16 +213,18 @@ export function useGame(config: GameConfig, onComplete: (result: GameResult) => 
         category: null,
       };
     });
-  }, [question, settings.hints]);
+  }, [config.elementSet, hintsAllowed, question]);
 
   return {
     question,
     questionNumber: index + 1,
     totalQuestions: questions.length,
     stats,
-    feedback,
+    wrongGuesses,
+    resolution,
     hint,
-    hintsAllowed: settings.hints,
+    hintsAllowed,
+    playableNumbers,
     selectElement,
     useHint,
   };

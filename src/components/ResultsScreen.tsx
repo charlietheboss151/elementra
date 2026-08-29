@@ -1,6 +1,6 @@
-import { DIFFICULTY_SETTINGS } from "../game/difficulty";
 import { accuracyPercent, formatDuration, scoreFromStats } from "../game/engine";
-import { getMode } from "../game/modes";
+import { formatAnswer, getMode } from "../game/modes";
+import { ELEMENT_SET_LABELS } from "../game/types";
 import type { GameResult } from "../game/types";
 
 interface ResultsScreenProps {
@@ -13,15 +13,16 @@ export function ResultsScreen({ result, onReplay, onHome }: ResultsScreenProps) 
   const mode = getMode(result.config.modeId);
   const missed = result.answers.filter((answer) => !answer.correct);
   const total = result.answers.length;
+  const maxScore = total * 3;
 
   return (
     <div className="screen results">
       <p className="eyebrow">Round complete</p>
       <h1>
-        {scoreFromStats(result.stats)} / {total}
+        {scoreFromStats(result.stats)} / {maxScore}
       </h1>
       <p className="lede">
-        {mode.title} · {DIFFICULTY_SETTINGS[result.config.difficulty].label}
+        {mode.title} · {ELEMENT_SET_LABELS[result.config.elementSet]}
         {result.config.timed ? " · timed" : ""}
       </p>
 
@@ -55,9 +56,7 @@ export function ResultsScreen({ result, onReplay, onHome }: ResultsScreenProps) 
             {missed.map((answer) => (
               <li key={answer.question.id}>
                 <span>{answer.question.prompt}</span>
-                <strong>
-                  {answer.question.target.name} ({answer.question.target.symbol})
-                </strong>
+                <strong>{formatAnswer(answer.question.target)}</strong>
               </li>
             ))}
           </ul>

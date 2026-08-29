@@ -1,16 +1,18 @@
 import { describe, expect, it } from "vitest";
 import { ELEMENTS_BY_NUMBER } from "../data/elements";
+import { poolForSet } from "./elementSets";
 import {
   applyAnswer,
   buildQuestions,
   emptyStats,
   isCorrectAnswer,
+  pointsForTry,
 } from "./engine";
 import { getMode, promptFor } from "./modes";
 import type { GameConfig } from "./types";
 
 const base: Omit<GameConfig, "modeId"> = {
-  difficulty: "easy",
+  elementSet: "all",
   questionCount: 10,
   timed: false,
 };
@@ -44,34 +46,47 @@ describe("buildQuestions", () => {
     }
   });
 
-  it("builds Element Information clues about protons or electrons", () => {
+  it("builds Element Information clues from atom facts", () => {
     const questions = buildQuestions({ ...base, modeId: "element-info" });
-    const kinds = new Set(questions.map((question) => question.clueKind));
-    expect([...kinds].every((kind) => kind === "protons" || kind === "electrons")).toBe(true);
+    const allowed = new Set(getMode("element-info").clueKinds("all"));
     for (const question of questions) {
+      expect(allowed.has(question.clueKind)).toBe(true);
       expect(promptFor(question.target, question.clueKind)).toBe(question.prompt);
       expect(question.target.protons).toBe(question.target.atomicNumber);
-      expect(question.target.electrons).toBe(question.target.atomicNumber);
     }
   });
 
   it("builds mixed prompts from the registered modes", () => {
     const questions = buildQuestions({ ...base, modeId: "mixed" });
     expect(questions).toHaveLength(10);
-    const allowed = new Set(getMode("mixed").clueKinds("easy"));
+    const allowed = new Set(getMode("mixed").clueKinds("all"));
     for (const question of questions) {
       expect(allowed.has(question.clueKind)).toBe(true);
     }
   });
+
+  it("limits the pool to a periodic-table group", () => {
+    const questions = buildQuestions({
+      ...base,
+      modeId: "find-element",
+      elementSet: "noble-gas",
+    });
+    const noble = poolForSet("noble-gas");
+    expect(questions.every((question) => noble.some((el) => el.atomicNumber === question.target.atomicNumber))).toBe(
+      true,
+    );
+  });
 });
 
 describe("applyAnswer", () => {
-  it("scores hits and resets the streak on a miss", () => {
+  it("awards more points for earlier tries and resets the streak on a miss", () => {
     const start = emptyStats({ ...base, modeId: "find-element" });
-    const afterHit = applyAnswer(start, true);
+    expect(pointsForTry(1)).toBe(3);
+    const afterHit = applyAnswer(start, true, 1);
     expect(afterHit.correct).toBe(1);
+    expect(afterHit.score).toBe(3);
     expect(afterHit.streak).toBe(1);
-    const afterMiss = applyAnswer(afterHit, false);
+    const afterMiss = applyAnswer(afterHit, false, null);
     expect(afterMiss.incorrect).toBe(1);
     expect(afterMiss.streak).toBe(0);
     expect(afterMiss.bestStreak).toBe(1);

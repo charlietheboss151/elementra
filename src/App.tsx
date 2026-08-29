@@ -6,7 +6,7 @@ import type { GameConfig, GameResult } from "./game/types";
 
 const DEFAULT_CONFIG: GameConfig = {
   modeId: "find-element",
-  difficulty: "easy",
+  elementSet: "all",
   questionCount: 10,
   timed: false,
 };

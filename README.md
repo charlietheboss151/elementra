@@ -1,6 +1,6 @@
 # Periodic Table Game
 
-A Seterra-style quiz for students and anyone practicing the periodic table. You read a prompt and click the matching element—no typing answers into a box.
+A Seterra-style quiz for students and anyone practicing the periodic table. You read a prompt and click the matching element—no typing answers into a box. Each question has three guesses. You can practice one chemical family or the whole table.
 
 ## How to run it
 

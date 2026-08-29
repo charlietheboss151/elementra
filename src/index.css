@@ -210,12 +210,85 @@ button {
   font-size: clamp(1.6rem, 4vw, 2.6rem);
 }
 
-.prompt-card.is-correct {
-  border-color: rgba(62, 224, 176, 0.6);
+.prompt-card.is-try1 {
+  border-color: rgba(62, 224, 176, 0.75);
 }
 
-.prompt-card.is-wrong {
-  border-color: rgba(255, 107, 133, 0.55);
+.prompt-card.is-try2 {
+  border-color: rgba(240, 193, 75, 0.75);
+}
+
+.prompt-card.is-try3 {
+  border-color: rgba(240, 138, 62, 0.8);
+}
+
+.prompt-card.is-fail {
+  border-color: rgba(255, 59, 92, 0.85);
+}
+
+.guess-pips {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin: 12px 0 4px;
+}
+
+.guess-pip {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 2px solid rgba(180, 210, 255, 0.35);
+  background: transparent;
+}
+
+.guess-pip.is-used {
+  background: #ff8aa0;
+  border-color: #ff8aa0;
+}
+
+.guess-pip.is-fail {
+  background: #ff3b5c;
+  border-color: #ff3b5c;
+}
+
+.guess-count {
+  color: var(--muted);
+  margin: 8px 0 0;
+}
+
+.answer-banner {
+  margin: 14px 0 0;
+  font-size: 1.05rem;
+}
+
+.answer-banner strong {
+  display: block;
+  font-family: var(--display);
+  font-size: clamp(1.4rem, 3vw, 2rem);
+  margin-top: 4px;
+  letter-spacing: -0.02em;
+}
+
+.answer-banner--ok {
+  color: var(--text);
+}
+
+.answer-banner--fail {
+  color: #ffdce3;
+}
+
+.answer-banner--fail strong {
+  color: #ff6b85;
+}
+
+.group-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.swatch-all {
+  background: linear-gradient(135deg, #f5b6b0, #f6e2a1, #b9d8f5);
 }
 
 .reveal-line {
@@ -337,6 +410,44 @@ button {
 .tile--hint-strong {
   outline: 2px solid var(--gold);
   outline-offset: 1px;
+}
+
+.tile--dim {
+  opacity: 0.28;
+  filter: grayscale(0.35);
+  pointer-events: none;
+}
+
+.tile--try1 {
+  background: #3ee0b0 !important;
+  transform: scale(1.06);
+  z-index: 2;
+}
+
+.tile--try2 {
+  background: #f0c14b !important;
+  transform: scale(1.06);
+  z-index: 2;
+}
+
+.tile--try3 {
+  background: #f08a3e !important;
+  transform: scale(1.06);
+  z-index: 2;
+}
+
+.tile--fail {
+  background: #ff3b5c !important;
+  color: #fff;
+  transform: scale(1.1);
+  z-index: 3;
+  box-shadow: 0 0 0 3px #fff, 0 0 22px rgba(255, 59, 92, 0.85);
+}
+
+.tile--missed {
+  background: #8a3a4a !important;
+  color: #ffd6de;
+  opacity: 0.9;
 }
 
 .tile--correct {

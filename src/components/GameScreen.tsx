@@ -1,8 +1,15 @@
-import { accuracyPercent, formatDuration, remainingAfterCurrent, scoreFromStats } from "../game/engine";
-import { getMode } from "../game/modes";
-import type { GameConfig } from "../game/types";
+import {
+  accuracyPercent,
+  formatDuration,
+  guessesLeft,
+  remainingAfterCurrent,
+  scoreFromStats,
+} from "../game/engine";
+import { ELEMENT_SET_LABELS } from "../game/types";
+import { formatAnswer, getMode } from "../game/modes";
+import type { GameConfig, GameResult } from "../game/types";
+import { MAX_GUESSES } from "../game/types";
 import { useGame } from "../game/useGame";
-import type { GameResult } from "../game/types";
 import { CategoryLegend } from "./CategoryLegend";
 import { PeriodicTable } from "./PeriodicTable";
 
@@ -12,13 +19,37 @@ interface GameScreenProps {
   onQuit: () => void;
 }
 
+function kicker(resolution: ReturnType<typeof useGame>["resolution"], timedOut: boolean) {
+  if (!resolution) return "Click the element — 3 guesses";
+  if (resolution.kind === "try1") return "First try";
+  if (resolution.kind === "try2") return "Second try";
+  if (resolution.kind === "try3") return "Third try";
+  return timedOut ? "Time’s up" : "Out of guesses";
+}
+
 export function GameScreen({ config, onComplete, onQuit }: GameScreenProps) {
   const game = useGame(config, onComplete);
   if (!game.question) return null;
 
   const mode = getMode(config.modeId);
   const answered = game.stats.correct + game.stats.incorrect;
-  const waiting = game.feedback != null;
+  const waiting = game.resolution != null;
+  const left = game.resolution ? 0 : guessesLeft(game.wrongGuesses.length);
+  const usedPips = game.resolution
+    ? game.resolution.kind === "fail"
+      ? MAX_GUESSES
+      : game.wrongGuesses.length + 1
+    : game.wrongGuesses.length;
+  const cardTone =
+    game.resolution?.kind === "try1"
+      ? "is-try1"
+      : game.resolution?.kind === "try2"
+        ? "is-try2"
+        : game.resolution?.kind === "try3"
+          ? "is-try3"
+          : game.resolution?.kind === "fail"
+            ? "is-fail"
+            : "";
 
   return (
     <div className="screen play">
@@ -27,30 +58,32 @@ export function GameScreen({ config, onComplete, onQuit }: GameScreenProps) {
           Quit
         </button>
         <p className="mode-chip">
-          {mode.title} · {config.difficulty}
+          {mode.title} · {ELEMENT_SET_LABELS[config.elementSet]}
         </p>
         <p className="progress">
           {game.questionNumber} / {game.totalQuestions}
         </p>
       </div>
 
-      <div className={`prompt-card ${game.feedback?.correct ? "is-correct" : ""} ${game.feedback && !game.feedback.correct ? "is-wrong" : ""}`}>
-        <p className="prompt-kicker">
-          {game.feedback
-            ? game.feedback.correct
-              ? "Correct"
-              : game.feedback.timedOut
-                ? "Time’s up"
-                : "Not quite"
-            : "Click the element"}
-        </p>
+      <div className={`prompt-card ${cardTone}`}>
+        <p className="prompt-kicker">{kicker(game.resolution, game.resolution?.timedOut ?? false)}</p>
         <h1>{game.question.prompt}</h1>
-        {game.feedback && !game.feedback.correct ? (
-          <p className="reveal-line">
-            Answer: {game.question.target.name} ({game.question.target.symbol}), #
-            {game.question.target.atomicNumber}
+        <div className="guess-pips" aria-label={`${left} guesses left`}>
+          {Array.from({ length: MAX_GUESSES }, (_, i) => (
+            <span
+              key={i}
+              className={`guess-pip ${i < usedPips ? "is-used" : ""} ${game.resolution?.kind === "fail" ? "is-fail" : ""}`}
+            />
+          ))}
+        </div>
+        {game.resolution ? (
+          <p className={`answer-banner ${game.resolution.kind === "fail" ? "answer-banner--fail" : "answer-banner--ok"}`}>
+            {game.resolution.kind === "fail" ? "The correct element is" : "That’s"}
+            <strong> {formatAnswer(game.question.target)}</strong>
           </p>
-        ) : null}
+        ) : (
+          <p className="guess-count">{left} guess{left === 1 ? "" : "es"} left</p>
+        )}
       </div>
 
       <ul className="stats">
@@ -104,9 +137,11 @@ export function GameScreen({ config, onComplete, onQuit }: GameScreenProps) {
 
       <PeriodicTable
         reveal={game.question.reveal}
-        feedback={game.feedback}
         hint={game.hint}
         correctAtomicNumber={game.question.target.atomicNumber}
+        wrongGuesses={game.wrongGuesses}
+        resolution={game.resolution}
+        playableNumbers={game.playableNumbers}
         disabled={waiting}
         onSelect={game.selectElement}
       />

@@ -1,34 +1,44 @@
 import { ELEMENTS, type ChemicalElement } from "../data/elements";
-import type { Feedback } from "../game/useGame";
+import type { QuestionResolution } from "../game/useGame";
 import type { HintState, TileReveal } from "../game/types";
 
 interface PeriodicTableProps {
   reveal: TileReveal;
-  feedback: Feedback;
   hint: HintState;
   correctAtomicNumber: number | null;
+  wrongGuesses: number[];
+  resolution: QuestionResolution | null;
+  playableNumbers: number[];
   disabled: boolean;
   onSelect: (atomicNumber: number) => void;
 }
 
 function tileClass(
   element: ChemicalElement,
-  feedback: Feedback,
   hint: HintState,
   correctAtomicNumber: number | null,
+  wrongGuesses: number[],
+  resolution: QuestionResolution | null,
+  playable: boolean,
 ): string {
   const classes = ["tile", `tile--${element.category}`];
+  if (!playable) classes.push("tile--dim");
   if (hint.kind === "period" && hint.period === element.period) {
     classes.push("tile--hint");
   }
   if (hint.kind === "category" && hint.category === element.category) {
     classes.push("tile--hint-strong");
   }
-  if (feedback) {
-    if (element.atomicNumber === feedback.selectedAtomicNumber) {
-      classes.push(feedback.correct ? "tile--correct" : "tile--wrong");
-    } else if (!feedback.correct && element.atomicNumber === correctAtomicNumber) {
-      classes.push("tile--reveal");
+  if (wrongGuesses.includes(element.atomicNumber) && resolution?.kind !== "fail") {
+    classes.push("tile--missed");
+  }
+  if (resolution) {
+    if (resolution.kind === "fail" && element.atomicNumber === correctAtomicNumber) {
+      classes.push("tile--fail");
+    } else if (element.atomicNumber === resolution.selectedAtomicNumber && resolution.kind !== "fail") {
+      classes.push(`tile--${resolution.kind}`);
+    } else if (wrongGuesses.includes(element.atomicNumber)) {
+      classes.push("tile--missed");
     }
   }
   return classes.join(" ");
@@ -36,12 +46,16 @@ function tileClass(
 
 export function PeriodicTable({
   reveal,
-  feedback,
   hint,
   correctAtomicNumber,
+  wrongGuesses,
+  resolution,
+  playableNumbers,
   disabled,
   onSelect,
 }: PeriodicTableProps) {
+  const playable = new Set(playableNumbers);
+
   return (
     <div className="table-wrap">
       <div
@@ -68,7 +82,14 @@ export function PeriodicTable({
           <button
             key={element.atomicNumber}
             type="button"
-            className={tileClass(element, feedback, hint, correctAtomicNumber)}
+            className={tileClass(
+              element,
+              hint,
+              correctAtomicNumber,
+              wrongGuesses,
+              resolution,
+              playable.has(element.atomicNumber),
+            )}
             style={{ gridRow: element.gridRow, gridColumn: element.gridColumn }}
             data-atomic-number={element.atomicNumber}
             disabled={disabled}

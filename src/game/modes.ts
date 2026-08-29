@@ -1,11 +1,11 @@
 import { CATEGORY_LABELS, type ChemicalElement } from "../data/elements";
-import type { ClueKind, Difficulty, GameModeDefinition, TileReveal } from "./types";
+import type { ClueKind, ElementSetId, GameModeDefinition, TileReveal } from "./types";
 
-function infoClueKinds(difficulty: Difficulty): ClueKind[] {
-  if (difficulty === "easy") return ["protons", "electrons"];
-  if (difficulty === "medium") return ["protons", "electrons", "atomic-number"];
-  if (difficulty === "hard") return ["protons", "electrons", "category-protons"];
-  return ["category-protons", "electrons", "protons"];
+function infoClueKinds(elementSet: ElementSetId): ClueKind[] {
+  if (elementSet === "all") {
+    return ["protons", "electrons", "atomic-number", "category-protons"];
+  }
+  return ["protons", "electrons", "atomic-number"];
 }
 
 export const GAME_MODES: GameModeDefinition[] = [
@@ -37,7 +37,7 @@ export const GAME_MODES: GameModeDefinition[] = [
     id: "mixed",
     title: "Mixed Practice",
     description: "A shuffle of names, numbers, symbols, and atom clues.",
-    clueKinds: (difficulty) => ["name", "symbol", "atomic-number", ...infoClueKinds(difficulty)],
+    clueKinds: (elementSet) => ["name", "symbol", "atomic-number", ...infoClueKinds(elementSet)],
   },
 ];
 
@@ -66,29 +66,13 @@ export function promptFor(element: ChemicalElement, clue: ClueKind): string {
   }
 }
 
-export function revealFor(clue: ClueKind, difficulty: Difficulty): TileReveal {
-  const empty: TileReveal = { atomicNumber: false, symbol: false, name: false };
-
-  if (difficulty === "expert") {
-    return empty;
-  }
-
-  if (difficulty === "hard") {
-    if (clue === "name") return { atomicNumber: true, symbol: false, name: false };
-    if (clue === "symbol") return { atomicNumber: true, symbol: false, name: false };
-    if (clue === "atomic-number") return { atomicNumber: false, symbol: true, name: false };
-    return empty;
-  }
-
-  if (difficulty === "medium") {
-    if (clue === "name") return { atomicNumber: true, symbol: true, name: false };
-    if (clue === "symbol") return { atomicNumber: true, symbol: false, name: true };
-    if (clue === "atomic-number") return { atomicNumber: false, symbol: true, name: true };
-    return { atomicNumber: false, symbol: true, name: false };
-  }
-
+export function revealFor(clue: ClueKind): TileReveal {
   if (clue === "name") return { atomicNumber: true, symbol: true, name: false };
   if (clue === "symbol") return { atomicNumber: true, symbol: false, name: true };
   if (clue === "atomic-number") return { atomicNumber: false, symbol: true, name: true };
   return { atomicNumber: false, symbol: true, name: false };
+}
+
+export function formatAnswer(element: ChemicalElement): string {
+  return `${element.name} (${element.symbol}) · atomic number ${element.atomicNumber}`;
 }
