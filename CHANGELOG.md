@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.2] - 2026-08-28
+
+### Added
+
+- A short popup naming the element you clicked when the guess is wrong, then it fades away.
+
 ## [0.2.1] - 2026-08-28
 
 ### Changed

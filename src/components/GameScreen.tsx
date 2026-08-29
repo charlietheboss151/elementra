@@ -12,6 +12,7 @@ import { MAX_GUESSES } from "../game/types";
 import { useGame } from "../game/useGame";
 import { CategoryLegend } from "./CategoryLegend";
 import { PeriodicTable } from "./PeriodicTable";
+import { WrongPickToast } from "./WrongPickToast";
 
 interface GameScreenProps {
   config: GameConfig;
@@ -53,6 +54,7 @@ export function GameScreen({ config, onComplete, onQuit }: GameScreenProps) {
 
   return (
     <div className="screen play">
+      <WrongPickToast pick={game.wrongPick} />
       <div className="play-bar">
         <button type="button" className="text-button" onClick={onQuit}>
           Quit

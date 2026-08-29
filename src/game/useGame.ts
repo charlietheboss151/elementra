@@ -12,6 +12,7 @@ import { MAX_GUESSES, type AnswerRecord, type GameConfig, type GameResult, type 
 
 const SUCCESS_MS = 1100;
 const FAIL_MS = 2200;
+const WRONG_PICK_MS = 1000;
 
 export type { ResolveKind } from "./types";
 
@@ -21,12 +22,18 @@ export type QuestionResolution = {
   timedOut: boolean;
 };
 
+export type WrongPick = {
+  id: number;
+  atomicNumber: number;
+};
+
 export function useGame(config: GameConfig, onComplete: (result: GameResult) => void) {
   const [questions] = useState(() => buildQuestions(config));
   const [index, setIndex] = useState(0);
   const [stats, setStats] = useState<GameStats>(() => emptyStats(config));
   const [answers, setAnswers] = useState<AnswerRecord[]>([]);
   const [wrongGuesses, setWrongGuesses] = useState<number[]>([]);
+  const [wrongPick, setWrongPick] = useState<WrongPick | null>(null);
   const [resolution, setResolution] = useState<QuestionResolution | null>(null);
   const [hint, setHint] = useState<HintState>({
     kind: null,
@@ -40,6 +47,8 @@ export function useGame(config: GameConfig, onComplete: (result: GameResult) => 
   const wrongRef = useRef(wrongGuesses);
   const startedAt = useRef(0);
   const feedbackTimer = useRef<number>(0);
+  const wrongPickTimer = useRef<number>(0);
+  const wrongPickId = useRef(0);
   const onCompleteRef = useRef(onComplete);
 
   useEffect(() => {
@@ -61,6 +70,7 @@ export function useGame(config: GameConfig, onComplete: (result: GameResult) => 
     startedAt.current = performance.now();
     return () => {
       window.clearTimeout(feedbackTimer.current);
+      window.clearTimeout(wrongPickTimer.current);
     };
   }, []);
 
@@ -90,6 +100,7 @@ export function useGame(config: GameConfig, onComplete: (result: GameResult) => 
         locked.current = false;
         wrongRef.current = [];
         setWrongGuesses([]);
+        setWrongPick(null);
         setResolution(null);
         setIndex(nextIndex);
         setStats((prev) => ({
@@ -133,6 +144,12 @@ export function useGame(config: GameConfig, onComplete: (result: GameResult) => 
       const nextWrong = [...wrongRef.current, atomicNumber];
       wrongRef.current = nextWrong;
       setWrongGuesses(nextWrong);
+      wrongPickId.current += 1;
+      setWrongPick({ id: wrongPickId.current, atomicNumber });
+      window.clearTimeout(wrongPickTimer.current);
+      wrongPickTimer.current = window.setTimeout(() => {
+        setWrongPick(null);
+      }, WRONG_PICK_MS);
 
       if (nextWrong.length >= MAX_GUESSES) {
         settle(
@@ -223,6 +240,7 @@ export function useGame(config: GameConfig, onComplete: (result: GameResult) => 
     totalQuestions: questions.length,
     stats,
     wrongGuesses,
+    wrongPick,
     resolution,
     answeredMarks,
     hint,
