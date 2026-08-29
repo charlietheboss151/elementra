@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.7.2] - 2026-08-29
+
+### Changed
+
+- Element speech uses US IPA on Microsoft voices, and hyphenated classroom sounds (not spaced-out spelling) on Chrome, so names like Lead, Yttrium, and Molybdenum are said as they are pronounced.
+
 ## [0.7.1] - 2026-08-29
 
 ### Changed
