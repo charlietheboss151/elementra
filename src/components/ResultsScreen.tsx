@@ -1,19 +1,29 @@
 import { playUi } from "../audio/sounds";
 import { accuracyPercent, formatDuration, formatScore } from "../game/engine";
 import { formatAnswer, getMode } from "../game/modes";
+import {
+  deltaVsPrevious,
+  entriesForSetup,
+  loadEntries,
+} from "../game/scoreboard";
 import { ELEMENT_SET_LABELS } from "../game/types";
 import type { GameResult } from "../game/types";
+import { Scoreboard } from "./Scoreboard";
 
 interface ResultsScreenProps {
   result: GameResult;
+  entryId: string;
   onReplay: () => void;
   onHome: () => void;
 }
 
-export function ResultsScreen({ result, onReplay, onHome }: ResultsScreenProps) {
+export function ResultsScreen({ result, entryId, onReplay, onHome }: ResultsScreenProps) {
   const mode = getMode(result.config.modeId);
   const missed = result.answers.filter((answer) => !answer.correct);
   const total = result.answers.length;
+  const history = loadEntries();
+  const setupRows = entriesForSetup(history, result.config).slice(0, 12);
+  const compare = deltaVsPrevious(history, entryId);
 
   return (
     <div className="screen results">
@@ -70,6 +80,14 @@ export function ResultsScreen({ result, onReplay, onHome }: ResultsScreenProps) 
       ) : (
         <p className="perfect">Perfect round. The table is yours.</p>
       )}
+
+      <Scoreboard
+        title="Scoreboard"
+        entries={setupRows}
+        highlightId={entryId}
+        compare={compare}
+        empty="Finish a round to start this board."
+      />
 
       <div className="result-actions">
         <button

@@ -40,7 +40,7 @@ function perfectAlkaliRound(): GameResult {
 describe("ResultsScreen", () => {
   it("shows 6/6 found and 6/6 score for a perfect six-element group", () => {
     const html = renderToStaticMarkup(
-      <ResultsScreen result={perfectAlkaliRound()} onReplay={() => undefined} onHome={() => undefined} />,
+      <ResultsScreen result={perfectAlkaliRound()} entryId="test" onReplay={() => undefined} onHome={() => undefined} />,
     );
     expect(html).toContain("<h1>6 / 6</h1>");
     expect(html).not.toContain("18 / 18");

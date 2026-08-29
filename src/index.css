@@ -666,6 +666,64 @@ button {
   color: var(--accent);
 }
 
+.scoreboard {
+  text-align: left;
+  margin: 28px 0 8px;
+}
+
+.scoreboard h2 {
+  margin-bottom: 6px;
+}
+
+.scoreboard-delta {
+  color: var(--accent);
+  margin: 0 0 10px;
+  font-size: 0.95rem;
+}
+
+.scoreboard-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--bg-elev);
+}
+
+.scoreboard table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.92rem;
+}
+
+.scoreboard th,
+.scoreboard td {
+  padding: 10px 12px;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.scoreboard th {
+  color: var(--muted);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 700;
+  border-bottom: 1px solid var(--line);
+}
+
+.scoreboard td {
+  border-top: 1px solid var(--line);
+}
+
+.scoreboard tr.is-current td {
+  color: var(--accent);
+  background: rgba(62, 224, 176, 0.08);
+}
+
+.scoreboard td:nth-child(2),
+.scoreboard td:nth-child(3) {
+  font-variant-numeric: tabular-nums;
+}
+
 .result-actions {
   display: flex;
   flex-direction: column;

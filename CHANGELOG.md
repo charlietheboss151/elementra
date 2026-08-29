@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.8.0] - 2026-08-29
+
+### Added
+
+- Scoreboard of each finished round’s accuracy and time (saved in the browser) so you can see improvement. After a round it compares to your last run of the same mode and group.
+
 ## [0.7.2] - 2026-08-29
 
 ### Changed

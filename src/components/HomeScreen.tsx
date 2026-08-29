@@ -12,6 +12,8 @@ import {
 import { CategoryLegend } from "./CategoryLegend";
 import { ElementList } from "./ElementList";
 import { PeriodicTable } from "./PeriodicTable";
+import { Scoreboard } from "./Scoreboard";
+import { loadEntries } from "../game/scoreboard";
 
 function TimerNote({ timed }: { timed: boolean }) {
   if (!timed) return null;
@@ -165,6 +167,12 @@ export function HomeScreen({ config, onChange, onPlay }: HomeScreenProps) {
         )}
         <CategoryLegend />
       </section>
+
+      <Scoreboard
+        title="Scoreboard"
+        entries={loadEntries().slice(0, 12)}
+        empty="Play a round and your time and accuracy will show up here so you can track improvement."
+      />
     </div>
   );
 }
