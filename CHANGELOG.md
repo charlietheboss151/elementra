@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.5.2] - 2026-08-28
+
+### Removed
+
+- Redundant “practice the whole table / three guesses” line under Element group. The round still shows the question count.
+
 ## [0.5.1] - 2026-08-28
 
 ### Added

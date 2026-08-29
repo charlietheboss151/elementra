@@ -3,7 +3,6 @@ import { GAME_MODES, usesListLayout } from "../game/modes";
 import {
   ELEMENT_SET_IDS,
   ELEMENT_SET_LABELS,
-  elementSetBlurb,
   type ElementSetId,
   type GameConfig,
 } from "../game/types";
@@ -94,7 +93,6 @@ export function HomeScreen({ config, onChange, onPlay }: HomeScreenProps) {
             </button>
           ))}
         </div>
-        <p className="hint-text">{elementSetBlurb(config.elementSet, poolCount)}</p>
         <p className="hint-text">This round: {poolCount} question{poolCount === 1 ? "" : "s"}.</p>
         <label className="timer-toggle">
           <input

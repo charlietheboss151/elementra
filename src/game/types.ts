@@ -73,10 +73,3 @@ export const ELEMENT_SET_LABELS: Record<ElementSetId, string> = {
   all: "All elements",
   ...CATEGORY_LABELS,
 };
-
-export function elementSetBlurb(setId: ElementSetId, count: number): string {
-  if (setId === "all") {
-    return `Practice the whole table (${count} questions, one per element). Three guesses each.`;
-  }
-  return `Only the ${CATEGORY_LABELS[setId].toLowerCase()} group — ${count} element${count === 1 ? "" : "s"}, one question each.`;
-}
