@@ -42,7 +42,7 @@ export function PeriodicTable({
               playable.has(element.atomicNumber),
             )}
             style={{ gridRow: element.gridRow, gridColumn: element.gridColumn }}
-            reveal={reveal}
+            reveal={{ ...reveal, atomicNumber: true }}
             disabled={disabled}
           />
         ))}

@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.3.2] - 2026-08-28
+
+### Changed
+
+- Periodic-table tiles always show the atomic number, in a larger weight so 1–118 are easy to read.
+- Element-family colors are more distinct (red alkali metals, orange alkaline earths, gold transition metals, green post-transition, teal metalloids, cyan nonmetals, blue halogens, purple noble gases, pink lanthanides, brown actinides).
+
 ## [0.3.1] - 2026-08-28
 
 ### Changed
