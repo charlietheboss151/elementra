@@ -20,7 +20,7 @@ export function ResultsScreen({ result, onReplay, onHome }: ResultsScreenProps) 
     <div className="screen results">
       <p className="eyebrow">Round complete</p>
       <h1>
-        {scoreFromStats(result.stats)} / {maxScore}
+        {result.stats.correct} / {total}
       </h1>
       <p className="lede">
         {mode.title} · {ELEMENT_SET_LABELS[result.config.elementSet]}
@@ -28,6 +28,12 @@ export function ResultsScreen({ result, onReplay, onHome }: ResultsScreenProps) 
       </p>
 
       <ul className="stats results-stats">
+        <li>
+          <span>Score</span>
+          <strong>
+            {scoreFromStats(result.stats)} / {maxScore}
+          </strong>
+        </li>
         <li>
           <span>Correct</span>
           <strong>{result.stats.correct}</strong>

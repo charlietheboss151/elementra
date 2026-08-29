@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.6.5] - 2026-08-29
+
+### Fixed
+
+- Round-complete headline showed score out of 3× the question count (18/18 for 6 elements). It now shows elements found (6/6); points stay in a labeled Score row.
+
 ## [0.6.4] - 2026-08-28
 
 ### Changed
