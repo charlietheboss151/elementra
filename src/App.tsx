@@ -1,6 +1,7 @@
 import { useCallback, useState } from "react";
 import { GameScreen } from "./components/GameScreen";
 import { HomeScreen } from "./components/HomeScreen";
+import { PerfHud } from "./components/PerfHud";
 import { ResultsScreen } from "./components/ResultsScreen";
 import { recordRound } from "./game/scoreboard";
 import type { GameConfig, GameResult } from "./game/types";
@@ -33,8 +34,15 @@ function App() {
     setScreen({ kind: "results", result, entryId: entry.id });
   }, []);
 
+  let body = (
+    <HomeScreen
+      config={config}
+      onChange={setConfig}
+      onPlay={() => start()}
+    />
+  );
   if (screen.kind === "play") {
-    return (
+    body = (
       <GameScreen
         key={screen.run}
         config={screen.config}
@@ -42,10 +50,8 @@ function App() {
         onQuit={goHome}
       />
     );
-  }
-
-  if (screen.kind === "results") {
-    return (
+  } else if (screen.kind === "results") {
+    body = (
       <ResultsScreen
         result={screen.result}
         entryId={screen.entryId}
@@ -56,11 +62,10 @@ function App() {
   }
 
   return (
-    <HomeScreen
-      config={config}
-      onChange={setConfig}
-      onPlay={() => start()}
-    />
+    <>
+      <PerfHud />
+      {body}
+    </>
   );
 }
 

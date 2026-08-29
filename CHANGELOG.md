@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.8.1] - 2026-08-29
+
+### Added
+
+- Tiny FPS and ping readout in the top-right corner (latency to this site). It is dim and does not block clicks.
+
 ## [0.8.0] - 2026-08-29
 
 ### Added
