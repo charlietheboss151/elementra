@@ -4,11 +4,17 @@ let context: AudioContext | null = null;
 
 function audioContext(): AudioContext | null {
   if (typeof window === "undefined") return null;
-  const AudioCtx = window.AudioContext || (window as Window & { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
-  if (!AudioCtx) return null;
-  if (!context) context = new AudioCtx();
-  if (context.state === "suspended") void context.resume();
-  return context;
+  try {
+    const AudioCtx =
+      window.AudioContext ||
+      (window as Window & { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
+    if (!AudioCtx) return null;
+    if (!context) context = new AudioCtx();
+    if (context.state === "suspended") void context.resume();
+    return context;
+  } catch {
+    return null;
+  }
 }
 
 export function unlockAudio() {
@@ -75,6 +81,11 @@ function playNoise(duration: number, peak: number, highpassHz: number) {
 export function playUi() {
   playNoise(0.02, 0.14, 2100);
   playTone(1420, 0.032, 0.09, "triangle");
+}
+
+export function playClick() {
+  playNoise(0.028, 0.22, 1800);
+  playTone(1650, 0.04, 0.12, "triangle");
 }
 
 export function playCorrect() {
