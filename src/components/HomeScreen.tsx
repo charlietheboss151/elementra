@@ -42,13 +42,17 @@ export function HomeScreen({ config, onChange, onPlay }: HomeScreenProps) {
   return (
     <div className="screen home">
       <header className="hero">
-        <p className="eyebrow">Periodic table quiz</p>
-        <h1>Find it on the table.</h1>
+        <p className="eyebrow">The periodic table game</p>
+        <h1>Elementra</h1>
         <p className="lede">
-          A Seterra-style practice game: read a prompt, click the right element,
-          and learn the table by repetition. Three guesses per question. A round
-          covers every element in the group you pick.
+          Elementra is a fast-paced periodic table challenge inspired by geography
+          games like Seterra. Test how well you know the elements by finding them on
+          an interactive periodic table. Identify elements by their name, symbol,
+          atomic number, or clues about their properties. Race against the clock,
+          build streaks, improve your accuracy, and work your way from the easiest
+          elements to the most challenging ones.
         </p>
+        <p className="lede">Can you master all 118 elements? 🧪⚛️</p>
       </header>
 
       <section className="setup-card">

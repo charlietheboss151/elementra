@@ -81,6 +81,10 @@ button {
   max-width: 52ch;
 }
 
+.hero .lede {
+  max-width: 62ch;
+}
+
 .hero {
   padding: 28px 8px 12px;
 }

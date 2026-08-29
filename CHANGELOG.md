@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.3.1] - 2026-08-28
+
+### Changed
+
+- The game is now branded **Elementra: the periodic table game**, with a matching home-page and README description.
+
 ## [0.3.0] - 2026-08-28
 
 ### Added

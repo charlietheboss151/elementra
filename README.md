@@ -1,6 +1,10 @@
-# Periodic Table Game
+# Elementra: the periodic table game
 
-A Seterra-style quiz for students and anyone practicing the periodic table. You read a prompt and click the matching element. Each question has three guesses. A round includes every element in the group you pick (or the whole table). Atomic-number questions use a shuffled list instead of the table.
+Elementra is a fast-paced periodic table challenge inspired by geography games like Seterra. Test how well you know the elements by finding them on an interactive periodic table. Identify elements by their name, symbol, atomic number, or clues about their properties. Race against the clock, build streaks, improve your accuracy, and work your way from the easiest elements to the most challenging ones.
+
+Can you master all 118 elements? 🧪⚛️
+
+Local play: each question has three guesses. A round includes every element in the group you pick (or the whole table). Atomic-number questions use a shuffled list instead of the table.
 
 ## How to run it
 
