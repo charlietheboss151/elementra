@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.6.3] - 2026-08-28
+
+### Fixed
+
+- Title art and tab icon now load on hosted sites, not only on localhost. They were requested from the domain root (`/logo.jpg`), which 404s when the game is served from a subpath.
+
 ## [0.6.2] - 2026-08-28
 
 ### Fixed

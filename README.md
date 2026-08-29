@@ -33,4 +33,6 @@ npm run preview  # serve the dist/ build locally
 npm run lint     # oxlint
 ```
 
+`npm run build` writes a self-contained `dist/` folder with relative asset URLs, so you can host it at a domain root or in a subfolder (GitHub Pages, itch.io, and similar). Upload the contents of `dist/`, not the project source.
+
 This project is licensed under the [GNU General Public License v3.0](LICENSE).

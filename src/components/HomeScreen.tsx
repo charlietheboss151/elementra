@@ -1,3 +1,4 @@
+import brandLogo from "../assets/logo.jpg";
 import { playUi, unlockAudio } from "../audio/sounds";
 import { poolForSet, QUESTION_TIME_MS } from "../game/elementSets";
 import { GAME_MODES, usesListLayout } from "../game/modes";
@@ -46,7 +47,7 @@ export function HomeScreen({ config, onChange, onPlay }: HomeScreenProps) {
         <h1 className="sr-only">Elementra</h1>
         <img
           className="brand-logo"
-          src="/logo.jpg"
+          src={brandLogo}
           alt="Elementra. Master the table. Beat the clock."
         />
         <p className="byline">
