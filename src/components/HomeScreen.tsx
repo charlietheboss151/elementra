@@ -44,6 +44,10 @@ export function HomeScreen({ config, onChange, onPlay }: HomeScreenProps) {
       <header className="hero">
         <p className="eyebrow">The periodic table game</p>
         <h1>Elementra</h1>
+        <p className="byline">
+          <span className="byline-label">Designed &amp; built by</span>
+          <span className="byline-name">Charlie Bishop</span>
+        </p>
         <p className="lede">
           Elementra is a fast-paced periodic table challenge inspired by geography
           games like Seterra. Test how well you know the elements by finding them on
