@@ -8,7 +8,7 @@ export const MAX_GUESSES = 3;
 
 export type ResolveKind = "try1" | "try2" | "try3" | "fail";
 
-export type ClueKind = "name" | "symbol" | "atomic-number";
+export type ClueKind = "name" | "symbol" | "atomic-number" | "properties";
 
 export interface TileReveal {
   atomicNumber: boolean;

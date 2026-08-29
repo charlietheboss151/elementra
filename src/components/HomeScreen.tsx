@@ -28,6 +28,7 @@ export function HomeScreen({ config, onChange, onPlay }: HomeScreenProps) {
   const poolCount = pool.length;
   const previewList = [...pool].sort((a, b) => a.name.localeCompare(b.name));
   const listMode = usesListLayout(config.modeId);
+  const propertyMode = config.modeId === "properties";
   const boardProps = {
     hint: { kind: null, period: null, category: null } as const,
     correctAtomicNumber: null,
@@ -52,7 +53,7 @@ export function HomeScreen({ config, onChange, onPlay }: HomeScreenProps) {
           Elementra is a fast-paced periodic table challenge inspired by geography
           games like Seterra. Test how well you know the elements by finding them on
           an interactive periodic table. Identify elements by their name, symbol,
-          atomic number. Race against the clock,
+          atomic number, or clues about their properties. Race against the clock,
           build streaks, improve your accuracy, and work your way from the easiest
           elements to the most challenging ones.
         </p>
@@ -107,11 +108,19 @@ export function HomeScreen({ config, onChange, onPlay }: HomeScreenProps) {
       </section>
 
       <section className="preview">
-        <h2>{listMode ? "A shuffled list, not the table" : "The table is the answer sheet"}</h2>
+        <h2>
+          {listMode
+            ? "A shuffled list, not the table"
+            : propertyMode
+              ? "Clues, then the table"
+              : "The table is the answer sheet"}
+        </h2>
         <p>
           {listMode
             ? "Atomic numbers are hidden and the order is mixed, so you have to know which element is which."
-            : "This is your map of the elements. Match the clue, click the tile, and watch the table light up as you go — green for a first-try strike, gold when you needed a second look, orange on a last-chance save. Miss all three and the real answer flares red, then every mark stays so you can see the round take shape."}
+            : propertyMode
+              ? "Family, room-temperature state, period, and other facts stack until they point to one element. During play, names, symbols, and family colors stay hidden so the clues have to do the work."
+              : "This is your map of the elements. Match the clue, click the tile, and watch the table light up as you go — green for a first-try strike, gold when you needed a second look, orange on a last-chance save. Miss all three and the real answer flares red, then every mark stays so you can see the round take shape."}
         </p>
         {listMode ? (
           <ElementList
@@ -121,7 +130,11 @@ export function HomeScreen({ config, onChange, onPlay }: HomeScreenProps) {
           />
         ) : (
           <PeriodicTable
-            reveal={{ atomicNumber: true, symbol: true, name: true }}
+            reveal={
+              propertyMode
+                ? { atomicNumber: true, symbol: false, name: false }
+                : { atomicNumber: true, symbol: true, name: true }
+            }
             {...boardProps}
           />
         )}

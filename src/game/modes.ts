@@ -1,4 +1,5 @@
 import type { ChemicalElement } from "../data/elements";
+import { propertyPrompt } from "./elementFacts";
 import type { ClueKind, GameModeDefinition, TileReveal } from "./types";
 
 export const GAME_MODES: GameModeDefinition[] = [
@@ -21,10 +22,16 @@ export const GAME_MODES: GameModeDefinition[] = [
     clueKinds: () => ["symbol"],
   },
   {
+    id: "properties",
+    title: "Property Clues",
+    description: "Identify the element from facts like its family, state at room temperature, and place on the table.",
+    clueKinds: () => ["properties"],
+  },
+  {
     id: "mixed",
     title: "Mixed Practice",
-    description: "A shuffle of names and symbols on the table.",
-    clueKinds: () => ["name", "symbol"],
+    description: "A shuffle of names, symbols, and property clues on the table.",
+    clueKinds: () => ["name", "symbol", "properties"],
   },
 ];
 
@@ -40,7 +47,11 @@ export function getMode(modeId: string): GameModeDefinition {
   return mode;
 }
 
-export function promptFor(element: ChemicalElement, clue: ClueKind): string {
+export function promptFor(
+  element: ChemicalElement,
+  clue: ClueKind,
+  pool: ChemicalElement[] = [element],
+): string {
   switch (clue) {
     case "name":
       return `Find ${element.name}`;
@@ -48,13 +59,20 @@ export function promptFor(element: ChemicalElement, clue: ClueKind): string {
       return `Find ${element.symbol}`;
     case "atomic-number":
       return `Find element #${element.atomicNumber}`;
+    case "properties":
+      return propertyPrompt(element, pool);
   }
 }
 
 export function revealFor(clue: ClueKind): TileReveal {
   if (clue === "name") return { atomicNumber: true, symbol: true, name: false };
   if (clue === "symbol") return { atomicNumber: true, symbol: false, name: true };
+  if (clue === "properties") return { atomicNumber: true, symbol: false, name: false };
   return { atomicNumber: false, symbol: true, name: true };
+}
+
+export function hidesFamilyColors(clue: ClueKind): boolean {
+  return clue === "properties";
 }
 
 export function formatAnswer(element: ChemicalElement): string {

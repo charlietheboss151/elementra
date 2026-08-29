@@ -13,6 +13,7 @@ export interface TileViewProps {
   playableNumbers: number[];
   disabled: boolean;
   onSelect: (atomicNumber: number) => void;
+  hideFamilyColors?: boolean;
 }
 
 export function tileClass(
@@ -23,8 +24,9 @@ export function tileClass(
   resolution: QuestionResolution | null,
   answeredMarks: Record<number, ResolveKind>,
   playable: boolean,
+  hideFamilyColors = false,
 ): string {
-  const classes = ["tile", `tile--${element.category}`];
+  const classes = ["tile", hideFamilyColors ? "tile--plain" : `tile--${element.category}`];
   const solved = answeredMarks[element.atomicNumber];
   if (solved) {
     classes.push(`tile--${solved}`, "tile--solved");

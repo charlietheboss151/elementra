@@ -11,6 +11,7 @@ export function PeriodicTable({
   playableNumbers,
   disabled,
   onSelect,
+  hideFamilyColors = false,
 }: TileViewProps) {
   const playable = new Set(playableNumbers);
 
@@ -40,6 +41,7 @@ export function PeriodicTable({
               resolution,
               answeredMarks,
               playable.has(element.atomicNumber),
+              hideFamilyColors,
             )}
             style={{ gridRow: element.gridRow, gridColumn: element.gridColumn }}
             reveal={{ ...reveal, atomicNumber: true }}

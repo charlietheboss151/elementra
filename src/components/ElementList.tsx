@@ -16,6 +16,7 @@ export function ElementList({
   playableNumbers,
   disabled,
   onSelect,
+  hideFamilyColors = false,
 }: ElementListProps) {
   const playable = new Set(playableNumbers);
 
@@ -39,6 +40,7 @@ export function ElementList({
               resolution,
               answeredMarks,
               playable.has(element.atomicNumber),
+              hideFamilyColors,
             )}
             reveal={reveal}
             disabled={disabled}

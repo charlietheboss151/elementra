@@ -237,6 +237,18 @@ button {
   font-size: clamp(1.6rem, 4vw, 2.6rem);
 }
 
+.prompt-card.is-clues h1 {
+  font-size: clamp(1.15rem, 2.6vw, 1.7rem);
+  line-height: 1.35;
+  white-space: pre-line;
+  font-family: var(--sans);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  text-align: left;
+  max-width: 40rem;
+  margin: 0 auto;
+}
+
 .prompt-card.is-try1 {
   border-color: rgba(62, 224, 176, 0.75);
 }
@@ -494,6 +506,7 @@ button {
 .tile--halogen { background: #748ffc; }
 .tile--noble-gas { background: #da77f2; }
 .tile--unknown { background: #adb5bd; }
+.tile--plain { background: #b7c6d6; }
 
 .tile--hint {
   outline: 2px solid var(--accent-2);

@@ -6,7 +6,7 @@ import {
   scoreFromStats,
 } from "../game/engine";
 import { ELEMENT_SET_LABELS } from "../game/types";
-import { formatAnswer, getMode, usesListLayout } from "../game/modes";
+import { formatAnswer, getMode, hidesFamilyColors, usesListLayout } from "../game/modes";
 import type { GameConfig, GameResult } from "../game/types";
 import { MAX_GUESSES } from "../game/types";
 import { useGame } from "../game/useGame";
@@ -68,8 +68,12 @@ export function GameScreen({ config, onComplete, onQuit }: GameScreenProps) {
         </p>
       </div>
 
-      <div className={`prompt-card ${cardTone}`}>
-        <p className="prompt-kicker">{kicker(game.resolution, game.resolution?.timedOut ?? false)}</p>
+      <div className={`prompt-card ${cardTone} ${game.question.clueKind === "properties" ? "is-clues" : ""}`}>
+        <p className="prompt-kicker">
+          {game.question.clueKind === "properties" && !game.resolution
+            ? "Read the clues — 3 guesses"
+            : kicker(game.resolution, game.resolution?.timedOut ?? false)}
+        </p>
         <h1>{game.question.prompt}</h1>
         <div className="guess-pips" aria-label={`${left} guesses left`}>
           {Array.from({ length: MAX_GUESSES }, (_, i) => (
@@ -132,7 +136,7 @@ export function GameScreen({ config, onComplete, onQuit }: GameScreenProps) {
         ) : null}
       </ul>
 
-      {game.hintsAllowed && !usesListLayout(config.modeId) ? (
+      {game.hintsAllowed && !usesListLayout(config.modeId) && game.question.clueKind !== "properties" ? (
         <button type="button" className="hint-button" onClick={game.useHint} disabled={waiting}>
           Hint
         </button>
@@ -148,6 +152,7 @@ export function GameScreen({ config, onComplete, onQuit }: GameScreenProps) {
           resolution={game.resolution}
           answeredMarks={game.answeredMarks}
           playableNumbers={game.playableNumbers}
+          hideFamilyColors={hidesFamilyColors(game.question.clueKind)}
           disabled={waiting}
           onSelect={game.selectElement}
         />
@@ -160,11 +165,12 @@ export function GameScreen({ config, onComplete, onQuit }: GameScreenProps) {
           resolution={game.resolution}
           answeredMarks={game.answeredMarks}
           playableNumbers={game.playableNumbers}
+          hideFamilyColors={hidesFamilyColors(game.question.clueKind)}
           disabled={waiting}
           onSelect={game.selectElement}
         />
       )}
-      <CategoryLegend />
+      {game.question.clueKind === "properties" ? null : <CategoryLegend />}
     </div>
   );
 }

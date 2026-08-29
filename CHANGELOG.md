@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.5.0] - 2026-08-28
+
+### Added
+
+- Property Clues mode: stacked facts (family, room-temperature state, period, group, and similar) that uniquely identify one element. Mixed Practice can include those clues too. Family colors, names, and symbols are hidden during a clue question so the facts have to do the work.
+
 ## [0.4.0] - 2026-08-28
 
 ### Removed

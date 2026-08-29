@@ -38,7 +38,7 @@ export function buildQuestions(config: GameConfig): Question[] {
       id: i + 1,
       target,
       clueKind,
-      prompt: promptFor(target, clueKind),
+      prompt: promptFor(target, clueKind, pool),
       reveal: revealFor(clueKind),
     };
   });
