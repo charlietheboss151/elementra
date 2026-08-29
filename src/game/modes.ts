@@ -1,22 +1,29 @@
 import { CATEGORY_LABELS, type ChemicalElement } from "../data/elements";
 import type { ClueKind, Difficulty, GameModeDefinition, TileReveal } from "./types";
 
+function infoClueKinds(difficulty: Difficulty): ClueKind[] {
+  if (difficulty === "easy") return ["protons", "electrons"];
+  if (difficulty === "medium") return ["protons", "electrons", "atomic-number"];
+  if (difficulty === "hard") return ["protons", "electrons", "category-protons"];
+  return ["category-protons", "electrons", "protons"];
+}
+
 export const GAME_MODES: GameModeDefinition[] = [
   {
     id: "find-element",
-    title: "Find the Element",
+    title: "Find Element by Name",
     description: "Read the name, then click that element on the table.",
     clueKinds: () => ["name"],
   },
   {
     id: "atomic-number",
-    title: "Atomic Number",
+    title: "Find Element by Atomic Number",
     description: "Find the element that matches the atomic number.",
     clueKinds: () => ["atomic-number"],
   },
   {
     id: "symbol",
-    title: "Symbol",
+    title: "Find Element by Symbol",
     description: "Match a chemical symbol to its place on the table.",
     clueKinds: () => ["symbol"],
   },
@@ -24,21 +31,13 @@ export const GAME_MODES: GameModeDefinition[] = [
     id: "element-info",
     title: "Element Information",
     description: "Use protons, electrons, and other clues to identify the atom.",
-    clueKinds: (difficulty) => {
-      if (difficulty === "easy") return ["protons", "electrons"];
-      if (difficulty === "medium") return ["protons", "electrons", "atomic-number"];
-      if (difficulty === "hard") return ["protons", "electrons", "category-protons"];
-      return ["category-protons", "electrons", "protons"];
-    },
+    clueKinds: infoClueKinds,
   },
   {
     id: "mixed",
     title: "Mixed Practice",
     description: "A shuffle of names, numbers, symbols, and atom clues.",
-    clueKinds: (difficulty) => {
-      const info = GAME_MODES.find((mode) => mode.id === "element-info");
-      return ["name", "symbol", "atomic-number", ...(info?.clueKinds(difficulty) ?? [])];
-    },
+    clueKinds: (difficulty) => ["name", "symbol", "atomic-number", ...infoClueKinds(difficulty)],
   },
 ];
 

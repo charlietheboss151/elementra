@@ -281,6 +281,9 @@ button {
   justify-content: space-between;
   color: #0c1724;
   text-align: left;
+  position: relative;
+  z-index: 1;
+  cursor: pointer;
 }
 
 .tile:disabled {

@@ -23,6 +23,7 @@ Vite + React + TypeScript. Element facts live in one table (`src/data/elements.t
 
 ```bash
 npm run dev      # local development server
+npm run test     # game-logic unit tests
 npm run build    # typecheck and write production files to dist/
 npm run preview  # serve the dist/ build locally
 npm run lint     # oxlint

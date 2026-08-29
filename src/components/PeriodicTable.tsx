@@ -44,7 +44,20 @@ export function PeriodicTable({
 }: PeriodicTableProps) {
   return (
     <div className="table-wrap">
-      <div className="periodic-table" role="grid" aria-label="Periodic table">
+      <div
+        className="periodic-table"
+        role="group"
+        aria-label="Periodic table"
+        onClick={(event) => {
+          if (disabled) return;
+          const tile = (event.target as HTMLElement).closest("[data-atomic-number]");
+          if (!(tile instanceof HTMLElement)) return;
+          const atomicNumber = Number(tile.dataset.atomicNumber);
+          if (Number.isInteger(atomicNumber)) {
+            onSelect(atomicNumber);
+          }
+        }}
+      >
         <div className="f-placeholder" style={{ gridRow: 6, gridColumn: 3 }}>
           57–71
         </div>
@@ -55,11 +68,10 @@ export function PeriodicTable({
           <button
             key={element.atomicNumber}
             type="button"
-            role="gridcell"
             className={tileClass(element, feedback, hint, correctAtomicNumber)}
             style={{ gridRow: element.gridRow, gridColumn: element.gridColumn }}
+            data-atomic-number={element.atomicNumber}
             disabled={disabled}
-            onClick={() => onSelect(element.atomicNumber)}
             aria-label={`${element.name}, ${element.symbol}, atomic number ${element.atomicNumber}`}
           >
             <span className="tile-number">

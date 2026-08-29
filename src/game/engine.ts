@@ -87,6 +87,17 @@ export function scoreFromStats(stats: Pick<GameStats, "correct">): number {
   return stats.correct;
 }
 
+export function isCorrectAnswer(
+  question: Question,
+  selectedAtomicNumber: number | null,
+): boolean {
+  return selectedAtomicNumber === question.target.atomicNumber;
+}
+
+export function remainingAfterCurrent(total: number, questionNumber: number): number {
+  return Math.max(0, total - questionNumber);
+}
+
 export function formatDuration(ms: number): string {
   const totalSeconds = Math.max(0, Math.floor(ms / 1000));
   const minutes = Math.floor(totalSeconds / 60);

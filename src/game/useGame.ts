@@ -1,9 +1,10 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { DIFFICULTY_SETTINGS } from "./difficulty";
 import {
   applyAnswer,
   buildQuestions,
   emptyStats,
+  isCorrectAnswer,
   summarizeResult,
 } from "./engine";
 import type {
@@ -24,7 +25,7 @@ export type Feedback = {
 } | null;
 
 export function useGame(config: GameConfig, onComplete: (result: GameResult) => void) {
-  const questions = useMemo(() => buildQuestions(config), [config]);
+  const [questions] = useState(() => buildQuestions(config));
   const [index, setIndex] = useState(0);
   const [stats, setStats] = useState<GameStats>(() => emptyStats(config));
   const [answers, setAnswers] = useState<AnswerRecord[]>([]);
@@ -39,6 +40,12 @@ export function useGame(config: GameConfig, onComplete: (result: GameResult) => 
   const answersRef = useRef(answers);
   const indexRef = useRef(index);
   const startedAt = useRef(0);
+  const feedbackTimer = useRef<number>(0);
+  const onCompleteRef = useRef(onComplete);
+
+  useEffect(() => {
+    onCompleteRef.current = onComplete;
+  }, [onComplete]);
 
   useEffect(() => {
     statsRef.current = stats;
@@ -51,6 +58,9 @@ export function useGame(config: GameConfig, onComplete: (result: GameResult) => 
   }, [index]);
   useEffect(() => {
     startedAt.current = performance.now();
+    return () => {
+      window.clearTimeout(feedbackTimer.current);
+    };
   }, []);
 
   const question: Question | undefined = questions[index];
@@ -63,8 +73,7 @@ export function useGame(config: GameConfig, onComplete: (result: GameResult) => 
       if (!current) return;
       locked.current = true;
 
-      const correct =
-        !timedOut && selectedAtomicNumber === current.target.atomicNumber;
+      const correct = !timedOut && isCorrectAnswer(current, selectedAtomicNumber);
       const record: AnswerRecord = {
         question: current,
         selectedAtomicNumber,
@@ -80,10 +89,11 @@ export function useGame(config: GameConfig, onComplete: (result: GameResult) => 
       setFeedback({ selectedAtomicNumber, correct, timedOut });
       setHint({ kind: null, period: null, category: null });
 
-      window.setTimeout(() => {
+      window.clearTimeout(feedbackTimer.current);
+      feedbackTimer.current = window.setTimeout(() => {
         const nextIndex = indexRef.current + 1;
         if (nextIndex >= questions.length) {
-          onComplete(summarizeResult(config, nextAnswers, nextStats));
+          onCompleteRef.current(summarizeResult(config, nextAnswers, nextStats));
           return;
         }
         locked.current = false;
@@ -95,7 +105,7 @@ export function useGame(config: GameConfig, onComplete: (result: GameResult) => 
         }));
       }, FEEDBACK_MS);
     },
-    [config, onComplete, questions, settings.questionTimeMs],
+    [config, questions, settings.questionTimeMs],
   );
 
   useEffect(() => {

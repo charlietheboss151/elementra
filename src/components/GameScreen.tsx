@@ -1,4 +1,4 @@
-import { accuracyPercent, formatDuration, scoreFromStats } from "../game/engine";
+import { accuracyPercent, formatDuration, remainingAfterCurrent, scoreFromStats } from "../game/engine";
 import { getMode } from "../game/modes";
 import type { GameConfig } from "../game/types";
 import { useGame } from "../game/useGame";
@@ -55,6 +55,16 @@ export function GameScreen({ config, onComplete, onQuit }: GameScreenProps) {
 
       <ul className="stats">
         <li>
+          <span>Question</span>
+          <strong>
+            {game.questionNumber}/{game.totalQuestions}
+          </strong>
+        </li>
+        <li>
+          <span>Left</span>
+          <strong>{remainingAfterCurrent(game.totalQuestions, game.questionNumber)}</strong>
+        </li>
+        <li>
           <span>Score</span>
           <strong>{scoreFromStats(game.stats)}</strong>
         </li>
@@ -80,7 +90,7 @@ export function GameScreen({ config, onComplete, onQuit }: GameScreenProps) {
         </li>
         {config.timed && game.stats.remainingQuestionMs != null ? (
           <li>
-            <span>Question</span>
+            <span>This Q</span>
             <strong>{Math.ceil(game.stats.remainingQuestionMs / 1000)}s</strong>
           </li>
         ) : null}

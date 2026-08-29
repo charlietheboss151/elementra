@@ -20,20 +20,25 @@ function App() {
   const [config, setConfig] = useState<GameConfig>(DEFAULT_CONFIG);
   const [screen, setScreen] = useState<Screen>({ kind: "home" });
 
-  const start = useCallback(
-    (next = config) => {
-      setScreen({ kind: "play", config: next, run: Date.now() });
-    },
-    [config],
-  );
+  const goHome = useCallback(() => {
+    setScreen({ kind: "home" });
+  }, []);
+
+  const start = useCallback((next = config) => {
+    setScreen({ kind: "play", config: next, run: Date.now() });
+  }, [config]);
+
+  const finish = useCallback((result: GameResult) => {
+    setScreen({ kind: "results", result });
+  }, []);
 
   if (screen.kind === "play") {
     return (
       <GameScreen
         key={screen.run}
         config={screen.config}
-        onComplete={(result) => setScreen({ kind: "results", result })}
-        onQuit={() => setScreen({ kind: "home" })}
+        onComplete={finish}
+        onQuit={goHome}
       />
     );
   }
@@ -43,7 +48,7 @@ function App() {
       <ResultsScreen
         result={screen.result}
         onReplay={() => start(screen.result.config)}
-        onHome={() => setScreen({ kind: "home" })}
+        onHome={goHome}
       />
     );
   }
