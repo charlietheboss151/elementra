@@ -60,12 +60,7 @@ export function cancelSpeech() {
 }
 
 export function unlockSpeech() {
-  const synth = synthesis();
-  if (!synth) return;
-  const warm = new SpeechSynthesisUtterance(" ");
-  warm.volume = 0;
-  synth.speak(warm);
-  synth.cancel();
+  synthesis()?.getVoices();
 }
 
 export function speakElementName(name: string) {

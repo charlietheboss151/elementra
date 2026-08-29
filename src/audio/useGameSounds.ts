@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useLayoutEffect, useRef } from "react";
 import type { Question } from "../game/types";
 import type { QuestionResolution, WrongPick } from "../game/useGame";
 import { cancelSpeech, speakElementName } from "./speech";
@@ -25,7 +25,7 @@ export function useGameSounds(
     return () => cancelSpeech();
   }, []);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!question) return;
     const name = question.target.name;
     const key = resolution
