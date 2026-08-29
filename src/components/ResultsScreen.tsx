@@ -1,5 +1,5 @@
 import { playUi } from "../audio/sounds";
-import { accuracyPercent, formatDuration, scoreFromStats } from "../game/engine";
+import { accuracyPercent, formatDuration, formatScore } from "../game/engine";
 import { formatAnswer, getMode } from "../game/modes";
 import { ELEMENT_SET_LABELS } from "../game/types";
 import type { GameResult } from "../game/types";
@@ -14,7 +14,6 @@ export function ResultsScreen({ result, onReplay, onHome }: ResultsScreenProps) 
   const mode = getMode(result.config.modeId);
   const missed = result.answers.filter((answer) => !answer.correct);
   const total = result.answers.length;
-  const maxScore = total * 3;
 
   return (
     <div className="screen results">
@@ -31,7 +30,7 @@ export function ResultsScreen({ result, onReplay, onHome }: ResultsScreenProps) 
         <li>
           <span>Score</span>
           <strong>
-            {scoreFromStats(result.stats)} / {maxScore}
+            {formatScore(result.stats)} / {total}
           </strong>
         </li>
         <li>

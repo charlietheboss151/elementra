@@ -3,7 +3,7 @@ import {
   formatDuration,
   guessesLeft,
   remainingAfterCurrent,
-  scoreFromStats,
+  formatScore,
 } from "../game/engine";
 import { ELEMENT_SET_LABELS } from "../game/types";
 import { formatAnswer, getMode, hidesFamilyColors, usesListLayout } from "../game/modes";
@@ -127,7 +127,7 @@ export function GameScreen({ config, onComplete, onQuit }: GameScreenProps) {
         </li>
         <li>
           <span>Score</span>
-          <strong>{scoreFromStats(game.stats)}</strong>
+          <strong>{formatScore(game.stats)}</strong>
         </li>
         <li>
           <span>Correct</span>

@@ -86,7 +86,12 @@ export function accuracyPercent(stats: Pick<GameStats, "score" | "correct" | "in
 }
 
 export function scoreFromStats(stats: Pick<GameStats, "score">): number {
-  return stats.score;
+  return Math.round((stats.score / MAX_GUESSES) * 10) / 10;
+}
+
+export function formatScore(stats: Pick<GameStats, "score">): string {
+  const value = scoreFromStats(stats);
+  return Number.isInteger(value) ? String(value) : value.toFixed(1);
 }
 
 export function isCorrectAnswer(

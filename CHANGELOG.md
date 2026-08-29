@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.6.6] - 2026-08-29
+
+### Fixed
+
+- Score was still 3× the question count (18/6 for alkali metals). It now shows 1 per first-try hit, out of the number of elements in the round. Accuracy still weights later tries lower.
+
 ## [0.6.5] - 2026-08-29
 
 ### Fixed

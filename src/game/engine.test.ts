@@ -6,8 +6,10 @@ import {
   applyAnswer,
   buildQuestions,
   emptyStats,
+  formatScore,
   isCorrectAnswer,
   pointsForTry,
+  scoreFromStats,
 } from "./engine";
 import { getMode } from "./modes";
 import type { GameConfig } from "./types";
@@ -87,5 +89,8 @@ describe("applyAnswer", () => {
     expect(accuracyPercent(afterMiss)).toBe(50);
     const secondTry = applyAnswer(emptyStats({ ...base, modeId: "find-element" }), true, 2);
     expect(accuracyPercent(secondTry)).toBe(66.7);
+    expect(scoreFromStats(afterHit)).toBe(1);
+    expect(scoreFromStats({ score: 18 })).toBe(6);
+    expect(formatScore(secondTry)).toBe("0.7");
   });
 });

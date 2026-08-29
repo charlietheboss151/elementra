@@ -38,12 +38,12 @@ function perfectAlkaliRound(): GameResult {
 }
 
 describe("ResultsScreen", () => {
-  it("headlines elements found, not 3× score, for a six-element group", () => {
+  it("shows 6/6 found and 6/6 score for a perfect six-element group", () => {
     const html = renderToStaticMarkup(
       <ResultsScreen result={perfectAlkaliRound()} onReplay={() => undefined} onHome={() => undefined} />,
     );
     expect(html).toContain("<h1>6 / 6</h1>");
-    expect(html).not.toContain("<h1>18 / 18</h1>");
-    expect(html).toContain("18 / 18");
+    expect(html).not.toContain("18 / 18");
+    expect(html).toContain(">6 / 6</strong>");
   });
 });
