@@ -1,3 +1,4 @@
+import { unlockAudio } from "../audio/sounds";
 import { poolForSet, QUESTION_TIME_MS } from "../game/elementSets";
 import { GAME_MODES, usesListLayout } from "../game/modes";
 import {
@@ -104,7 +105,14 @@ export function HomeScreen({ config, onChange, onPlay }: HomeScreenProps) {
           <TimerNote timed={config.timed} />
         </label>
 
-        <button type="button" className="play-button" onClick={onPlay}>
+        <button
+          type="button"
+          className="play-button"
+          onClick={() => {
+            unlockAudio();
+            onPlay();
+          }}
+        >
           Start {selectedMode?.title}
         </button>
       </section>

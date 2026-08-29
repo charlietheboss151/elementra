@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.6.0] - 2026-08-28
+
+### Added
+
+- Quiet click, correct, and miss sounds during play, plus a soft tick in the last 10 seconds of Race the clock (a little more present in the last 3 seconds).
+
 ## [0.5.2] - 2026-08-28
 
 ### Removed

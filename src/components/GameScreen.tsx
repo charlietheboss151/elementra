@@ -10,6 +10,8 @@ import { formatAnswer, getMode, hidesFamilyColors, usesListLayout } from "../gam
 import type { GameConfig, GameResult } from "../game/types";
 import { MAX_GUESSES } from "../game/types";
 import { useGame } from "../game/useGame";
+import { playClick } from "../audio/sounds";
+import { useGameSounds } from "../audio/useGameSounds";
 import { CategoryLegend } from "./CategoryLegend";
 import { ElementList } from "./ElementList";
 import { PeriodicTable } from "./PeriodicTable";
@@ -31,7 +33,19 @@ function kicker(resolution: ReturnType<typeof useGame>["resolution"], timedOut: 
 
 export function GameScreen({ config, onComplete, onQuit }: GameScreenProps) {
   const game = useGame(config, onComplete);
+  useGameSounds(
+    config.timed,
+    game.stats.remainingQuestionMs,
+    game.resolution,
+    game.wrongPick,
+    game.questionNumber,
+  );
   if (!game.question) return null;
+
+  const choose = (atomicNumber: number) => {
+    playClick();
+    game.selectElement(atomicNumber);
+  };
 
   const mode = getMode(config.modeId);
   const answered = game.stats.correct + game.stats.incorrect;
@@ -154,7 +168,7 @@ export function GameScreen({ config, onComplete, onQuit }: GameScreenProps) {
           playableNumbers={game.playableNumbers}
           hideFamilyColors={hidesFamilyColors(game.question.clueKind)}
           disabled={waiting}
-          onSelect={game.selectElement}
+          onSelect={choose}
         />
       ) : (
         <PeriodicTable
@@ -167,7 +181,7 @@ export function GameScreen({ config, onComplete, onQuit }: GameScreenProps) {
           playableNumbers={game.playableNumbers}
           hideFamilyColors={hidesFamilyColors(game.question.clueKind)}
           disabled={waiting}
-          onSelect={game.selectElement}
+          onSelect={choose}
         />
       )}
       {game.question.clueKind === "properties" ? null : <CategoryLegend />}
