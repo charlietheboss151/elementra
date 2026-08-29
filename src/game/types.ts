@@ -1,4 +1,4 @@
-import { CATEGORIES, CATEGORY_LABELS } from "../data/elements";
+import { CATEGORIES, CATEGORY_EXPLAINERS, CATEGORY_LABELS } from "../data/elements";
 import type { ChemicalElement, ElementCategory } from "../data/elements";
 
 export const ELEMENT_SET_IDS = ["all", ...CATEGORIES] as const;
@@ -72,4 +72,9 @@ export interface HintState {
 export const ELEMENT_SET_LABELS: Record<ElementSetId, string> = {
   all: "All elements",
   ...CATEGORY_LABELS,
+};
+
+export const ELEMENT_SET_EXPLAINERS: Record<ElementSetId, string> = {
+  all: "Every element on the table — all 118 — from hydrogen to oganesson.",
+  ...CATEGORY_EXPLAINERS,
 };
