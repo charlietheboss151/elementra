@@ -1,13 +1,12 @@
-import type { ChemicalElement, ElementCategory } from "../data/elements";
 import { CATEGORIES, CATEGORY_LABELS } from "../data/elements";
-
-export const QUESTION_COUNTS = [10, 20, 50] as const;
-export type QuestionCount = (typeof QUESTION_COUNTS)[number];
+import type { ChemicalElement, ElementCategory } from "../data/elements";
 
 export const ELEMENT_SET_IDS = ["all", ...CATEGORIES] as const;
 export type ElementSetId = (typeof ELEMENT_SET_IDS)[number];
 
 export const MAX_GUESSES = 3;
+
+export type ResolveKind = "try1" | "try2" | "try3" | "fail";
 
 export type ClueKind =
   | "name"
@@ -34,7 +33,6 @@ export interface Question {
 export interface GameConfig {
   modeId: string;
   elementSet: ElementSetId;
-  questionCount: QuestionCount;
   timed: boolean;
 }
 
@@ -84,7 +82,7 @@ export const ELEMENT_SET_LABELS: Record<ElementSetId, string> = {
 
 export function elementSetBlurb(setId: ElementSetId, count: number): string {
   if (setId === "all") {
-    return `Practice the whole table (${count} elements). Three guesses each.`;
+    return `Practice the whole table (${count} questions, one per element). Three guesses each.`;
   }
-  return `Only the ${CATEGORY_LABELS[setId].toLowerCase()} group — ${count} element${count === 1 ? "" : "s"}. Three guesses each.`;
+  return `Only the ${CATEGORY_LABELS[setId].toLowerCase()} group — ${count} element${count === 1 ? "" : "s"}, one question each.`;
 }

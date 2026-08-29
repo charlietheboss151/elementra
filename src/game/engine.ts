@@ -7,6 +7,7 @@ import type {
   GameResult,
   GameStats,
   Question,
+  ResolveKind,
 } from "./types";
 import { MAX_GUESSES } from "./types";
 
@@ -31,23 +32,16 @@ export function buildQuestions(config: GameConfig): Question[] {
   }
 
   const clues = mode.clueKinds(config.elementSet);
-  const questions: Question[] = [];
-  let remaining = shuffle(pool);
-
-  for (let i = 0; i < config.questionCount; i += 1) {
-    if (remaining.length === 0) {
-      remaining = shuffle(pool);
-    }
-    const target = remaining.pop()!;
+  const questions: Question[] = shuffle(pool).map((target, i) => {
     const clueKind = clues[Math.floor(Math.random() * clues.length)] as ClueKind;
-    questions.push({
+    return {
       id: i + 1,
       target,
       clueKind,
       prompt: promptFor(target, clueKind),
       reveal: revealFor(clueKind),
-    });
-  }
+    };
+  });
 
   return questions;
 }
@@ -104,6 +98,13 @@ export function isCorrectAnswer(
 
 export function remainingAfterCurrent(total: number, questionNumber: number): number {
   return Math.max(0, total - questionNumber);
+}
+
+export function markForAnswer(answer: AnswerRecord): ResolveKind {
+  if (!answer.correct) return "fail";
+  if (answer.tryNumber === 2) return "try2";
+  if (answer.tryNumber === 3) return "try3";
+  return "try1";
 }
 
 export function guessesLeft(guessCount: number): number {

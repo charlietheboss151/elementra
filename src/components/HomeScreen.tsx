@@ -3,11 +3,9 @@ import { GAME_MODES } from "../game/modes";
 import {
   ELEMENT_SET_IDS,
   ELEMENT_SET_LABELS,
-  QUESTION_COUNTS,
   elementSetBlurb,
   type ElementSetId,
   type GameConfig,
-  type QuestionCount,
 } from "../game/types";
 import { CategoryLegend } from "./CategoryLegend";
 import { PeriodicTable } from "./PeriodicTable";
@@ -34,7 +32,8 @@ export function HomeScreen({ config, onChange, onPlay }: HomeScreenProps) {
         <h1>Find it on the table.</h1>
         <p className="lede">
           A Seterra-style practice game: read a prompt, click the right element,
-          and learn the table by repetition. Three guesses per question.
+          and learn the table by repetition. Three guesses per question. A round
+          covers every element in the group you pick.
         </p>
       </header>
 
@@ -54,49 +53,31 @@ export function HomeScreen({ config, onChange, onPlay }: HomeScreenProps) {
           ))}
         </div>
 
-        <div className="setup-row">
-          <div>
-            <h3>Element group</h3>
-            <div className="pills">
-              {ELEMENT_SET_IDS.map((setId: ElementSetId) => (
-                <button
-                  key={setId}
-                  type="button"
-                  className={`group-pill ${config.elementSet === setId ? "is-selected" : ""}`}
-                  onClick={() => onChange({ ...config, elementSet: setId })}
-                >
-                  <span className={`legend-swatch ${setId === "all" ? "swatch-all" : `tile--${setId}`}`} />
-                  {ELEMENT_SET_LABELS[setId]}
-                </button>
-              ))}
-            </div>
-            <p className="hint-text">{elementSetBlurb(config.elementSet, poolCount)}</p>
-          </div>
-          <div>
-            <h3>Questions</h3>
-            <div className="pills">
-              {QUESTION_COUNTS.map((count: QuestionCount) => (
-                <button
-                  key={count}
-                  type="button"
-                  className={config.questionCount === count ? "is-selected" : ""}
-                  onClick={() => onChange({ ...config, questionCount: count })}
-                >
-                  {count}
-                </button>
-              ))}
-            </div>
-            <label className="timer-toggle">
-              <input
-                type="checkbox"
-                checked={config.timed}
-                onChange={(event) => onChange({ ...config, timed: event.target.checked })}
-              />
-              Race the clock
-              <TimerNote timed={config.timed} />
-            </label>
-          </div>
+        <h3>Element group</h3>
+        <div className="pills">
+          {ELEMENT_SET_IDS.map((setId: ElementSetId) => (
+            <button
+              key={setId}
+              type="button"
+              className={`group-pill ${config.elementSet === setId ? "is-selected" : ""}`}
+              onClick={() => onChange({ ...config, elementSet: setId })}
+            >
+              <span className={`legend-swatch ${setId === "all" ? "swatch-all" : `tile--${setId}`}`} />
+              {ELEMENT_SET_LABELS[setId]}
+            </button>
+          ))}
         </div>
+        <p className="hint-text">{elementSetBlurb(config.elementSet, poolCount)}</p>
+        <p className="hint-text">This round: {poolCount} question{poolCount === 1 ? "" : "s"}.</p>
+        <label className="timer-toggle">
+          <input
+            type="checkbox"
+            checked={config.timed}
+            onChange={(event) => onChange({ ...config, timed: event.target.checked })}
+          />
+          Race the clock
+          <TimerNote timed={config.timed} />
+        </label>
 
         <button type="button" className="play-button" onClick={onPlay}>
           Start {selectedMode?.title}
@@ -108,7 +89,7 @@ export function HomeScreen({ config, onChange, onPlay }: HomeScreenProps) {
         <p>
           Pick a chemical family — or the whole table — then click to answer.
           First try lights green, second yellow, third orange. Miss all three
-          and the right element turns red.
+          and the right element turns red. Finished tiles keep that color.
         </p>
         <PeriodicTable
           reveal={{ atomicNumber: true, symbol: true, name: true }}
@@ -116,6 +97,7 @@ export function HomeScreen({ config, onChange, onPlay }: HomeScreenProps) {
           correctAtomicNumber={null}
           wrongGuesses={[]}
           resolution={null}
+          answeredMarks={{}}
           playableNumbers={poolForSet(config.elementSet).map((element) => element.atomicNumber)}
           disabled
           onSelect={() => undefined}

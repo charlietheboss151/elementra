@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.1] - 2026-08-28
+
+### Changed
+
+- A round asks every element in the selected group instead of a 10/20/50 question picker.
+- Answered tiles keep their green / yellow / orange / red mark for the rest of the round.
+
 ## [0.2.0] - 2026-08-28
 
 ### Added

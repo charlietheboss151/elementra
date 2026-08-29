@@ -5,22 +5,15 @@ import {
   buildQuestions,
   emptyStats,
   isCorrectAnswer,
+  markForAnswer,
   summarizeResult,
 } from "./engine";
-import type {
-  AnswerRecord,
-  GameConfig,
-  GameResult,
-  GameStats,
-  HintState,
-  Question,
-} from "./types";
-import { MAX_GUESSES } from "./types";
+import { MAX_GUESSES, type AnswerRecord, type GameConfig, type GameResult, type GameStats, type HintState, type Question, type ResolveKind } from "./types";
 
 const SUCCESS_MS = 1100;
 const FAIL_MS = 2200;
 
-export type ResolveKind = "try1" | "try2" | "try3" | "fail";
+export type { ResolveKind } from "./types";
 
 export type QuestionResolution = {
   kind: ResolveKind;
@@ -115,6 +108,9 @@ export function useGame(config: GameConfig, onComplete: (result: GameResult) => 
       if (!current) return;
       if (!playableNumbers.includes(atomicNumber)) return;
       if (wrongRef.current.includes(atomicNumber)) return;
+      if (answersRef.current.some((answer) => answer.question.target.atomicNumber === atomicNumber)) {
+        return;
+      }
 
       if (isCorrectAnswer(current, atomicNumber)) {
         const tryNumber = (wrongRef.current.length + 1) as 1 | 2 | 3;
@@ -215,6 +211,12 @@ export function useGame(config: GameConfig, onComplete: (result: GameResult) => 
     });
   }, [config.elementSet, hintsAllowed, question]);
 
+  const answeredMarks: Record<number, ResolveKind> = {};
+  for (const answer of answers) {
+    if (resolution && question && answer.question.id === question.id) continue;
+    answeredMarks[answer.question.target.atomicNumber] = markForAnswer(answer);
+  }
+
   return {
     question,
     questionNumber: index + 1,
@@ -222,6 +224,7 @@ export function useGame(config: GameConfig, onComplete: (result: GameResult) => 
     stats,
     wrongGuesses,
     resolution,
+    answeredMarks,
     hint,
     hintsAllowed,
     playableNumbers,

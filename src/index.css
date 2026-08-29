@@ -444,6 +444,17 @@ button {
   box-shadow: 0 0 0 3px #fff, 0 0 22px rgba(255, 59, 92, 0.85);
 }
 
+.tile--solved {
+  transform: none;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.tile--solved.tile--fail {
+  box-shadow: none;
+  color: #fff;
+}
+
 .tile--missed {
   background: #8a3a4a !important;
   color: #ffd6de;

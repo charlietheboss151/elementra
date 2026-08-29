@@ -13,14 +13,15 @@ import type { GameConfig } from "./types";
 
 const base: Omit<GameConfig, "modeId"> = {
   elementSet: "all",
-  questionCount: 10,
   timed: false,
 };
 
 describe("buildQuestions", () => {
   it("builds Find Element by Name prompts from the same element table", () => {
     const questions = buildQuestions({ ...base, modeId: "find-element" });
-    expect(questions).toHaveLength(10);
+    expect(questions).toHaveLength(poolForSet("all").length);
+    const ids = questions.map((question) => question.target.atomicNumber);
+    expect(new Set(ids).size).toBe(ids.length);
     for (const question of questions) {
       expect(question.clueKind).toBe("name");
       expect(question.prompt).toBe(`Find ${question.target.name}`);
@@ -58,7 +59,7 @@ describe("buildQuestions", () => {
 
   it("builds mixed prompts from the registered modes", () => {
     const questions = buildQuestions({ ...base, modeId: "mixed" });
-    expect(questions).toHaveLength(10);
+    expect(questions).toHaveLength(poolForSet("all").length);
     const allowed = new Set(getMode("mixed").clueKinds("all"));
     for (const question of questions) {
       expect(allowed.has(question.clueKind)).toBe(true);
@@ -72,6 +73,8 @@ describe("buildQuestions", () => {
       elementSet: "noble-gas",
     });
     const noble = poolForSet("noble-gas");
+    expect(questions).toHaveLength(noble.length);
+    expect(new Set(questions.map((q) => q.target.atomicNumber)).size).toBe(noble.length);
     expect(questions.every((question) => noble.some((el) => el.atomicNumber === question.target.atomicNumber))).toBe(
       true,
     );

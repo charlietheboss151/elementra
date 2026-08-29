@@ -141,6 +141,7 @@ export function GameScreen({ config, onComplete, onQuit }: GameScreenProps) {
         correctAtomicNumber={game.question.target.atomicNumber}
         wrongGuesses={game.wrongGuesses}
         resolution={game.resolution}
+        answeredMarks={game.answeredMarks}
         playableNumbers={game.playableNumbers}
         disabled={waiting}
         onSelect={game.selectElement}

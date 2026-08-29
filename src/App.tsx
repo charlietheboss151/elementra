@@ -7,7 +7,6 @@ import type { GameConfig, GameResult } from "./game/types";
 const DEFAULT_CONFIG: GameConfig = {
   modeId: "find-element",
   elementSet: "all",
-  questionCount: 10,
   timed: false,
 };
 
