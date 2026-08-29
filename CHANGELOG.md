@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.7.0] - 2026-08-29
+
+### Added
+
+- Spoken element names: name questions are read aloud when they appear. Symbol, number, and property questions say the name after you answer so they do not spoil it.
+
 ## [0.6.6] - 2026-08-29
 
 ### Fixed

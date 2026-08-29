@@ -1,4 +1,5 @@
 import brandLogo from "../assets/logo.jpg";
+import { unlockSpeech } from "../audio/speech";
 import { playUi, unlockAudio } from "../audio/sounds";
 import { poolForSet, QUESTION_TIME_MS } from "../game/elementSets";
 import { GAME_MODES, usesListLayout } from "../game/modes";
@@ -122,6 +123,7 @@ export function HomeScreen({ config, onChange, onPlay }: HomeScreenProps) {
           className="play-button"
           onClick={() => {
             unlockAudio();
+            unlockSpeech();
             playUi();
             onPlay();
           }}

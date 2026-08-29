@@ -39,6 +39,7 @@ export function GameScreen({ config, onComplete, onQuit }: GameScreenProps) {
     game.resolution,
     game.wrongPick,
     game.questionNumber,
+    game.question,
   );
   if (!game.question) return null;
 

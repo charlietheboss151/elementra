@@ -4,7 +4,7 @@ Elementra is a fast-paced periodic table challenge inspired by geography games l
 
 Can you master all 118 elements? 🧪⚛️
 
-Local play: each question has three guesses. Score is 1 per first-try hit (less on later tries), so a perfect 6-element round is 6, not 18. A round includes every element in the group you pick (or the whole table). Atomic-number questions use a shuffled list instead of the table. Property Clues stacks facts such as family and room-temperature state until they point to one element. Soft click, correct, and miss sounds play during a round; setup clicks (mode, group, timer) use a quieter tap. Race the clock ticks quietly in the last 10 seconds of each question.
+Local play: each question has three guesses. Score is 1 per first-try hit (less on later tries), so a perfect 6-element round is 6, not 18. A round includes every element in the group you pick (or the whole table). Atomic-number questions use a shuffled list instead of the table. Property Clues stacks facts such as family and room-temperature state until they point to one element. When a name question appears, the game speaks the element name so you can hear how it is pronounced; other modes speak the name after you answer so they do not give it away. Soft click, correct, and miss sounds play during a round; setup clicks (mode, group, timer) use a quieter tap. Race the clock ticks quietly in the last 10 seconds of each question.
 
 ## How to run it
 
