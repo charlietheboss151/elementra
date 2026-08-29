@@ -1,19 +1,31 @@
 # Periodic Table Game
 
-A periodic-table learning game for students and anyone who wants to practice element names, symbols, and placement. This repository is in early development.
+A Seterra-style quiz for students and anyone practicing the periodic table. You read a prompt and click the matching element—no typing answers into a box.
 
 ## How to run it
 
-Prerequisites are not set yet; there is no application code in this checkout.
+Prerequisites:
 
-Once the game has an installable toolchain, this section will list:
+- [Node.js](https://nodejs.org/) 20 or newer (the project is developed on the current LTS)
 
-- required runtime (for example Node.js)
-- install and start commands
-- any env/config files (never commit secrets)
+Install and start a local dev server:
+
+```bash
+npm install
+npm run dev
+```
+
+Open the URL Vite prints (usually `http://localhost:5173`). There are no env files or secrets.
 
 ## How it is built
 
-Build and test commands will be documented here when the project has a toolchain. Until then, there is nothing to compile or test.
+Vite + React + TypeScript. Element facts live in one table (`src/data/elements.ts`). Game modes are registered in `src/game/modes.ts` so new modes can reuse the same data and scoring.
+
+```bash
+npm run dev      # local development server
+npm run build    # typecheck and write production files to dist/
+npm run preview  # serve the dist/ build locally
+npm run lint     # oxlint
+```
 
 This project is licensed under the [GNU General Public License v3.0](LICENSE).
