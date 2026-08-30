@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - The npm package name is `elementra`, matching the game (it was still `periodic-table-game`).
+- README splits play from how to run and build it, and includes title and setup screenshots.
 
 ## [0.17.0] - 2026-08-29
 
