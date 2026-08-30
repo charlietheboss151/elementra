@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.11.2] - 2026-08-29
+
+### Changed
+
+- Element ranks count a 2nd or 3rd try below a first-try hit, so a late save sits under elements you got on the first click.
+
 ## [0.11.1] - 2026-08-29
 
 ### Changed

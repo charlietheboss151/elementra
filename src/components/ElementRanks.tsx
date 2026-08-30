@@ -27,7 +27,8 @@ export function ElementRanks({ user }: ElementRanksProps) {
         </button>
       </div>
       <p className="lede">
-        Best is the element you get right the most. Worst is the one you miss the most.
+        Best is the element you hit on the first try most. A 2nd or 3rd try ranks lower.
+        Worst is the one you miss the most.
         {user ? "" : " Log in from the title screen to keep this with your account."}
       </p>
       {rows.length === 0 ? (
@@ -39,8 +40,10 @@ export function ElementRanks({ user }: ElementRanksProps) {
               <tr>
                 <th>#</th>
                 <th>Element</th>
-                <th>Right</th>
-                <th>Wrong</th>
+                <th>1st</th>
+                <th>2nd</th>
+                <th>3rd</th>
+                <th>Miss</th>
               </tr>
             </thead>
             <tbody>
@@ -50,8 +53,10 @@ export function ElementRanks({ user }: ElementRanksProps) {
                   <td>
                     {row.name} ({row.symbol})
                   </td>
-                  <td>{row.correct}</td>
-                  <td>{row.incorrect}</td>
+                  <td>{row.first}</td>
+                  <td>{row.second}</td>
+                  <td>{row.third}</td>
+                  <td>{row.miss}</td>
                 </tr>
               ))}
             </tbody>

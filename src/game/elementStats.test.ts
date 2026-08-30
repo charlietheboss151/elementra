@@ -19,7 +19,11 @@ function memoryKv(): KvStore {
   };
 }
 
-function answer(atomicNumber: number, correct: boolean): AnswerRecord {
+function answer(
+  atomicNumber: number,
+  correct: boolean,
+  tryNumber: 1 | 2 | 3 | null = correct ? 1 : null,
+): AnswerRecord {
   const target = ELEMENTS_BY_NUMBER.get(atomicNumber);
   if (!target) throw new Error(`missing ${atomicNumber}`);
   return {
@@ -33,7 +37,7 @@ function answer(atomicNumber: number, correct: boolean): AnswerRecord {
     guesses: correct ? [atomicNumber] : [1],
     correct,
     timedOut: false,
-    tryNumber: correct ? 1 : null,
+    tryNumber,
   };
 }
 
@@ -57,25 +61,37 @@ describe("elementStats", () => {
   it("counts rights and wrongs per element and ranks best first or worst first", () => {
     const stats: ElementStatMap = {};
     applyRoundToStats(stats, result([answer(3, true), answer(11, false), answer(3, true), answer(19, false)]));
-    expect(stats[3]).toEqual({ correct: 2, incorrect: 0 });
-    expect(stats[11]).toEqual({ correct: 0, incorrect: 1 });
-    expect(stats[19]).toEqual({ correct: 0, incorrect: 1 });
+    expect(stats[3]).toEqual({ first: 2, second: 0, third: 0, miss: 0 });
+    expect(stats[11]).toEqual({ first: 0, second: 0, third: 0, miss: 1 });
+    expect(stats[19]).toEqual({ first: 0, second: 0, third: 0, miss: 1 });
 
     const best = rankElements(stats, "best");
     expect(best[0].name).toBe("Lithium");
-    expect(best[0].correct).toBe(2);
+    expect(best[0].first).toBe(2);
 
     const worst = rankElements(stats, "worst");
-    expect(worst[0].incorrect).toBeGreaterThanOrEqual(worst[worst.length - 1].incorrect);
+    expect(worst[0].miss).toBeGreaterThanOrEqual(worst[worst.length - 1].miss);
     expect(worst.map((row) => row.name)).toContain("Sodium");
+  });
+
+  it("ranks a second-try hit below first-try hits", () => {
+    const stats: ElementStatMap = {};
+    applyRoundToStats(
+      stats,
+      result([answer(3, true, 1), answer(11, true, 2), answer(19, true, 1), answer(37, true, 3)]),
+    );
+    const names = rankElements(stats, "best").map((row) => row.name);
+    expect(names[names.length - 1]).toBe("Rubidium");
+    expect(names.indexOf("Sodium")).toBeGreaterThan(names.indexOf("Lithium"));
+    expect(names.indexOf("Sodium")).toBeGreaterThan(names.indexOf("Potassium"));
   });
 
   it("saves stats for an account and leaves guest stats separate", () => {
     const store = memoryKv();
     applyRoundToStats({}, result([answer(3, true)]), store, "charlie");
     applyRoundToStats({}, result([answer(11, false)]), store, null);
-    expect(loadElementStats(store, "charlie")[3]?.correct).toBe(1);
-    expect(loadElementStats(store, null)[11]?.incorrect).toBe(1);
+    expect(loadElementStats(store, "charlie")[3]?.first).toBe(1);
+    expect(loadElementStats(store, null)[11]?.miss).toBe(1);
     expect(loadElementStats(store, "charlie")[11]).toBeUndefined();
   });
 });
