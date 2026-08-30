@@ -1,7 +1,13 @@
 import { describe, expect, it } from "vitest";
 import { ELEMENTS } from "../data/elements";
 import { ELEMENT_PRONUNCIATIONS } from "./pronunciations";
-import { spokenForm, spokenIpa, speechText, scoreEnglishVoice } from "./speech";
+import {
+  spokenForm,
+  spokenIpa,
+  speechText,
+  scoreEnglishVoice,
+  pickEnglishVoiceFrom,
+} from "./speech";
 
 describe("spokenForm", () => {
   it("has IPA and a hyphenated saying for every element", () => {
@@ -57,5 +63,29 @@ describe("scoreEnglishVoice", () => {
     const neural = fakeVoice("Microsoft Aria Online (Natural)", "en-US");
     expect(scoreEnglishVoice(google)).toBeGreaterThan(scoreEnglishVoice(zira));
     expect(scoreEnglishVoice(neural)).toBeGreaterThan(scoreEnglishVoice(zira));
+  });
+});
+
+describe("pickEnglishVoiceFrom", () => {
+  it("uses published human neural names, not Windows desktop SAPI", () => {
+    const zira = fakeVoice("Microsoft Zira Desktop - English (United States)", "en-US", {
+      localService: true,
+      default: true,
+    });
+    const david = fakeVoice("Microsoft David Desktop - English (United States)", "en-US", {
+      localService: true,
+    });
+    const google = fakeVoice("Google US English", "en-US");
+    const jenny = fakeVoice(
+      "Microsoft Jenny Online (Natural) - English (United States)",
+      "en-US",
+    );
+    expect(pickEnglishVoiceFrom([zira, david, google])?.name).toBe("Google US English");
+    expect(pickEnglishVoiceFrom([zira, google, jenny])?.name).toBe(
+      "Microsoft Jenny Online (Natural) - English (United States)",
+    );
+    expect(pickEnglishVoiceFrom([david, zira])?.name).not.toBe(
+      "Microsoft David Desktop - English (United States)",
+    );
   });
 });

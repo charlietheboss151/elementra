@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.11.4] - 2026-08-29
+
+### Changed
+
+- Element names use the most human browser voices first (Edge Jenny/Aria/Emma neural, then Chrome Google US/UK English, then Apple Samantha) and wait until that list loads, so Windows no longer defaults to robotic David/Zira.
+
 ## [0.11.3] - 2026-08-29
 
 ### Changed
