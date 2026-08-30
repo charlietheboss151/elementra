@@ -46,6 +46,6 @@ npm run preview  # serve the dist/ build locally
 npm run lint     # oxlint
 ```
 
-`npm run build` writes production files to `dist/` with site-root URLs (`base: '/'`) for [charlietheboss.com](https://charlietheboss.com). The title art is bundled into `/assets` (not a raw `/logo.jpg`). Upload the contents of `dist/`, not the project source. Preserve `public_html/.well-known/` if you rsync onto the live docroot. Username claims use `api/usernames.php` (needs PHP) and store names in `elementra-usernames.json` next to `public_html`, not inside the site folder.
+`npm run build` writes production files to `dist/` with site-root URLs (`base: '/'`) for [charlietheboss.com](https://charlietheboss.com). The title art is bundled into `/assets` (not a raw `/logo.jpg`). Upload the contents of `dist/`, not the project source. Preserve `public_html/.well-known/` if you rsync onto the live docroot. Username claims use `api/usernames.php` when the host runs PHP; names are stored in `elementra-usernames.json` next to `public_html`. If PHP is not enabled, two people on different devices can still pick the same name (this browser still blocks a duplicate).
 
 This project is licensed under the [GNU General Public License v3.0](LICENSE).

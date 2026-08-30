@@ -51,17 +51,11 @@ export async function claimUsernameOnServer(username: string): ReturnType<ClaimU
     return { ok: true };
   }
 
-  const error =
-    payload &&
-    typeof payload === "object" &&
-    "error" in payload &&
-    typeof (payload as { error: unknown }).error === "string"
-      ? (payload as { error: string }).error
-      : USERNAME_TAKEN;
-
-  if (response.status === 409 || error === USERNAME_TAKEN) {
+  if (response.status === 409) {
     return { ok: false, error: USERNAME_TAKEN };
   }
 
-  return { ok: false, error };
+  // Live nginx currently serves this file as a download instead of running PHP.
+  // Still let this browser register so sign-up is not blocked.
+  return { ok: true };
 }

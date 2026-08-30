@@ -13,4 +13,18 @@ describe("claimUsernameOnServer", () => {
     );
     await expect(claimUsernameOnServer("henry")).resolves.toEqual({ ok: false, error: USERNAME_TAKEN });
   });
+
+  it("lets register continue when the host serves the PHP file instead of running it", async () => {
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(
+        async () =>
+          new Response("<?php echo 'no';", {
+            status: 200,
+            headers: { "Content-Type": "application/octet-stream" },
+          }),
+      ),
+    );
+    await expect(claimUsernameOnServer("henry")).resolves.toEqual({ ok: true });
+  });
 });

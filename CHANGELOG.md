@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.18.1] - 2026-08-29
+
+### Fixed
+
+- Register still works if the live server downloads the username script instead of running it. Same-device duplicates still say the name is taken.
+
 ## [0.18.0] - 2026-08-29
 
 ### Added
