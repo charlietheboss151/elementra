@@ -28,6 +28,12 @@ export const GAME_MODES: GameModeDefinition[] = [
     clueKinds: () => ["properties"],
   },
   {
+    id: "type-name",
+    title: "Type the name",
+    description: "See the symbol and number, then spell the element name. Three tries, same scoring as clicking.",
+    clueKinds: () => ["type-name"],
+  },
+  {
     id: "mixed",
     title: "Mixed Practice",
     description: "A shuffle of names, symbols, and property clues on the table.",
@@ -37,6 +43,10 @@ export const GAME_MODES: GameModeDefinition[] = [
 
 export function usesListLayout(modeId: string): boolean {
   return modeId === "atomic-number";
+}
+
+export function usesTypeLayout(modeId: string): boolean {
+  return modeId === "type-name";
 }
 
 export function getMode(modeId: string): GameModeDefinition {
@@ -61,6 +71,8 @@ export function promptFor(
       return `Find element #${element.atomicNumber}`;
     case "properties":
       return propertyPrompt(element, pool);
+    case "type-name":
+      return `Type the name for ${element.symbol}`;
   }
 }
 
@@ -68,6 +80,7 @@ export function revealFor(clue: ClueKind): TileReveal {
   if (clue === "name") return { atomicNumber: true, symbol: true, name: false };
   if (clue === "symbol") return { atomicNumber: true, symbol: false, name: true };
   if (clue === "properties") return { atomicNumber: false, symbol: false, name: false };
+  if (clue === "type-name") return { atomicNumber: true, symbol: true, name: false };
   return { atomicNumber: false, symbol: true, name: true };
 }
 

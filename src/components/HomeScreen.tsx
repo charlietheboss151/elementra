@@ -1,7 +1,7 @@
 import { unlockSpeech } from "../audio/speech";
 import { playUi, unlockAudio } from "../audio/sounds";
 import { poolForSet, QUESTION_TIME_MS } from "../game/elementSets";
-import { GAME_MODES, usesListLayout } from "../game/modes";
+import { GAME_MODES, usesListLayout, usesTypeLayout } from "../game/modes";
 import {
   ELEMENT_SET_EXPLAINERS,
   ELEMENT_SET_IDS,
@@ -36,6 +36,7 @@ export function HomeScreen({ config, user, onChange, onPlay, onBack }: HomeScree
   const previewList = [...pool].sort((a, b) => a.name.localeCompare(b.name));
   const listMode = usesListLayout(config.modeId);
   const propertyMode = config.modeId === "properties";
+  const typeMode = usesTypeLayout(config.modeId);
   const boardProps = {
     hint: { kind: null, period: null, category: null } as const,
     correctAtomicNumber: null,
@@ -146,16 +147,22 @@ export function HomeScreen({ config, user, onChange, onPlay, onBack }: HomeScree
             ? "A shuffled list, not the table"
             : propertyMode
               ? "Clues, then the table"
-              : "The table is the answer sheet"}
+              : typeMode
+                ? "Spell the name"
+                : "The table is the answer sheet"}
         </h2>
         <p>
           {listMode
             ? "Atomic numbers are hidden and the order is mixed, so you have to know which element is which."
             : propertyMode
               ? "Family, room-temperature state, period, and other facts stack until they point to one element. During play, names, symbols, atomic numbers, and family colors stay hidden so the clues have to do the work."
-              : "This is your map of the elements. Match the clue, click the tile, and watch the table light up as you go — green for a first-try strike, gold when you needed a second look, orange on a last-chance save. Miss all three and the real answer flares red, then every mark stays so you can see the round take shape."}
+              : typeMode
+                ? "You see the symbol and atomic number. Type the English name. Aluminium and sulphur count. Three guesses, same score as clicking."
+                : "This is your map of the elements. Match the clue, click the tile, and watch the table light up as you go — green for a first-try strike, gold when you needed a second look, orange on a last-chance save. Miss all three and the real answer flares red, then every mark stays so you can see the round take shape."}
         </p>
-        {listMode ? (
+        {typeMode ? (
+          <p className="type-answer-preview">Fe → Iron · Au → Gold · Na → Sodium</p>
+        ) : listMode ? (
           <ElementList
             elements={previewList}
             reveal={{ atomicNumber: false, symbol: true, name: true }}
@@ -171,7 +178,7 @@ export function HomeScreen({ config, user, onChange, onPlay, onBack }: HomeScree
             {...boardProps}
           />
         )}
-        <CategoryLegend />
+        {typeMode ? null : <CategoryLegend />}
       </section>
 
       <ElementRanks user={user} />

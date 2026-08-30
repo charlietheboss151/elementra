@@ -10,6 +10,7 @@ import {
   summarizeResult,
 } from "./engine";
 import { MAX_GUESSES, type AnswerRecord, type GameConfig, type GameResult, type GameStats, type HintState, type Question, type ResolveKind } from "./types";
+import { namesMatch } from "./typeAnswer";
 
 const SUCCESS_MS = 1100;
 const FAIL_MS = 2200;
@@ -26,6 +27,7 @@ export type QuestionResolution = {
 export type WrongPick = {
   id: number;
   atomicNumber: number;
+  text?: string;
 };
 
 export function useGame(config: GameConfig, onComplete: (result: GameResult) => void) {
@@ -171,6 +173,59 @@ export function useGame(config: GameConfig, onComplete: (result: GameResult) => 
     [playableNumbers, questions, settle],
   );
 
+  const submitTypedAnswer = useCallback(
+    (raw: string) => {
+      if (locked.current) return;
+      const current = questions[indexRef.current];
+      if (!current) return;
+      if (!raw.trim()) return;
+
+      if (namesMatch(current.target, raw)) {
+        const tryNumber = (wrongRef.current.length + 1) as 1 | 2 | 3;
+        const kind: ResolveKind = tryNumber === 1 ? "try1" : tryNumber === 2 ? "try2" : "try3";
+        settle(
+          {
+            question: current,
+            guesses: [...wrongRef.current, current.target.atomicNumber],
+            correct: true,
+            timedOut: false,
+            tryNumber,
+          },
+          kind,
+          current.target.atomicNumber,
+          false,
+        );
+        return;
+      }
+
+      const nextWrong = [...wrongRef.current, 0];
+      wrongRef.current = nextWrong;
+      setWrongGuesses(nextWrong);
+      wrongPickId.current += 1;
+      setWrongPick({ id: wrongPickId.current, atomicNumber: 0, text: raw.trim() });
+      window.clearTimeout(wrongPickTimer.current);
+      wrongPickTimer.current = window.setTimeout(() => {
+        setWrongPick(null);
+      }, WRONG_PICK_MS);
+
+      if (nextWrong.length >= MAX_GUESSES) {
+        settle(
+          {
+            question: current,
+            guesses: nextWrong,
+            correct: false,
+            timedOut: false,
+            tryNumber: null,
+          },
+          "fail",
+          null,
+          false,
+        );
+      }
+    },
+    [questions, settle],
+  );
+
   useEffect(() => {
     const timer = window.setInterval(() => {
       if (locked.current) return;
@@ -263,6 +318,7 @@ export function useGame(config: GameConfig, onComplete: (result: GameResult) => 
     playableNumbers,
     listElements,
     selectElement,
+    submitTypedAnswer,
     useHint,
     abandon,
   };

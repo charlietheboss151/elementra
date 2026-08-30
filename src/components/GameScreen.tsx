@@ -6,7 +6,7 @@ import {
   formatScore,
 } from "../game/engine";
 import { ELEMENT_SET_LABELS } from "../game/types";
-import { formatAnswer, getMode, hidesFamilyColors, usesListLayout } from "../game/modes";
+import { formatAnswer, getMode, hidesFamilyColors, usesListLayout, usesTypeLayout } from "../game/modes";
 import type { GameConfig, GameResult } from "../game/types";
 import { MAX_GUESSES } from "../game/types";
 import { useGame } from "../game/useGame";
@@ -15,6 +15,7 @@ import { useGameSounds } from "../audio/useGameSounds";
 import { CategoryLegend } from "./CategoryLegend";
 import { ElementList } from "./ElementList";
 import { PeriodicTable } from "./PeriodicTable";
+import { TypeAnswerForm } from "./TypeAnswerForm";
 import { WrongPickToast } from "./WrongPickToast";
 
 interface GameScreenProps {
@@ -23,8 +24,12 @@ interface GameScreenProps {
   onQuit: (result: GameResult) => void;
 }
 
-function kicker(resolution: ReturnType<typeof useGame>["resolution"], timedOut: boolean) {
-  if (!resolution) return "Click the element — 3 guesses";
+function kicker(
+  resolution: ReturnType<typeof useGame>["resolution"],
+  timedOut: boolean,
+  typeMode: boolean,
+) {
+  if (!resolution) return typeMode ? "Type the name — 3 guesses" : "Click the element — 3 guesses";
   if (resolution.kind === "try1") return "First try";
   if (resolution.kind === "try2") return "Second try";
   if (resolution.kind === "try3") return "Third try";
@@ -94,7 +99,7 @@ export function GameScreen({ config, onComplete, onQuit }: GameScreenProps) {
         <p className="prompt-kicker">
           {game.question.clueKind === "properties" && !game.resolution
             ? "Read the clues — 3 guesses"
-            : kicker(game.resolution, game.resolution?.timedOut ?? false)}
+            : kicker(game.resolution, game.resolution?.timedOut ?? false, usesTypeLayout(config.modeId))}
         </p>
         <h1>{game.question.prompt}</h1>
         <div className="guess-pips" aria-label={`${left} guesses left`}>
@@ -158,7 +163,10 @@ export function GameScreen({ config, onComplete, onQuit }: GameScreenProps) {
         ) : null}
       </ul>
 
-      {game.hintsAllowed && !usesListLayout(config.modeId) && game.question.clueKind !== "properties" ? (
+      {game.hintsAllowed &&
+      !usesListLayout(config.modeId) &&
+      !usesTypeLayout(config.modeId) &&
+      game.question.clueKind !== "properties" ? (
         <button
           type="button"
           className="hint-button"
@@ -172,7 +180,18 @@ export function GameScreen({ config, onComplete, onQuit }: GameScreenProps) {
         </button>
       ) : null}
 
-      {usesListLayout(config.modeId) ? (
+      {usesTypeLayout(config.modeId) ? (
+        <TypeAnswerForm
+          target={game.question.target}
+          questionId={game.question.id}
+          disabled={waiting}
+          onSubmit={(value) => {
+            if (!value.trim()) return;
+            playClick();
+            game.submitTypedAnswer(value);
+          }}
+        />
+      ) : usesListLayout(config.modeId) ? (
         <ElementList
           elements={game.listElements}
           reveal={game.question.reveal}
@@ -200,7 +219,7 @@ export function GameScreen({ config, onComplete, onQuit }: GameScreenProps) {
           onSelect={choose}
         />
       )}
-      {game.question.clueKind === "properties" ? null : <CategoryLegend />}
+      {game.question.clueKind === "properties" || usesTypeLayout(config.modeId) ? null : <CategoryLegend />}
     </div>
   );
 }

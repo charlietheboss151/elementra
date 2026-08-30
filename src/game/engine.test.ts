@@ -59,6 +59,18 @@ describe("buildQuestions", () => {
     }
   });
 
+  it("asks you to type the element name from its symbol", () => {
+    const questions = buildQuestions({ ...base, modeId: "type-name", elementSet: "alkali-metal" });
+    expect(questions).toHaveLength(poolForSet("alkali-metal").length);
+    for (const question of questions) {
+      expect(question.clueKind).toBe("type-name");
+      expect(question.prompt).toBe(`Type the name for ${question.target.symbol}`);
+      expect(question.prompt).not.toContain(question.target.name);
+      expect(question.reveal.name).toBe(false);
+      expect(question.reveal.symbol).toBe(true);
+    }
+  });
+
   it("limits the pool to a periodic-table group", () => {
     const questions = buildQuestions({
       ...base,

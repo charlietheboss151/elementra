@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.16.0] - 2026-08-29
+
+### Added
+
+- Type the name mode: see the symbol and atomic number, spell the English name. Three guesses, same scoring as click modes. Aluminium/sulfur British spellings count.
+
 ## [0.15.1] - 2026-08-29
 
 ### Changed
