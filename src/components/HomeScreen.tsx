@@ -47,6 +47,7 @@ export function HomeScreen({ config, onChange, onPlay }: HomeScreenProps) {
     <div className="screen home">
       <header className="setup-bar">
         <h1>Elementra</h1>
+        <p className="setup-kicker">Can you master all 118 elements? 🧪⚛️</p>
       </header>
 
       <section className="setup-card">
@@ -156,10 +157,6 @@ export function HomeScreen({ config, onChange, onPlay }: HomeScreenProps) {
       />
 
       <footer className="about">
-        <p className="byline">
-          <span className="byline-label">Designed &amp; built by</span>
-          <span className="byline-name">Charlie Bishop</span>
-        </p>
         <p className="lede">
           Elementra is a fast-paced periodic table challenge inspired by geography
           games like Seterra. Test how well you know the elements by finding them on
@@ -168,7 +165,6 @@ export function HomeScreen({ config, onChange, onPlay }: HomeScreenProps) {
           build streaks, improve your accuracy, and work your way from the easiest
           elements to the most challenging ones.
         </p>
-        <p className="about-tag">Can you master all 118 elements? 🧪⚛️</p>
       </footer>
     </div>
   );

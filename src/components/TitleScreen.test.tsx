@@ -7,6 +7,7 @@ describe("TitleScreen", () => {
     const html = renderToStaticMarkup(<TitleScreen onStart={() => undefined} />);
     expect(html).toContain("Start");
     expect(html).toContain("brand-logo");
+    expect(html).toContain("Charlie Bishop");
     expect(html).not.toContain("Element group");
   });
 });

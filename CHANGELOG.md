@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.9.3] - 2026-08-29
+
+### Changed
+
+- Title screen credit sits under the logo. Setup opens with the 118-elements line; the longer description stays under the scoreboard.
+
 ## [0.9.2] - 2026-08-29
 
 ### Changed

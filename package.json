@@ -1,7 +1,7 @@
 {
   "name": "periodic-table-game",
   "private": true,
-  "version": "0.9.2",
+  "version": "0.9.3",
   "description": "Elementra is a fast-paced periodic table challenge inspired by geography games like Seterra. Test how well you know the elements by finding them on an interactive periodic table.",
   "type": "module",
   "scripts": {

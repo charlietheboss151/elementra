@@ -15,6 +15,10 @@ export function TitleScreen({ onStart }: TitleScreenProps) {
         src={brandLogo}
         alt="Elementra. Master the table. Beat the clock."
       />
+      <p className="byline">
+        <span className="byline-label">Designed &amp; built by</span>
+        <span className="byline-name">Charlie Bishop</span>
+      </p>
       <button
         type="button"
         className="play-button title-start"
