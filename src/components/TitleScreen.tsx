@@ -1,12 +1,15 @@
 import brandLogo from "../assets/logo.jpg";
 import { unlockSpeech } from "../audio/speech";
 import { playUi, unlockAudio } from "../audio/sounds";
+import { AuthCard } from "./AuthCard";
 
 interface TitleScreenProps {
+  user: string | null;
+  onUserChange: (user: string | null) => void;
   onStart: () => void;
 }
 
-export function TitleScreen({ onStart }: TitleScreenProps) {
+export function TitleScreen({ user, onUserChange, onStart }: TitleScreenProps) {
   return (
     <div className="screen title">
       <h1 className="sr-only">Elementra: the periodic table guessing game</h1>
@@ -19,6 +22,7 @@ export function TitleScreen({ onStart }: TitleScreenProps) {
         <span className="byline-label">Designed &amp; built by</span>
         <span className="byline-name">Charlie Bishop</span>
       </p>
+      <AuthCard user={user} onUserChange={onUserChange} />
       <button
         type="button"
         className="play-button title-start"
@@ -29,7 +33,7 @@ export function TitleScreen({ onStart }: TitleScreenProps) {
           onStart();
         }}
       >
-        Start
+        {user ? "Start" : "Play as guest"}
       </button>
     </div>
   );

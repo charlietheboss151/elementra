@@ -11,9 +11,10 @@ import {
 } from "../game/types";
 import { CategoryLegend } from "./CategoryLegend";
 import { ElementList } from "./ElementList";
+import { ElementRanks } from "./ElementRanks";
 import { PeriodicTable } from "./PeriodicTable";
 import { Scoreboard } from "./Scoreboard";
-import { loadEntries } from "../game/scoreboard";
+import { defaultStore, loadEntries } from "../game/scoreboard";
 
 function TimerNote({ timed }: { timed: boolean }) {
   if (!timed) return null;
@@ -22,12 +23,13 @@ function TimerNote({ timed }: { timed: boolean }) {
 
 interface HomeScreenProps {
   config: GameConfig;
+  user: string | null;
   onChange: (config: GameConfig) => void;
   onPlay: () => void;
   onBack: () => void;
 }
 
-export function HomeScreen({ config, onChange, onPlay, onBack }: HomeScreenProps) {
+export function HomeScreen({ config, user, onChange, onPlay, onBack }: HomeScreenProps) {
   const selectedMode = GAME_MODES.find((mode) => mode.id === config.modeId);
   const pool = poolForSet(config.elementSet);
   const poolCount = pool.length;
@@ -170,9 +172,11 @@ export function HomeScreen({ config, onChange, onPlay, onBack }: HomeScreenProps
         <CategoryLegend />
       </section>
 
+      <ElementRanks user={user} />
+
       <Scoreboard
-        title="Scoreboard"
-        entries={loadEntries().slice(0, 12)}
+        title={user ? `${user}'s scoreboard` : "Scoreboard"}
+        entries={loadEntries(defaultStore(), user).slice(0, 12)}
         empty="Play a round and your time and accuracy will show up here so you can track improvement."
       />
 

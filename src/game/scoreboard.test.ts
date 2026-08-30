@@ -20,6 +20,16 @@ function memoryStore(seed = ""): ScoreboardStore {
   };
 }
 
+function memoryKv(): ScoreboardStore {
+  const data = new Map<string, string>();
+  return {
+    getItem: (key) => data.get(key) ?? null,
+    setItem: (key, value) => {
+      data.set(key, value);
+    },
+  };
+}
+
 function alkaliResult(accuracyScore: number, elapsedMs: number): GameResult {
   const lithium = ELEMENTS_BY_NUMBER.get(3);
   if (!lithium) throw new Error("missing lithium");
@@ -75,5 +85,14 @@ describe("scoreboard", () => {
     expect(delta).not.toBeNull();
     expect(delta?.elapsedMs).toBe(1);
     expect(entriesForSetup(rows, rows[0]).length).toBe(SCOREBOARD_MAX);
+  });
+
+  it("keeps a logged-in player's board separate from a guest board", () => {
+    const store = memoryKv();
+    recordRound(alkaliResult(3, 10_000), store, 1, "charlie");
+    recordRound(alkaliResult(2, 20_000), store, 2, null);
+    expect(loadEntries(store, "charlie")).toHaveLength(1);
+    expect(loadEntries(store, "charlie")[0].elapsedMs).toBe(10_000);
+    expect(loadEntries(store, null)[0].elapsedMs).toBe(20_000);
   });
 });

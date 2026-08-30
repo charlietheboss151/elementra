@@ -68,9 +68,16 @@ function isEntry(value: unknown): value is ScoreboardEntry {
   );
 }
 
-export function loadEntries(store: ScoreboardStore = defaultStore()): ScoreboardEntry[] {
+export function boardKey(user: string | null): string {
+  return user ? `${SCOREBOARD_KEY}:${user}` : SCOREBOARD_KEY;
+}
+
+export function loadEntries(
+  store: ScoreboardStore = defaultStore(),
+  user: string | null = null,
+): ScoreboardEntry[] {
   try {
-    const raw = store.getItem(SCOREBOARD_KEY);
+    const raw = store.getItem(boardKey(user));
     if (!raw) return [];
     const parsed: unknown = JSON.parse(raw);
     if (!Array.isArray(parsed)) return [];
@@ -84,10 +91,11 @@ export function recordRound(
   result: GameResult,
   store: ScoreboardStore = defaultStore(),
   at = Date.now(),
+  user: string | null = null,
 ): ScoreboardEntry {
   const entry = entryFromResult(result, at);
-  const next = [entry, ...loadEntries(store)].slice(0, SCOREBOARD_MAX);
-  store.setItem(SCOREBOARD_KEY, JSON.stringify(next));
+  const next = [entry, ...loadEntries(store, user)].slice(0, SCOREBOARD_MAX);
+  store.setItem(boardKey(user), JSON.stringify(next));
   return entry;
 }
 

@@ -2,26 +2,29 @@ import { playUi } from "../audio/sounds";
 import { accuracyPercent, formatDuration, formatScore } from "../game/engine";
 import { formatAnswer, getMode } from "../game/modes";
 import {
+  defaultStore,
   deltaVsPrevious,
   entriesForSetup,
   loadEntries,
 } from "../game/scoreboard";
 import { ELEMENT_SET_LABELS } from "../game/types";
 import type { GameResult } from "../game/types";
+import { ElementRanks } from "./ElementRanks";
 import { Scoreboard } from "./Scoreboard";
 
 interface ResultsScreenProps {
   result: GameResult;
   entryId: string;
+  user: string | null;
   onReplay: () => void;
   onHome: () => void;
 }
 
-export function ResultsScreen({ result, entryId, onReplay, onHome }: ResultsScreenProps) {
+export function ResultsScreen({ result, entryId, user, onReplay, onHome }: ResultsScreenProps) {
   const mode = getMode(result.config.modeId);
   const missed = result.answers.filter((answer) => !answer.correct);
   const total = result.answers.length;
-  const history = loadEntries();
+  const history = loadEntries(defaultStore(), user);
   const setupRows = entriesForSetup(history, result.config).slice(0, 12);
   const compare = deltaVsPrevious(history, entryId);
 
@@ -80,6 +83,8 @@ export function ResultsScreen({ result, entryId, onReplay, onHome }: ResultsScre
       ) : (
         <p className="perfect">Perfect round. The table is yours.</p>
       )}
+
+      <ElementRanks user={user} />
 
       <Scoreboard
         title="Scoreboard"

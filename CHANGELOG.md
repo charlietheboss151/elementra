@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.11.0] - 2026-08-29
+
+### Added
+
+- Optional register and log in on the title screen. Accounts and scores stay on this device. Signed-in play saves the scoreboard and a ranking of elements you get right or wrong most, sortable best-first or worst-first.
+
 ## [0.10.0] - 2026-08-29
 
 ### Added

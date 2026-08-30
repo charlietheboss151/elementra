@@ -4,7 +4,9 @@ import { HomeScreen } from "./components/HomeScreen";
 import { PerfHud } from "./components/PerfHud";
 import { ResultsScreen } from "./components/ResultsScreen";
 import { TitleScreen } from "./components/TitleScreen";
-import { recordRound } from "./game/scoreboard";
+import { currentUser } from "./game/auth";
+import { applyRoundToStats } from "./game/elementStats";
+import { defaultStore, recordRound } from "./game/scoreboard";
 import type { GameConfig, GameResult } from "./game/types";
 
 const DEFAULT_CONFIG: GameConfig = {
@@ -22,6 +24,7 @@ type Screen =
 function App() {
   const [config, setConfig] = useState<GameConfig>(DEFAULT_CONFIG);
   const [screen, setScreen] = useState<Screen>({ kind: "title" });
+  const [user, setUser] = useState<string | null>(() => currentUser(defaultStore()));
 
   const goTitle = useCallback(() => {
     setScreen({ kind: "title" });
@@ -36,15 +39,20 @@ function App() {
   }, [config]);
 
   const finish = useCallback((result: GameResult) => {
-    const entry = recordRound(result);
+    const who = currentUser(defaultStore());
+    const entry = recordRound(result, defaultStore(), Date.now(), who);
+    applyRoundToStats({}, result, defaultStore(), who);
     setScreen({ kind: "results", result, entryId: entry.id });
   }, []);
 
-  let body = <TitleScreen onStart={goHome} />;
+  let body = (
+    <TitleScreen user={user} onUserChange={setUser} onStart={goHome} />
+  );
   if (screen.kind === "home") {
     body = (
       <HomeScreen
         config={config}
+        user={user}
         onChange={setConfig}
         onPlay={() => start()}
         onBack={goTitle}
@@ -64,6 +72,7 @@ function App() {
       <ResultsScreen
         result={screen.result}
         entryId={screen.entryId}
+        user={user}
         onReplay={() => start(screen.result.config)}
         onHome={goHome}
       />
