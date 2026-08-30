@@ -101,7 +101,9 @@ export function HomeScreen({ config, user, onChange, onPlay, onBack }: HomeScree
                 onChange({ ...config, elementSet: setId });
               }}
             >
-              <span className={`legend-swatch ${setId === "all" ? "swatch-all" : `tile--${setId}`}`} />
+              <span
+                className={`legend-swatch ${setId === "all" ? "swatch-all" : setId === "common" ? "swatch-common" : `tile--${setId}`}`}
+              />
               {ELEMENT_SET_LABELS[setId]}
               <span id={`set-tip-${setId}`} role="tooltip" className="tip">
                 {ELEMENT_SET_EXPLAINERS[setId]}

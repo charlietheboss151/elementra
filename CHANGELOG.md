@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.14.0] - 2026-08-29
+
+### Added
+
+- Common elements group for beginners: a shorter round of well-known names (hydrogen, carbon, oxygen, iron, gold, and the rest already marked common in the table).
+
 ## [0.13.2] - 2026-08-29
 
 ### Fixed

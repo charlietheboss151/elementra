@@ -1,7 +1,7 @@
 import { CATEGORIES, CATEGORY_EXPLAINERS, CATEGORY_LABELS } from "../data/elements";
 import type { ChemicalElement, ElementCategory } from "../data/elements";
 
-export const ELEMENT_SET_IDS = ["all", ...CATEGORIES] as const;
+export const ELEMENT_SET_IDS = ["all", "common", ...CATEGORIES] as const;
 export type ElementSetId = (typeof ELEMENT_SET_IDS)[number];
 
 export const MAX_GUESSES = 3;
@@ -72,10 +72,13 @@ export interface HintState {
 
 export const ELEMENT_SET_LABELS: Record<ElementSetId, string> = {
   all: "All elements",
+  common: "Common elements",
   ...CATEGORY_LABELS,
 };
 
 export const ELEMENT_SET_EXPLAINERS: Record<ElementSetId, string> = {
   all: "Every element on the table — all 118 — from hydrogen to oganesson.",
+  common:
+    "Everyday elements beginners already know — hydrogen, carbon, oxygen, iron, gold, and other familiar names. A shorter round to start with.",
   ...CATEGORY_EXPLAINERS,
 };

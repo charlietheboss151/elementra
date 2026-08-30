@@ -727,6 +727,10 @@ button {
   transform: translateX(-50%) translateY(0);
 }
 
+.swatch-common {
+  background: linear-gradient(135deg, #3ee0b0, #7cc4ff);
+}
+
 .swatch-all {
   background: linear-gradient(135deg, #f5b6b0, #f6e2a1, #b9d8f5);
 }

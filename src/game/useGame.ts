@@ -207,7 +207,7 @@ export function useGame(config: GameConfig, onComplete: (result: GameResult) => 
   const useHint = useCallback(() => {
     if (!hintsAllowed || !question || locked.current) return;
     setHint((prev) => {
-      if (config.elementSet !== "all") {
+      if (config.elementSet !== "all" && config.elementSet !== "common") {
         return {
           kind: "period",
           period: question.target.period,

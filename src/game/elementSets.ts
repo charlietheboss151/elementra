@@ -5,6 +5,7 @@ export const QUESTION_TIME_MS = 20_000;
 
 export function poolForSet(setId: ElementSetId): ChemicalElement[] {
   if (setId === "all") return ELEMENTS;
+  if (setId === "common") return ELEMENTS.filter((element) => element.common);
   return ELEMENTS.filter((element) => element.category === setId);
 }
 
