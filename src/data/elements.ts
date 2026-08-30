@@ -214,6 +214,32 @@ export const CATEGORY_LABELS: Record<ElementCategory, string> = {
   unknown: "Unknown",
 };
 
+/** Short blurbs for hover / focus explainers on family pills and the legend. */
+export const CATEGORY_EXPLAINERS: Record<ElementCategory, string> = {
+  "alkali-metal":
+    "Soft, highly reactive metals in group 1. One outer electron makes them eager to form +1 ions — sodium and potassium are everyday examples.",
+  "alkaline-earth":
+    "Reactive metals in group 2 with two outer electrons. Firmer and a bit less reactive than alkali metals — think calcium and magnesium.",
+  lanthanide:
+    "The rare-earth metals that fill the 4f shell. They sit in the f-block row under the main table, from lanthanum to lutetium.",
+  actinide:
+    "Radioactive f-block metals from actinium to lawrencium. Most are synthetic; uranium and plutonium are the best known.",
+  "transition-metal":
+    "The large d-block of metals that often form colorful compounds and useful alloys — iron, copper, gold, and many more.",
+  "post-transition-metal":
+    "Metals to the right of the transition block — often softer and denser than transition metals. Aluminum, tin, and lead belong here.",
+  metalloid:
+    "Elements with mixed metal and nonmetal behavior along the stair-step line. Useful in semiconductors — silicon and germanium.",
+  nonmetal:
+    "Poor conductors that tend to gain electrons. Includes essentials like carbon, nitrogen, oxygen, and phosphorus.",
+  halogen:
+    "Group 17 nonmetals that need one electron to complete their outer shell. Highly reactive — fluorine, chlorine, bromine, iodine.",
+  "noble-gas":
+    "Group 18 gases with full outer shells. Very unreactive under ordinary conditions — helium, neon, argon, and the rest.",
+  unknown:
+    "Superheavy elements whose chemistry is still being pinned down; their place on the table is provisional.",
+};
+
 if (ELEMENTS.length !== 118) {
   throw new Error(`Expected 118 elements, got ${ELEMENTS.length}`);
 }

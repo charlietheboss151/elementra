@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.10.0] - 2026-08-29
+
+### Added
+
+- Hover and keyboard-focus explainers for each element group on the setup pills and the table legend, plus a short blurb under the selected group so the same copy is readable without hover.
+
 ## [0.9.7] - 2026-08-29
 
 ### Changed

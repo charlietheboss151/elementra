@@ -3,6 +3,7 @@ import { playUi, unlockAudio } from "../audio/sounds";
 import { poolForSet, QUESTION_TIME_MS } from "../game/elementSets";
 import { GAME_MODES, usesListLayout } from "../game/modes";
 import {
+  ELEMENT_SET_EXPLAINERS,
   ELEMENT_SET_IDS,
   ELEMENT_SET_LABELS,
   type ElementSetId,
@@ -90,7 +91,8 @@ export function HomeScreen({ config, onChange, onPlay, onBack }: HomeScreenProps
             <button
               key={setId}
               type="button"
-              className={`group-pill ${config.elementSet === setId ? "is-selected" : ""}`}
+              className={`group-pill has-tip ${config.elementSet === setId ? "is-selected" : ""}`}
+              aria-describedby={`set-tip-${setId}`}
               onClick={() => {
                 if (config.elementSet === setId) return;
                 playUi();
@@ -99,9 +101,13 @@ export function HomeScreen({ config, onChange, onPlay, onBack }: HomeScreenProps
             >
               <span className={`legend-swatch ${setId === "all" ? "swatch-all" : `tile--${setId}`}`} />
               {ELEMENT_SET_LABELS[setId]}
+              <span id={`set-tip-${setId}`} role="tooltip" className="tip">
+                {ELEMENT_SET_EXPLAINERS[setId]}
+              </span>
             </button>
           ))}
         </div>
+        <p className="group-explainer">{ELEMENT_SET_EXPLAINERS[config.elementSet]}</p>
         <p className="hint-text">This round: {poolCount} question{poolCount === 1 ? "" : "s"}.</p>
         <label className="timer-toggle">
           <input
