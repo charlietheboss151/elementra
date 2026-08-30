@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.9.7] - 2026-08-29
+
+### Changed
+
+- Element names are spoken as normal English at a conversational pace, preferring a Google or neural voice over old desktop voices.
+
 ## [0.9.6] - 2026-08-29
 
 ### Added
