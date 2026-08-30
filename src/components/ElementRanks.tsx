@@ -3,13 +3,23 @@ import { playUi } from "../audio/sounds";
 import { loadElementStats, rankElements, type RankOrder } from "../game/elementStats";
 import { defaultStore } from "../game/scoreboard";
 
+export const RANK_PREVIEW = 3;
+
+export function rankRowsToShow<T>(rows: T[], expanded: boolean, limit = RANK_PREVIEW): T[] {
+  if (expanded || rows.length <= limit) return rows;
+  return rows.slice(0, limit);
+}
+
 interface ElementRanksProps {
   user: string | null;
 }
 
 export function ElementRanks({ user }: ElementRanksProps) {
   const [order, setOrder] = useState<RankOrder>("best");
+  const [expanded, setExpanded] = useState(false);
   const rows = rankElements(loadElementStats(defaultStore(), user), order);
+  const visible = rankRowsToShow(rows, expanded);
+  const canToggle = rows.length > RANK_PREVIEW;
 
   return (
     <section className="scoreboard element-ranks">
@@ -47,7 +57,7 @@ export function ElementRanks({ user }: ElementRanksProps) {
               </tr>
             </thead>
             <tbody>
-              {rows.map((row, i) => (
+              {visible.map((row, i) => (
                 <tr key={row.atomicNumber}>
                   <td>{i + 1}</td>
                   <td>
@@ -63,6 +73,19 @@ export function ElementRanks({ user }: ElementRanksProps) {
           </table>
         </div>
       )}
+      {canToggle ? (
+        <button
+          type="button"
+          className="text-button rank-more"
+          aria-expanded={expanded}
+          onClick={() => {
+            playUi();
+            setExpanded((open) => !open);
+          }}
+        >
+          {expanded ? "Show less" : "Show more"}
+        </button>
+      ) : null}
     </section>
   );
 }

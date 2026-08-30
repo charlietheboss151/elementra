@@ -12,7 +12,7 @@ Play it at [charlietheboss.com](https://charlietheboss.com) on a computer or a p
 - **Groups** — Common elements for a short beginner round, a chemical family, or the whole table.
 - **Scoring** — three guesses each. A first try is 1 point; later tries score less. A round is every element in the group you picked.
 - **Hint** — on large groups, lights the period row; on All or Common, a second tap lights the family.
-- **Progress** — scoreboard and element ranks stay in this browser. Register or log in is optional (a popup you can close).
+- **Progress** — scoreboard and element ranks stay in this browser. Ranks show the top 3 until you tap Show more. Register or log in is optional (a popup you can close). Usernames are unique; scores still stay on the device that registered.
 - **Sound** — the top-right menu mutes voices, effects, or both. Name questions are spoken so you hear the name.
 
 Atomic-number questions use a shuffled list so you cannot count across the table. Mixed Practice can ask those too, plus names, symbols, and property clues.
@@ -46,6 +46,6 @@ npm run preview  # serve the dist/ build locally
 npm run lint     # oxlint
 ```
 
-`npm run build` writes production files to `dist/` with site-root URLs (`base: '/'`) for [charlietheboss.com](https://charlietheboss.com). The title art is bundled into `/assets` (not a raw `/logo.jpg`). Upload the contents of `dist/`, not the project source. Preserve `public_html/.well-known/` if you rsync onto the live docroot.
+`npm run build` writes production files to `dist/` with site-root URLs (`base: '/'`) for [charlietheboss.com](https://charlietheboss.com). The title art is bundled into `/assets` (not a raw `/logo.jpg`). Upload the contents of `dist/`, not the project source. Preserve `public_html/.well-known/` if you rsync onto the live docroot. Username claims use `api/usernames.php` (needs PHP) and store names in `elementra-usernames.json` next to `public_html`, not inside the site folder.
 
 This project is licensed under the [GNU General Public License v3.0](LICENSE).

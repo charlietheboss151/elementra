@@ -371,6 +371,10 @@ button {
   margin-top: 28px;
 }
 
+.rank-more {
+  margin-top: 10px;
+}
+
 .sr-only {
   position: absolute;
   width: 1px;

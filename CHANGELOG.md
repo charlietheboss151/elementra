@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.18.0] - 2026-08-29
+
+### Added
+
+- Element ranks starts with the top 3. Show more opens the rest; Show less folds it back.
+- Registering a name that someone else already used says “That username is taken.”
+
 ## [0.17.1] - 2026-08-29
 
 ### Fixed

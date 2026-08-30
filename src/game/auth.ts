@@ -1,4 +1,11 @@
 import type { ScoreboardStore } from "./scoreboard";
+import {
+  USERNAME_TAKEN,
+  claimUsernameOnServer,
+  normalizeUsername,
+  usernameLooksValid,
+  type ClaimUsername,
+} from "./usernames";
 
 export const AUTH_KEY = "elementra-accounts-v1";
 export const SESSION_KEY = "elementra-session-v1";
@@ -11,10 +18,6 @@ interface Account {
 }
 
 type AccountBook = Record<string, Account>;
-
-function normalizeName(raw: string): string {
-  return raw.trim().toLowerCase();
-}
 
 function loadBook(store: ScoreboardStore): AccountBook {
   try {
@@ -64,9 +67,10 @@ export async function register(
   name: string,
   password: string,
   store: ScoreboardStore,
+  claim: ClaimUsername = claimUsernameOnServer,
 ): Promise<AuthResult> {
-  const username = normalizeName(name);
-  if (username.length < 3 || username.length > 24 || !/^[a-z0-9_]+$/.test(username)) {
+  const username = normalizeUsername(name);
+  if (!usernameLooksValid(username)) {
     return { ok: false, error: "Use 3–24 letters, numbers, or underscores." };
   }
   if (password.length < 6) {
@@ -74,8 +78,10 @@ export async function register(
   }
   const book = loadBook(store);
   if (book[username]) {
-    return { ok: false, error: "That name is already taken on this device." };
+    return { ok: false, error: USERNAME_TAKEN };
   }
+  const reserved = await claim(username);
+  if (!reserved.ok) return reserved;
   const salt = randomSalt();
   book[username] = { salt, hash: await hashSecret(password, salt) };
   store.setItem(AUTH_KEY, JSON.stringify(book));
@@ -88,7 +94,7 @@ export async function login(
   password: string,
   store: ScoreboardStore,
 ): Promise<AuthResult> {
-  const username = normalizeName(name);
+  const username = normalizeUsername(name);
   const account = loadBook(store)[username];
   if (!account) {
     return { ok: false, error: "No account with that name on this device." };

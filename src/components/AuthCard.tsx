@@ -41,6 +41,8 @@ export function AuthCard({ onUserChange }: AuthCardProps) {
     >
       <p className="auth-lead">
         Optional: register to keep scores and element ranks on this device.
+        Usernames are unique — if someone already picked that name, you will see
+        “That username is taken.”
       </p>
       <label>
         Name
