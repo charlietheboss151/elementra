@@ -45,21 +45,8 @@ export function HomeScreen({ config, onChange, onPlay }: HomeScreenProps) {
 
   return (
     <div className="screen home">
-      <header className="hero">
+      <header className="setup-bar">
         <h1>Elementra</h1>
-        <p className="byline">
-          <span className="byline-label">Designed &amp; built by</span>
-          <span className="byline-name">Charlie Bishop</span>
-        </p>
-        <p className="lede">
-          Elementra is a fast-paced periodic table challenge inspired by geography
-          games like Seterra. Test how well you know the elements by finding them on
-          an interactive periodic table. Identify elements by their name, symbol,
-          atomic number, or clues about their properties. Race against the clock,
-          build streaks, improve your accuracy, and work your way from the easiest
-          elements to the most challenging ones.
-        </p>
-        <p className="lede">Can you master all 118 elements? 🧪⚛️</p>
       </header>
 
       <section className="setup-card">
@@ -167,6 +154,22 @@ export function HomeScreen({ config, onChange, onPlay }: HomeScreenProps) {
         entries={loadEntries().slice(0, 12)}
         empty="Play a round and your time and accuracy will show up here so you can track improvement."
       />
+
+      <footer className="about">
+        <p className="byline">
+          <span className="byline-label">Designed &amp; built by</span>
+          <span className="byline-name">Charlie Bishop</span>
+        </p>
+        <p className="lede">
+          Elementra is a fast-paced periodic table challenge inspired by geography
+          games like Seterra. Test how well you know the elements by finding them on
+          an interactive periodic table. Identify elements by their name, symbol,
+          atomic number, or clues about their properties. Race against the clock,
+          build streaks, improve your accuracy, and work your way from the easiest
+          elements to the most challenging ones.
+        </p>
+        <p className="about-tag">Can you master all 118 elements? 🧪⚛️</p>
+      </footer>
     </div>
   );
 }

@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.9.2] - 2026-08-29
+
+### Changed
+
+- Setup puts Play first. The credit and game pitch sit in a footer under the scoreboard instead of a large block at the top.
+
 ## [0.9.1] - 2026-08-29
 
 ### Fixed

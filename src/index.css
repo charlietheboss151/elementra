@@ -108,6 +108,41 @@ button {
   text-align: center;
 }
 
+.setup-bar {
+  display: flex;
+  align-items: baseline;
+  margin: 0 0 16px;
+  padding: 0 4px;
+}
+
+.setup-bar h1 {
+  font-size: clamp(1.45rem, 2.6vw, 1.85rem);
+}
+
+.about {
+  margin-top: 40px;
+  padding: 22px 8px 8px;
+  border-top: 1px solid var(--line);
+}
+
+.about .byline {
+  margin: 0 0 12px;
+}
+
+.about .lede {
+  max-width: 68ch;
+  margin: 0;
+  line-height: 1.55;
+}
+
+.about-tag {
+  font-family: var(--display);
+  font-size: 1.15rem;
+  letter-spacing: -0.02em;
+  color: var(--accent-2);
+  margin: 14px 0 0;
+}
+
 .screen.title {
   display: flex;
   flex-direction: column;
