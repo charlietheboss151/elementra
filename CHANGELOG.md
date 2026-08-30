@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.12.0] - 2026-08-29
+
+### Added
+
+- Sound menu (top-left) to mute spoken names, turn off click/correct/miss/timer sounds, or mute all. Choice stays in this browser.
+
 ## [0.11.4] - 2026-08-29
 
 ### Changed

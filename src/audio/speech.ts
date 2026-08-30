@@ -1,3 +1,4 @@
+import { speechEnabled } from "./audioPrefs";
 import { ELEMENT_PRONUNCIATIONS } from "./pronunciations";
 
 /** Spellings the engine says wrong (Lead as “leed”). Everything else uses the real name. */
@@ -137,6 +138,10 @@ export function unlockSpeech() {
 export function speakElementName(name: string) {
   const synth = synthesis();
   if (!synth) return;
+  if (!speechEnabled()) {
+    cancelSpeech();
+    return;
+  }
   hookVoiceList(synth);
   synth.cancel();
   speakWhenVoicesReady(synth, speechText(name));

@@ -2,6 +2,7 @@ import { useCallback, useState } from "react";
 import { GameScreen } from "./components/GameScreen";
 import { HomeScreen } from "./components/HomeScreen";
 import { PerfHud } from "./components/PerfHud";
+import { SoundMenu } from "./components/SoundMenu";
 import { ResultsScreen } from "./components/ResultsScreen";
 import { TitleScreen } from "./components/TitleScreen";
 import { currentUser } from "./game/auth";
@@ -86,6 +87,7 @@ function App() {
 
   return (
     <>
+      <SoundMenu />
       <PerfHud />
       {body}
     </>

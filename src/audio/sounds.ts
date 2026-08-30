@@ -1,3 +1,5 @@
+import { sfxEnabled } from "./audioPrefs";
+
 const MASTER = 0.09;
 
 let context: AudioContext | null = null;
@@ -36,6 +38,7 @@ function playTone(
   type: OscillatorType,
   delay = 0,
 ) {
+  if (!sfxEnabled()) return;
   const ctx = audioContext();
   if (!ctx) return;
   const start = ctx.currentTime + delay;
@@ -55,6 +58,7 @@ function playTone(
 }
 
 function playNoise(duration: number, peak: number, highpassHz: number) {
+  if (!sfxEnabled()) return;
   const ctx = audioContext();
   if (!ctx) return;
   const length = Math.max(1, Math.floor(ctx.sampleRate * duration));
