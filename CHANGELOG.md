@@ -7,7 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [0.18.1] - 2026-08-29
+## [0.18.2] - 2026-08-30
+
+### Changed
+
+- Correct tiles now show the full name, symbol, and number, a checkmark, and a stronger pop so it is easier to see what is left at the end of a round.
 
 ### Fixed
 

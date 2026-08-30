@@ -1,5 +1,5 @@
 import { ELEMENTS } from "../data/elements";
-import { ElementTileButton, handleTileClick, tileClass, tileIsIdentified, type TileViewProps } from "./elementTile";
+import { ElementTileButton, handleTileClick, tileClass, tileIsIdentified, tileShowCheckmark, type TileViewProps } from "./elementTile";
 
 export function PeriodicTable({
   reveal,
@@ -51,6 +51,7 @@ export function PeriodicTable({
               resolution,
               correctAtomicNumber,
             )}
+            showCheckmark={tileShowCheckmark(element.atomicNumber, answeredMarks, resolution)}
             disabled={disabled}
           />
         ))}

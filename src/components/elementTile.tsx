@@ -78,6 +78,25 @@ export function tileIsIdentified(
   return resolution.kind === "fail" && atomicNumber === correctAtomicNumber;
 }
 
+export function tileShowsField(
+  reveal: TileReveal,
+  identified: boolean,
+  field: keyof TileReveal,
+): boolean {
+  return reveal[field] || identified;
+}
+
+export function tileShowCheckmark(
+  atomicNumber: number,
+  answeredMarks: Record<number, ResolveKind>,
+  resolution: QuestionResolution | null,
+): boolean {
+  const mark = answeredMarks[atomicNumber];
+  if (mark) return mark !== "fail";
+  if (!resolution || resolution.selectedAtomicNumber !== atomicNumber) return false;
+  return resolution.kind !== "fail";
+}
+
 export function tileAriaLabel(
   element: ChemicalElement,
   reveal: TileReveal,
@@ -101,6 +120,7 @@ export function ElementTileButton({
   reveal,
   disabled,
   identified = false,
+  showCheckmark = false,
 }: {
   element: ChemicalElement;
   className: string;
@@ -108,6 +128,7 @@ export function ElementTileButton({
   reveal: TileReveal;
   disabled: boolean;
   identified?: boolean;
+  showCheckmark?: boolean;
 }) {
   return (
     <button
@@ -118,9 +139,20 @@ export function ElementTileButton({
       disabled={disabled}
       aria-label={tileAriaLabel(element, reveal, identified)}
     >
-      <span className="tile-number">{reveal.atomicNumber ? element.atomicNumber : "·"}</span>
-      <span className="tile-symbol">{reveal.symbol ? element.symbol : "?"}</span>
-      <span className="tile-name">{reveal.name ? element.name : "\u00a0"}</span>
+      {showCheckmark ? (
+        <span className="tile-check" aria-hidden="true">
+          ✓
+        </span>
+      ) : null}
+      <span className="tile-number">
+        {tileShowsField(reveal, identified, "atomicNumber") ? element.atomicNumber : "·"}
+      </span>
+      <span className="tile-symbol">
+        {tileShowsField(reveal, identified, "symbol") ? element.symbol : "?"}
+      </span>
+      <span className="tile-name">
+        {tileShowsField(reveal, identified, "name") ? element.name : "\u00a0"}
+      </span>
     </button>
   );
 }
