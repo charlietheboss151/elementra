@@ -14,6 +14,7 @@ export interface TileViewProps {
   disabled: boolean;
   onSelect: (atomicNumber: number) => void;
   hideFamilyColors?: boolean;
+  explorer?: boolean;
 }
 
 export function tileClass(
@@ -101,6 +102,7 @@ export function ElementTileButton({
   reveal,
   disabled,
   identified = false,
+  explorerFacts,
 }: {
   element: ChemicalElement;
   className: string;
@@ -108,19 +110,41 @@ export function ElementTileButton({
   reveal: TileReveal;
   disabled: boolean;
   identified?: boolean;
+  explorerFacts?: string[];
 }) {
+  const explorer = explorerFacts != null;
+  const tipId = explorer ? `tile-tip-${element.atomicNumber}` : undefined;
+
   return (
     <button
       type="button"
-      className={className}
+      className={`${className}${explorer ? " tile--explorer has-tip" : ""}`}
       style={style}
       data-atomic-number={element.atomicNumber}
-      disabled={disabled}
+      data-grid-row={style?.gridRow}
+      disabled={explorer ? undefined : disabled}
+      aria-disabled={explorer ? true : undefined}
+      tabIndex={explorer ? 0 : undefined}
+      aria-describedby={explorer ? tipId : undefined}
       aria-label={tileAriaLabel(element, reveal, identified)}
+      onClick={explorer ? (event) => event.preventDefault() : undefined}
     >
       <span className="tile-number">{reveal.atomicNumber ? element.atomicNumber : "·"}</span>
       <span className="tile-symbol">{reveal.symbol ? element.symbol : "?"}</span>
       <span className="tile-name">{reveal.name ? element.name : "\u00a0"}</span>
+      {explorer ? (
+        <span id={tipId} role="tooltip" className="tile-tip">
+          <strong className="tile-tip-title">
+            {element.name} ({element.symbol})
+          </strong>
+          <span className="tile-tip-meta">Atomic number {element.atomicNumber}</span>
+          <ul className="tile-tip-facts">
+            {explorerFacts.map((fact) => (
+              <li key={fact}>{fact}</li>
+            ))}
+          </ul>
+        </span>
+      ) : null}
     </button>
   );
 }

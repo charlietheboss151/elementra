@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.19.0] - 2026-08-30
+
+### Added
+
+- On the setup screen, hover or focus any tile in the preview table to pop it forward and read the element name plus a few quick facts.
+
 ## [0.18.1] - 2026-08-29
 
 ### Fixed

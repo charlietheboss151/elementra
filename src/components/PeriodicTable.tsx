@@ -1,4 +1,5 @@
 import { ELEMENTS } from "../data/elements";
+import { previewFactsFor } from "../game/elementFacts";
 import { ElementTileButton, handleTileClick, tileClass, tileIsIdentified, type TileViewProps } from "./elementTile";
 
 export function PeriodicTable({
@@ -12,16 +13,18 @@ export function PeriodicTable({
   disabled,
   onSelect,
   hideFamilyColors = false,
+  explorer = false,
 }: TileViewProps) {
   const playable = new Set(playableNumbers);
+  const interactive = !disabled || explorer;
 
   return (
-    <div className="table-wrap">
+    <div className={`table-wrap${explorer ? " table-wrap--explorer" : ""}`}>
       <div
-        className="periodic-table"
+        className={`periodic-table${explorer ? " periodic-table--explorer" : ""}`}
         role="group"
-        aria-label="Periodic table"
-        onClick={(event) => handleTileClick(event, disabled, onSelect)}
+        aria-label={explorer ? "Periodic table reference. Hover or focus a tile for element facts." : "Periodic table"}
+        onClick={(event) => handleTileClick(event, !interactive, onSelect)}
       >
         <div className="f-placeholder" style={{ gridRow: 6, gridColumn: 3 }}>
           57–71
@@ -51,6 +54,7 @@ export function PeriodicTable({
               resolution,
               correctAtomicNumber,
             )}
+            explorerFacts={explorer ? previewFactsFor(element) : undefined}
             disabled={disabled}
           />
         ))}

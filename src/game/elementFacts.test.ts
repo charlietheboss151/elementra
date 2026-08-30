@@ -1,7 +1,8 @@
 import { describe, expect, it } from "vitest";
 import { poolForSet } from "./elementSets";
-import { selectFacts } from "./elementFacts";
+import { previewFactsFor, selectFacts } from "./elementFacts";
 import { buildQuestions } from "./engine";
+import { ELEMENTS_BY_NUMBER } from "../data/elements";
 
 describe("property clues", () => {
   it("uniquely identifies every element in the full table", () => {
@@ -34,5 +35,14 @@ describe("property clues", () => {
       expect(question.reveal.name).toBe(false);
       expect(question.prompt.includes("\n") || question.prompt.length > 20).toBe(true);
     }
+  });
+
+  it("builds short hover facts for the setup table", () => {
+    const iron = ELEMENTS_BY_NUMBER.get(26)!;
+    const facts = previewFactsFor(iron);
+    expect(facts.length).toBeGreaterThanOrEqual(2);
+    expect(facts.length).toBeLessThanOrEqual(3);
+    expect(facts[0]).toContain("transition metal");
+    expect(facts.some((line) => line.includes("solid") || line.includes("period"))).toBe(true);
   });
 });
