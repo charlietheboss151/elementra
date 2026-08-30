@@ -36,13 +36,14 @@ export const GAME_MODES: GameModeDefinition[] = [
   {
     id: "mixed",
     title: "Mixed Practice",
-    description: "A shuffle of names, symbols, and property clues on the table.",
-    clueKinds: () => ["name", "symbol", "properties"],
+    description: "A shuffle of names, symbols, atomic numbers, and property clues. Number questions use a mixed-up list so you cannot count across the table.",
+    clueKinds: () => ["name", "symbol", "atomic-number", "properties"],
   },
 ];
 
-export function usesListLayout(modeId: string): boolean {
-  return modeId === "atomic-number";
+export function usesListLayout(modeId: string, clueKind?: ClueKind): boolean {
+  if (modeId === "atomic-number") return true;
+  return modeId === "mixed" && clueKind === "atomic-number";
 }
 
 export function usesTypeLayout(modeId: string): boolean {

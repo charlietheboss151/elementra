@@ -11,7 +11,7 @@ import {
   pointsForTry,
   scoreFromStats,
 } from "./engine";
-import { getMode } from "./modes";
+import { getMode, usesListLayout } from "./modes";
 import type { GameConfig } from "./types";
 
 const base: Omit<GameConfig, "modeId"> = {
@@ -51,9 +51,14 @@ describe("buildQuestions", () => {
   });
 
   it("builds mixed prompts from the registered modes", () => {
+    const kinds = getMode("mixed").clueKinds("all");
+    expect(kinds).toEqual(expect.arrayContaining(["name", "symbol", "properties", "atomic-number"]));
+    expect(kinds).not.toContain("type-name");
+    expect(usesListLayout("mixed", "atomic-number")).toBe(true);
+    expect(usesListLayout("mixed", "name")).toBe(false);
     const questions = buildQuestions({ ...base, modeId: "mixed" });
     expect(questions).toHaveLength(poolForSet("all").length);
-    const allowed = new Set(getMode("mixed").clueKinds("all"));
+    const allowed = new Set(kinds);
     for (const question of questions) {
       expect(allowed.has(question.clueKind)).toBe(true);
     }

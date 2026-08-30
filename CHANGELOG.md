@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.17.0] - 2026-08-29
+
+### Changed
+
+- Mixed Practice also asks atomic numbers. Those questions use the shuffled list (not the table) so you cannot count across.
+
 ## [0.16.1] - 2026-08-29
 
 ### Changed

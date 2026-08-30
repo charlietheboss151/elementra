@@ -165,7 +165,7 @@ export function GameScreen({ config, onComplete, onQuit }: GameScreenProps) {
       </ul>
 
       {game.hintsAllowed &&
-      !usesListLayout(config.modeId) &&
+      !usesListLayout(config.modeId, game.question.clueKind) &&
       !usesTypeLayout(config.modeId) &&
       game.question.clueKind !== "properties" ? (
         <div className="hint-block">
@@ -198,7 +198,7 @@ export function GameScreen({ config, onComplete, onQuit }: GameScreenProps) {
             game.submitTypedAnswer(value);
           }}
         />
-      ) : usesListLayout(config.modeId) ? (
+      ) : usesListLayout(config.modeId, game.question.clueKind) ? (
         <ElementList
           elements={game.listElements}
           reveal={game.question.reveal}
