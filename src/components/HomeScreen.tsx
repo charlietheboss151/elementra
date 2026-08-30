@@ -23,9 +23,10 @@ interface HomeScreenProps {
   config: GameConfig;
   onChange: (config: GameConfig) => void;
   onPlay: () => void;
+  onBack: () => void;
 }
 
-export function HomeScreen({ config, onChange, onPlay }: HomeScreenProps) {
+export function HomeScreen({ config, onChange, onPlay, onBack }: HomeScreenProps) {
   const selectedMode = GAME_MODES.find((mode) => mode.id === config.modeId);
   const pool = poolForSet(config.elementSet);
   const poolCount = pool.length;
@@ -46,6 +47,16 @@ export function HomeScreen({ config, onChange, onPlay }: HomeScreenProps) {
   return (
     <div className="screen home">
       <header className="setup-bar">
+        <button
+          type="button"
+          className="text-button setup-back"
+          onClick={() => {
+            playUi();
+            onBack();
+          }}
+        >
+          Back
+        </button>
         <h1>
           <span className="brand-mark">Elementra:</span>
           <span className="brand-sub">the periodic table guessing game</span>

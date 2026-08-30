@@ -23,6 +23,10 @@ function App() {
   const [config, setConfig] = useState<GameConfig>(DEFAULT_CONFIG);
   const [screen, setScreen] = useState<Screen>({ kind: "title" });
 
+  const goTitle = useCallback(() => {
+    setScreen({ kind: "title" });
+  }, []);
+
   const goHome = useCallback(() => {
     setScreen({ kind: "home" });
   }, []);
@@ -43,6 +47,7 @@ function App() {
         config={config}
         onChange={setConfig}
         onPlay={() => start()}
+        onBack={goTitle}
       />
     );
   } else if (screen.kind === "play") {

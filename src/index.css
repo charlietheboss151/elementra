@@ -113,6 +113,12 @@ button {
   padding: 0 4px;
 }
 
+.setup-back {
+  display: inline-block;
+  margin: 0 0 10px;
+  padding-left: 0;
+}
+
 .setup-bar h1 {
   display: flex;
   flex-wrap: nowrap;
