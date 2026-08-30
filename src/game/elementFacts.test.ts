@@ -42,7 +42,13 @@ describe("property clues", () => {
     const facts = previewFactsFor(iron);
     expect(facts.length).toBeGreaterThanOrEqual(2);
     expect(facts.length).toBeLessThanOrEqual(3);
-    expect(facts[0]).toContain("transition metal");
-    expect(facts.some((line) => line.includes("solid") || line.includes("period"))).toBe(true);
+    expect(facts.some((line) => /hemoglobin/i.test(line))).toBe(true);
+    expect(facts.some((line) => line.startsWith("This element is"))).toBe(false);
+  });
+
+  it("gives gold its own facts, not generic metal text", () => {
+    const gold = ELEMENTS_BY_NUMBER.get(79)!;
+    const facts = previewFactsFor(gold);
+    expect(facts.some((line) => line.toLowerCase().includes("tarnish") || line.includes("troy"))).toBe(true);
   });
 });

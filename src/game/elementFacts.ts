@@ -1,4 +1,5 @@
 import type { ChemicalElement, ElementCategory } from "../data/elements";
+import { triviaFor } from "../data/elementTrivia";
 
 const GASES = new Set([1, 2, 7, 8, 9, 10, 17, 18, 36, 54, 86]);
 const LIQUIDS = new Set([35, 80]);
@@ -228,30 +229,9 @@ export function selectFacts(target: ChemicalElement, pool: ChemicalElement[]): F
   return selected;
 }
 
-const PREVIEW_EXTRA_IDS = ["phase", "diatomic", "synthetic", "radioactive", "series"] as const;
-
-/** Two or three short facts for the setup-screen table hover card. */
+/** Two or three element-specific facts for the setup-screen table hover card. */
 export function previewFactsFor(element: ChemicalElement): string[] {
-  const all = factsFor(element);
-  const lines: string[] = [];
-
-  const family = all.find((fact) => fact.id === "family");
-  if (family) lines.push(family.text);
-
-  const extra = all.find((fact) => PREVIEW_EXTRA_IDS.includes(fact.id as (typeof PREVIEW_EXTRA_IDS)[number]));
-  if (extra) lines.push(extra.text);
-
-  if (lines.length < 3) {
-    const period = all.find((fact) => fact.id === "period");
-    if (period) lines.push(period.text);
-  }
-
-  if (lines.length < 3 && element.group != null) {
-    const group = all.find((fact) => fact.id === "group");
-    if (group) lines.push(group.text);
-  }
-
-  return lines.slice(0, 3);
+  return [...triviaFor(element.atomicNumber)].slice(0, 3);
 }
 
 export function propertyPrompt(target: ChemicalElement, pool: ChemicalElement[]): string {
