@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.9.5] - 2026-08-29
+
+### Changed
+
+- Setup title: colorful bold Elementra: on one line with a smaller gray subtitle.
+
 ## [0.9.4] - 2026-08-29
 
 ### Changed
