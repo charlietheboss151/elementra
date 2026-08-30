@@ -38,7 +38,7 @@ export function saveAudioPrefs(prefs: AudioPrefs, store: ScoreboardStore = defau
   store.setItem(AUDIO_PREFS_KEY, JSON.stringify(prefs));
 }
 
-export function muteAll(prefs: AudioPrefs): AudioPrefs {
+export function muteAll(): AudioPrefs {
   return { sfx: false, speech: false };
 }
 

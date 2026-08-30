@@ -66,7 +66,7 @@ export function SoundMenu({ startOpen = false }: SoundMenuProps) {
           <button
             type="button"
             className="text-button sound-menu-mute"
-            onClick={() => apply(muteAll(prefs))}
+            onClick={() => apply(muteAll())}
           >
             Mute all
           </button>

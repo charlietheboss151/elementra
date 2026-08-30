@@ -33,7 +33,7 @@ describe("audioPrefs", () => {
     setSpeechEnabled(false, store);
     expect(speechEnabled(store)).toBe(false);
     expect(sfxEnabled(store)).toBe(true);
-    saveAudioPrefs(muteAll(loadAudioPrefs(store)), store);
+    saveAudioPrefs(muteAll(), store);
     expect(sfxEnabled(store)).toBe(false);
     expect(speechEnabled(store)).toBe(false);
     expect(store.getItem(AUDIO_PREFS_KEY)).toContain("false");
