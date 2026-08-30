@@ -20,7 +20,7 @@ import { WrongPickToast } from "./WrongPickToast";
 interface GameScreenProps {
   config: GameConfig;
   onComplete: (result: GameResult) => void;
-  onQuit: () => void;
+  onQuit: (result: GameResult) => void;
 }
 
 function kicker(resolution: ReturnType<typeof useGame>["resolution"], timedOut: boolean) {
@@ -77,7 +77,7 @@ export function GameScreen({ config, onComplete, onQuit }: GameScreenProps) {
           className="text-button"
           onClick={() => {
             playUi();
-            onQuit();
+            onQuit(game.abandon());
           }}
         >
           Quit

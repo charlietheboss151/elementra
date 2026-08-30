@@ -32,6 +32,10 @@ function App() {
     return currentUser(store);
   });
 
+  const start = useCallback((next = config) => {
+    setScreen({ kind: "play", config: next, run: Date.now() });
+  }, [config]);
+
   const goTitle = useCallback(() => {
     setScreen({ kind: "title" });
   }, []);
@@ -40,16 +44,22 @@ function App() {
     setScreen({ kind: "home" });
   }, []);
 
-  const start = useCallback((next = config) => {
-    setScreen({ kind: "play", config: next, run: Date.now() });
-  }, [config]);
-
-  const finish = useCallback((result: GameResult) => {
+  const saveRun = useCallback((result: GameResult) => {
     const who = currentUser(defaultStore());
     const entry = recordRound(result, defaultStore(), Date.now(), who);
     applyRoundToStats({}, result, defaultStore(), who);
-    setScreen({ kind: "results", result, entryId: entry.id });
+    return entry;
   }, []);
+
+  const finish = useCallback((result: GameResult) => {
+    const entry = saveRun(result);
+    setScreen({ kind: "results", result, entryId: entry.id });
+  }, [saveRun]);
+
+  const quitPlay = useCallback((result: GameResult) => {
+    saveRun(result);
+    goHome();
+  }, [goHome, saveRun]);
 
   let body = (
     <TitleScreen user={user} onUserChange={setUser} onStart={goHome} />
@@ -70,7 +80,7 @@ function App() {
         key={screen.run}
         config={screen.config}
         onComplete={finish}
-        onQuit={goHome}
+        onQuit={quitPlay}
       />
     );
   } else if (screen.kind === "results") {

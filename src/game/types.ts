@@ -52,6 +52,7 @@ export interface GameResult {
   config: GameConfig;
   answers: AnswerRecord[];
   stats: GameStats;
+  incomplete?: boolean;
 }
 
 export interface GameModeDefinition {

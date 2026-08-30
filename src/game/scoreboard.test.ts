@@ -95,4 +95,18 @@ describe("scoreboard", () => {
     expect(loadEntries(store, "charlie")[0].elapsedMs).toBe(10_000);
     expect(loadEntries(store, null)[0].elapsedMs).toBe(20_000);
   });
+
+  it("keeps a quit mid-round as incomplete with accuracy, time, and score", () => {
+    const store = memoryStore();
+    const quit = alkaliResult(3, 45_000);
+    quit.incomplete = true;
+    recordRound(quit, store, 9);
+    const row = loadEntries(store)[0];
+    expect(row.incomplete).toBe(true);
+    expect(row.accuracy).toBe(100);
+    expect(row.elapsedMs).toBe(45_000);
+    expect(row.score).toBe(3);
+    expect(row.correct).toBe(1);
+    expect(row.total).toBe(1);
+  });
 });

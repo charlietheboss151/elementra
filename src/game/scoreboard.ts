@@ -14,6 +14,8 @@ export interface ScoreboardEntry {
   elapsedMs: number;
   correct: number;
   total: number;
+  score: number;
+  incomplete: boolean;
 }
 
 export interface ScoreboardStore {
@@ -62,6 +64,8 @@ export function entryFromResult(result: GameResult, at = Date.now()): Scoreboard
     elapsedMs: result.stats.elapsedMs,
     correct: result.stats.correct,
     total: result.answers.length,
+    score: result.stats.score,
+    incomplete: Boolean(result.incomplete),
   };
 }
 
@@ -75,17 +79,32 @@ export function sameSetup(
 function isEntry(value: unknown): value is ScoreboardEntry {
   if (!value || typeof value !== "object") return false;
   const row = value as ScoreboardEntry;
-  return (
-    typeof row.id === "string" &&
-    typeof row.at === "number" &&
-    typeof row.modeId === "string" &&
-    typeof row.elementSet === "string" &&
-    typeof row.timed === "boolean" &&
-    typeof row.accuracy === "number" &&
-    typeof row.elapsedMs === "number" &&
-    typeof row.correct === "number" &&
-    typeof row.total === "number"
-  );
+  if (
+    typeof row.id !== "string" ||
+    typeof row.at !== "number" ||
+    typeof row.modeId !== "string" ||
+    typeof row.elementSet !== "string" ||
+    typeof row.timed !== "boolean" ||
+    typeof row.accuracy !== "number" ||
+    typeof row.elapsedMs !== "number" ||
+    typeof row.correct !== "number" ||
+    typeof row.total !== "number"
+  ) {
+    return false;
+  }
+  return true;
+}
+
+function normalizeEntry(row: ScoreboardEntry): ScoreboardEntry {
+  const score =
+    typeof row.score === "number"
+      ? row.score
+      : Math.round((row.accuracy / 100) * row.total * 3);
+  return {
+    ...row,
+    score,
+    incomplete: row.incomplete === true,
+  };
 }
 
 export function boardKey(user: string | null): string {
@@ -101,7 +120,7 @@ export function loadEntries(
     if (!raw) return [];
     const parsed: unknown = JSON.parse(raw);
     if (!Array.isArray(parsed)) return [];
-    return parsed.filter(isEntry);
+    return parsed.filter(isEntry).map(normalizeEntry);
   } catch {
     return [];
   }

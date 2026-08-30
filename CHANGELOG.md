@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.13.0] - 2026-08-29
+
+### Changed
+
+- Quit mid-round still saves element ranks and a scoreboard row marked Incomplete, with that run’s score, accuracy, and time so far.
+
 ## [0.12.0] - 2026-08-29
 
 ### Added

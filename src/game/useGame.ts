@@ -230,6 +230,19 @@ export function useGame(config: GameConfig, onComplete: (result: GameResult) => 
     });
   }, [config.elementSet, hintsAllowed, question]);
 
+  const abandon = useCallback(() => {
+    window.clearTimeout(feedbackTimer.current);
+    window.clearTimeout(wrongPickTimer.current);
+    locked.current = true;
+    const elapsedMs = performance.now() - startedAt.current;
+    return summarizeResult(
+      config,
+      answersRef.current,
+      { ...statsRef.current, elapsedMs },
+      true,
+    );
+  }, [config]);
+
   const answeredMarks: Record<number, ResolveKind> = {};
   for (const answer of answers) {
     if (resolution && question && answer.question.id === question.id) continue;
@@ -251,5 +264,6 @@ export function useGame(config: GameConfig, onComplete: (result: GameResult) => 
     listElements,
     selectElement,
     useHint,
+    abandon,
   };
 }

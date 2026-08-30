@@ -1,4 +1,4 @@
-import { formatDuration } from "../game/engine";
+import { formatDuration, formatScore } from "../game/engine";
 import { getMode } from "../game/modes";
 import { ELEMENT_SET_LABELS } from "../game/types";
 import type { ScoreboardEntry } from "../game/scoreboard";
@@ -46,6 +46,7 @@ export function Scoreboard({ title, entries, highlightId, empty, compare }: Scor
             <thead>
               <tr>
                 <th>When</th>
+                <th>Score</th>
                 <th>Accuracy</th>
                 <th>Time</th>
                 <th>Round</th>
@@ -57,11 +58,13 @@ export function Scoreboard({ title, entries, highlightId, empty, compare }: Scor
                 return (
                   <tr key={row.id} className={row.id === highlightId ? "is-current" : ""}>
                     <td>{formatWhen(row.at)}</td>
+                    <td>{formatScore({ score: row.score })}</td>
                     <td>{row.accuracy}%</td>
                     <td>{formatDuration(row.elapsedMs)}</td>
                     <td>
                       {mode.title.replace("Find Element by ", "")} · {ELEMENT_SET_LABELS[row.elementSet]}
                       {row.timed ? " · timed" : ""}
+                      {row.incomplete ? " · Incomplete" : ""}
                     </td>
                   </tr>
                 );

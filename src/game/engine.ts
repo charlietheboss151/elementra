@@ -127,6 +127,7 @@ export function summarizeResult(
   config: GameConfig,
   answers: AnswerRecord[],
   stats: GameStats,
+  incomplete = false,
 ): GameResult {
-  return { config, answers, stats };
+  return { config, answers, stats, incomplete };
 }
