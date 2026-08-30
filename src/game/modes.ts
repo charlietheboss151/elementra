@@ -67,7 +67,7 @@ export function promptFor(
 export function revealFor(clue: ClueKind): TileReveal {
   if (clue === "name") return { atomicNumber: true, symbol: true, name: false };
   if (clue === "symbol") return { atomicNumber: true, symbol: false, name: true };
-  if (clue === "properties") return { atomicNumber: true, symbol: false, name: false };
+  if (clue === "properties") return { atomicNumber: false, symbol: false, name: false };
   return { atomicNumber: false, symbol: true, name: true };
 }
 

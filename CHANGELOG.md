@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.15.1] - 2026-08-29
+
+### Changed
+
+- Property Clues hides atomic numbers on tiles (as well as names and symbols) so you cannot count your way to the answer.
+
 ## [0.15.0] - 2026-08-29
 
 ### Added

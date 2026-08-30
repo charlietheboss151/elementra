@@ -44,7 +44,7 @@ export function PeriodicTable({
               hideFamilyColors,
             )}
             style={{ gridRow: element.gridRow, gridColumn: element.gridColumn }}
-            reveal={{ ...reveal, atomicNumber: true }}
+            reveal={reveal}
             identified={tileIsIdentified(
               element.atomicNumber,
               answeredMarks,

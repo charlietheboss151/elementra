@@ -16,6 +16,9 @@ describe("tileAriaLabel", () => {
       tileAriaLabel(hydrogen, { atomicNumber: true, symbol: false, name: false }),
     ).toBe("atomic number 1");
     expect(
+      tileAriaLabel(hydrogen, { atomicNumber: false, symbol: false, name: false }),
+    ).toBe("period 1, group 1");
+    expect(
       tileAriaLabel(hydrogen, { atomicNumber: false, symbol: true, name: true }),
     ).toBe("Hydrogen, H");
     expect(

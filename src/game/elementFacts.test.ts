@@ -29,6 +29,9 @@ describe("property clues", () => {
     expect(questions).toHaveLength(poolForSet("halogen").length);
     for (const question of questions) {
       expect(question.clueKind).toBe("properties");
+      expect(question.reveal.atomicNumber).toBe(false);
+      expect(question.reveal.symbol).toBe(false);
+      expect(question.reveal.name).toBe(false);
       expect(question.prompt.includes("\n") || question.prompt.length > 20).toBe(true);
     }
   });

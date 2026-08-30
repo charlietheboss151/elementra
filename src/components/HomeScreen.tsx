@@ -152,7 +152,7 @@ export function HomeScreen({ config, user, onChange, onPlay, onBack }: HomeScree
           {listMode
             ? "Atomic numbers are hidden and the order is mixed, so you have to know which element is which."
             : propertyMode
-              ? "Family, room-temperature state, period, and other facts stack until they point to one element. During play, names, symbols, and family colors stay hidden so the clues have to do the work."
+              ? "Family, room-temperature state, period, and other facts stack until they point to one element. During play, names, symbols, atomic numbers, and family colors stay hidden so the clues have to do the work."
               : "This is your map of the elements. Match the clue, click the tile, and watch the table light up as you go — green for a first-try strike, gold when you needed a second look, orange on a last-chance save. Miss all three and the real answer flares red, then every mark stays so you can see the round take shape."}
         </p>
         {listMode ? (
@@ -165,7 +165,7 @@ export function HomeScreen({ config, user, onChange, onPlay, onBack }: HomeScree
           <PeriodicTable
             reveal={
               propertyMode
-                ? { atomicNumber: true, symbol: false, name: false }
+                ? { atomicNumber: false, symbol: false, name: false }
                 : { atomicNumber: true, symbol: true, name: true }
             }
             {...boardProps}
