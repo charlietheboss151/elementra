@@ -2,7 +2,7 @@
 
 Elementra is a fast-paced periodic table challenge inspired by geography games like Seterra. Find elements by name, symbol, atomic number, property clues, or by typing the name from the symbol. Race the clock, build accuracy, and work your way up to all 118 elements.
 
-Play it at [charlietheboss.com](https://charlietheboss.com).
+Play it at [charlietheboss.com](https://charlietheboss.com) on a computer or a phone.
 
 <img src="docs/title.png" alt="Elementra title screen" width="720">
 

@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.17.1] - 2026-08-29
+
+### Fixed
+
+- Phones and small tablets: the periodic table fits the screen (names hide so tiles stay readable), and setup/play controls wrap instead of running off the edge. Desktop layout is unchanged.
+
 ### Changed
 
 - The npm package name is `elementra`, matching the game (it was still `periodic-table-game`).
