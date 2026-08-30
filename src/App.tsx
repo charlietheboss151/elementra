@@ -9,13 +9,8 @@ import { currentUser } from "./game/auth";
 import { applyRoundToStats } from "./game/elementStats";
 import { applyProgressResetOnce } from "./game/progressReset";
 import { defaultStore, recordRound } from "./game/scoreboard";
+import { loadSetup, saveSetup } from "./game/setupPrefs";
 import type { GameConfig, GameResult } from "./game/types";
-
-const DEFAULT_CONFIG: GameConfig = {
-  modeId: "find-element",
-  elementSet: "all",
-  timed: false,
-};
 
 type Screen =
   | { kind: "title" }
@@ -24,13 +19,28 @@ type Screen =
   | { kind: "results"; result: GameResult; entryId: string };
 
 function App() {
-  const [config, setConfig] = useState<GameConfig>(DEFAULT_CONFIG);
-  const [screen, setScreen] = useState<Screen>({ kind: "title" });
   const [user, setUser] = useState<string | null>(() => {
     const store = defaultStore();
     applyProgressResetOnce(store);
     return currentUser(store);
   });
+  const [config, setConfig] = useState<GameConfig>(() =>
+    loadSetup(defaultStore(), currentUser(defaultStore())),
+  );
+  const [screen, setScreen] = useState<Screen>({ kind: "title" });
+
+  const changeUser = useCallback((next: string | null) => {
+    setUser(next);
+    setConfig(loadSetup(defaultStore(), next));
+  }, []);
+
+  const changeConfig = useCallback(
+    (next: GameConfig) => {
+      saveSetup(next, defaultStore(), user);
+      setConfig(next);
+    },
+    [user],
+  );
 
   const start = useCallback((next = config) => {
     setScreen({ kind: "play", config: next, run: Date.now() });
@@ -62,14 +72,14 @@ function App() {
   }, [goHome, saveRun]);
 
   let body = (
-    <TitleScreen user={user} onUserChange={setUser} onStart={goHome} />
+    <TitleScreen user={user} onUserChange={changeUser} onStart={goHome} />
   );
   if (screen.kind === "home") {
     body = (
       <HomeScreen
         config={config}
         user={user}
-        onChange={setConfig}
+        onChange={changeConfig}
         onPlay={() => start()}
         onBack={goTitle}
       />

@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.15.0] - 2026-08-29
+
+### Added
+
+- Last mode, element group, and timer are remembered in this browser (guest and each account separately) so setup does not reset after a reload.
+
 ## [0.14.0] - 2026-08-29
 
 ### Added
