@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.13.1] - 2026-08-29
+
+### Changed
+
+- Sound menu sits fixed in the top-right so it no longer covers Back and does not scroll with the page.
+
 ## [0.13.0] - 2026-08-29
 
 ### Changed
