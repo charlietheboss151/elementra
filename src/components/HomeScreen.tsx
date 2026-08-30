@@ -1,4 +1,3 @@
-import brandLogo from "../assets/logo.jpg";
 import { unlockSpeech } from "../audio/speech";
 import { playUi, unlockAudio } from "../audio/sounds";
 import { poolForSet, QUESTION_TIME_MS } from "../game/elementSets";
@@ -47,12 +46,7 @@ export function HomeScreen({ config, onChange, onPlay }: HomeScreenProps) {
   return (
     <div className="screen home">
       <header className="hero">
-        <h1 className="sr-only">Elementra</h1>
-        <img
-          className="brand-logo"
-          src={brandLogo}
-          alt="Elementra. Master the table. Beat the clock."
-        />
+        <h1>Elementra</h1>
         <p className="byline">
           <span className="byline-label">Designed &amp; built by</span>
           <span className="byline-name">Charlie Bishop</span>

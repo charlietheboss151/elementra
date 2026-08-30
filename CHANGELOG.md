@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.9.0] - 2026-08-29
+
+### Added
+
+- Title screen with the Elementra logo and a Start button. Start opens the mode, group, and table setup.
+
 ## [0.8.1] - 2026-08-29
 
 ### Added
