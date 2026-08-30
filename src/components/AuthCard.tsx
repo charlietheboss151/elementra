@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { playUi } from "../audio/sounds";
-import { currentUser, login, logout, register } from "../game/auth";
+import { currentUser, login, register } from "../game/auth";
 import { defaultStore } from "../game/scoreboard";
 
 function store() {
@@ -8,37 +8,15 @@ function store() {
 }
 
 interface AuthCardProps {
-  user: string | null;
   onUserChange: (user: string | null) => void;
 }
 
-export function AuthCard({ user, onUserChange }: AuthCardProps) {
+export function AuthCard({ onUserChange }: AuthCardProps) {
   const [mode, setMode] = useState<"register" | "login">("register");
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
-
-  if (user) {
-    return (
-      <div className="auth-card">
-        <p className="auth-status">
-          Signed in as <strong>{user}</strong>
-        </p>
-        <button
-          type="button"
-          className="text-button"
-          onClick={() => {
-            playUi();
-            logout(store());
-            onUserChange(currentUser(store()));
-          }}
-        >
-          Log out
-        </button>
-      </div>
-    );
-  }
 
   return (
     <form
@@ -62,8 +40,7 @@ export function AuthCard({ user, onUserChange }: AuthCardProps) {
       }}
     >
       <p className="auth-lead">
-        Optional: register to keep scores and element ranks on this device. Or play as a
-        guest.
+        Optional: register to keep scores and element ranks on this device.
       </p>
       <label>
         Name

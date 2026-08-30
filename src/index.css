@@ -205,10 +205,57 @@ button {
   margin-top: 16px;
 }
 
-.auth-card {
+.auth-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(4, 12, 22, 0.72);
+  backdrop-filter: blur(8px);
+}
+
+.auth-dialog {
+  position: relative;
   width: min(420px, 100%);
-  margin: 0 auto;
-  padding: 16px 18px 12px;
+}
+
+.auth-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 1;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text);
+  font-size: 1.45rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.auth-close:hover {
+  background: rgba(255, 255, 255, 0.18);
+}
+
+.auth-status-line {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  color: var(--muted);
+  margin: 0 0 4px;
+}
+
+.auth-card {
+  width: 100%;
+  margin: 0;
+  padding: 44px 18px 16px;
   text-align: left;
   background: linear-gradient(180deg, var(--bg-elev), var(--bg-elev-2));
   border: 1px solid var(--line);

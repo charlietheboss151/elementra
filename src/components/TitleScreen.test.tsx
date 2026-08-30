@@ -3,12 +3,13 @@ import { describe, expect, it } from "vitest";
 import { TitleScreen } from "./TitleScreen";
 
 describe("TitleScreen", () => {
-  it("shows the logo and a Start button", () => {
+  it("shows Play and a register dialog you can close", () => {
     const html = renderToStaticMarkup(
       <TitleScreen user={null} onUserChange={() => undefined} onStart={() => undefined} />,
     );
-    expect(html).toContain("Play as guest");
+    expect(html).toContain(">Play<");
     expect(html).toContain("Register");
+    expect(html).toContain('aria-label="Close"');
     expect(html).toContain("brand-logo");
     expect(html).toContain("Charlie Bishop");
     expect(html).not.toContain("Element group");

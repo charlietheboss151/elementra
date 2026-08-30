@@ -28,7 +28,7 @@ export function ElementRanks({ user }: ElementRanksProps) {
       </div>
       <p className="lede">
         Best is the element you get right the most. Worst is the one you miss the most.
-        {user ? "" : " Sign in on the title screen to keep this with your account."}
+        {user ? "" : " Log in from the title screen to keep this with your account."}
       </p>
       {rows.length === 0 ? (
         <p className="lede">Play a round and the elements you answer will show up here.</p>

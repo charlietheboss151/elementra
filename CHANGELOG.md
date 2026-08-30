@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.11.1] - 2026-08-29
+
+### Changed
+
+- Register and log in open as a dimmed popup with an X (and click-outside to close). The title button is Play.
+
 ## [0.11.0] - 2026-08-29
 
 ### Added
