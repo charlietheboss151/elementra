@@ -1,5 +1,5 @@
 import { ELEMENTS } from "../data/elements";
-import { ElementTileButton, handleTileClick, tileClass, type TileViewProps } from "./elementTile";
+import { ElementTileButton, handleTileClick, tileClass, tileIsIdentified, type TileViewProps } from "./elementTile";
 
 export function PeriodicTable({
   reveal,
@@ -45,6 +45,12 @@ export function PeriodicTable({
             )}
             style={{ gridRow: element.gridRow, gridColumn: element.gridColumn }}
             reveal={{ ...reveal, atomicNumber: true }}
+            identified={tileIsIdentified(
+              element.atomicNumber,
+              answeredMarks,
+              resolution,
+              correctAtomicNumber,
+            )}
             disabled={disabled}
           />
         ))}

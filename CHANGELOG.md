@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.13.2] - 2026-08-29
+
+### Fixed
+
+- Screen readers no longer hear hidden element names, symbols, or numbers on tiles during a question. Full identity is spoken after that tile is identified.
+
 ## [0.13.1] - 2026-08-29
 
 ### Changed

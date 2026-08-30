@@ -1,5 +1,5 @@
 import type { ChemicalElement } from "../data/elements";
-import { ElementTileButton, handleTileClick, tileClass, type TileViewProps } from "./elementTile";
+import { ElementTileButton, handleTileClick, tileClass, tileIsIdentified, type TileViewProps } from "./elementTile";
 
 interface ElementListProps extends TileViewProps {
   elements: ChemicalElement[];
@@ -43,6 +43,12 @@ export function ElementList({
               hideFamilyColors,
             )}
             reveal={reveal}
+            identified={tileIsIdentified(
+              element.atomicNumber,
+              answeredMarks,
+              resolution,
+              correctAtomicNumber,
+            )}
             disabled={disabled}
           />
         ))}

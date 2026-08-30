@@ -66,18 +66,48 @@ export function handleTileClick(
   }
 }
 
+export function tileIsIdentified(
+  atomicNumber: number,
+  answeredMarks: Record<number, ResolveKind>,
+  resolution: QuestionResolution | null,
+  correctAtomicNumber: number | null,
+): boolean {
+  if (answeredMarks[atomicNumber]) return true;
+  if (!resolution) return false;
+  if (resolution.selectedAtomicNumber === atomicNumber) return true;
+  return resolution.kind === "fail" && atomicNumber === correctAtomicNumber;
+}
+
+export function tileAriaLabel(
+  element: ChemicalElement,
+  reveal: TileReveal,
+  identified = false,
+): string {
+  if (identified) {
+    return `${element.name}, ${element.symbol}, atomic number ${element.atomicNumber}`;
+  }
+  const parts: string[] = [];
+  if (reveal.name) parts.push(element.name);
+  if (reveal.symbol) parts.push(element.symbol);
+  if (reveal.atomicNumber) parts.push(`atomic number ${element.atomicNumber}`);
+  if (parts.length === 0) return `period ${element.period}, group ${element.group}`;
+  return parts.join(", ");
+}
+
 export function ElementTileButton({
   element,
   className,
   style,
   reveal,
   disabled,
+  identified = false,
 }: {
   element: ChemicalElement;
   className: string;
   style?: { gridRow: number; gridColumn: number };
   reveal: TileReveal;
   disabled: boolean;
+  identified?: boolean;
 }) {
   return (
     <button
@@ -86,7 +116,7 @@ export function ElementTileButton({
       style={style}
       data-atomic-number={element.atomicNumber}
       disabled={disabled}
-      aria-label={`${element.name}, ${element.symbol}, atomic number ${element.atomicNumber}`}
+      aria-label={tileAriaLabel(element, reveal, identified)}
     >
       <span className="tile-number">{reveal.atomicNumber ? element.atomicNumber : "·"}</span>
       <span className="tile-symbol">{reveal.symbol ? element.symbol : "?"}</span>
