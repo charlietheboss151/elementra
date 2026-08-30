@@ -1,6 +1,7 @@
 import { unlockSpeech } from "../audio/speech";
 import { playUi, unlockAudio } from "../audio/sounds";
-import { poolForSet, QUESTION_TIME_MS } from "../game/elementSets";
+import { poolForSet, QUESTION_TIME_MS, setHasHints } from "../game/elementSets";
+import { familyHintAvailable } from "../game/hintCopy";
 import { GAME_MODES, usesListLayout, usesTypeLayout } from "../game/modes";
 import {
   ELEMENT_SET_EXPLAINERS,
@@ -114,6 +115,13 @@ export function HomeScreen({ config, user, onChange, onPlay, onBack }: HomeScree
         </div>
         <p className="group-explainer">{ELEMENT_SET_EXPLAINERS[config.elementSet]}</p>
         <p className="hint-text">This round: {poolCount} question{poolCount === 1 ? "" : "s"}.</p>
+        {setHasHints(config.elementSet) && !listMode && !typeMode && !propertyMode ? (
+          <p className="hint-text">
+            {familyHintAvailable(config.elementSet)
+              ? "In play, Hint lights the period row, then the family if you tap it again."
+              : "In play, Hint lights the element's period (row) on the table."}
+          </p>
+        ) : null}
         <label className="timer-toggle">
           <input
             type="checkbox"

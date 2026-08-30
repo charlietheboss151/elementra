@@ -7,6 +7,7 @@ import {
 } from "../game/engine";
 import { ELEMENT_SET_LABELS } from "../game/types";
 import { formatAnswer, getMode, hidesFamilyColors, usesListLayout, usesTypeLayout } from "../game/modes";
+import { hintButtonText, hintIsSpent, hintTip } from "../game/hintCopy";
 import type { GameConfig, GameResult } from "../game/types";
 import { MAX_GUESSES } from "../game/types";
 import { useGame } from "../game/useGame";
@@ -167,17 +168,23 @@ export function GameScreen({ config, onComplete, onQuit }: GameScreenProps) {
       !usesListLayout(config.modeId) &&
       !usesTypeLayout(config.modeId) &&
       game.question.clueKind !== "properties" ? (
-        <button
-          type="button"
-          className="hint-button"
-          onClick={() => {
-            playUi();
-            game.useHint();
-          }}
-          disabled={waiting}
-        >
-          Hint
-        </button>
+        <div className="hint-block">
+          <button
+            type="button"
+            className="hint-button"
+            aria-describedby="hint-tip"
+            onClick={() => {
+              playUi();
+              game.useHint();
+            }}
+            disabled={waiting || hintIsSpent(game.hint.kind, config.elementSet)}
+          >
+            {hintButtonText(game.hint.kind, config.elementSet)}
+          </button>
+          <p id="hint-tip" className="hint-explainer">
+            {hintTip(game.hint.kind, config.elementSet)}
+          </p>
+        </div>
       ) : null}
 
       {usesTypeLayout(config.modeId) ? (
