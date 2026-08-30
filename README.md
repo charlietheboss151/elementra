@@ -1,4 +1,4 @@
-# Elementra: the periodic table game
+# Elementra: the periodic table guessing game
 
 Elementra is a fast-paced periodic table challenge inspired by geography games like Seterra. Test how well you know the elements by finding them on an interactive periodic table. Identify elements by their name, symbol, atomic number, or clues about their properties. Race against the clock, build streaks, improve your accuracy, and work your way from the easiest elements to the most challenging ones.
 

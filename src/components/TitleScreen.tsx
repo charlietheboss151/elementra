@@ -9,7 +9,7 @@ interface TitleScreenProps {
 export function TitleScreen({ onStart }: TitleScreenProps) {
   return (
     <div className="screen title">
-      <h1 className="sr-only">Elementra</h1>
+      <h1 className="sr-only">Elementra: the periodic table guessing game</h1>
       <img
         className="brand-logo"
         src={brandLogo}

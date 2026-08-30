@@ -46,7 +46,7 @@ export function HomeScreen({ config, onChange, onPlay }: HomeScreenProps) {
   return (
     <div className="screen home">
       <header className="setup-bar">
-        <h1>Elementra</h1>
+        <h1>Elementra: the periodic table guessing game</h1>
         <p className="setup-kicker">Can you master all 118 elements? 🧪⚛️</p>
       </header>
 
