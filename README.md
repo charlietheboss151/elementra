@@ -19,14 +19,14 @@ npm install
 npm run dev
 ```
 
-Open the URL Vite prints (usually `http://localhost:5173`). There are no env files or secrets.
+Open **http://127.0.0.1:5173** (http, not https). The dev server is pinned to that address and port so it does not jump to 5174 or listen only on IPv6. There are no env files or secrets.
 
 ## How it is built
 
 Vite + React + TypeScript. Element facts live in one table (`src/data/elements.ts`). Game modes are registered in `src/game/modes.ts` so new modes can reuse the same data and scoring.
 
 ```bash
-npm run dev      # local development server
+npm run dev      # http://127.0.0.1:5173 (fails if that port is already taken)
 npm run test     # game-logic unit tests
 npm run build    # typecheck and write production files to dist/
 npm run preview  # serve the dist/ build locally

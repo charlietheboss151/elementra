@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.9.1] - 2026-08-29
+
+### Fixed
+
+- Local `npm run dev` listens on `http://127.0.0.1:5173` (IPv4, that port only) so the usual localhost URL is not a dead IPv6-only 5174 instance.
+
 ## [0.9.0] - 2026-08-29
 
 ### Added
