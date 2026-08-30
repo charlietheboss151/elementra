@@ -19,6 +19,8 @@ export interface ScoreboardEntry {
 export interface ScoreboardStore {
   getItem(key: string): string | null;
   setItem(key: string, value: string): void;
+  removeItem?(key: string): void;
+  keys?(): string[];
 }
 
 export function defaultStore(): ScoreboardStore {
@@ -26,9 +28,27 @@ export function defaultStore(): ScoreboardStore {
     return {
       getItem: () => null,
       setItem: () => undefined,
+      removeItem: () => undefined,
+      keys: () => [],
     };
   }
-  return localStorage;
+  return {
+    getItem: (key) => localStorage.getItem(key),
+    setItem: (key, value) => {
+      localStorage.setItem(key, value);
+    },
+    removeItem: (key) => {
+      localStorage.removeItem(key);
+    },
+    keys: () => {
+      const names: string[] = [];
+      for (let i = 0; i < localStorage.length; i += 1) {
+        const name = localStorage.key(i);
+        if (name) names.push(name);
+      }
+      return names;
+    },
+  };
 }
 
 export function entryFromResult(result: GameResult, at = Date.now()): ScoreboardEntry {

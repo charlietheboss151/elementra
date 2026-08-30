@@ -6,6 +6,7 @@ import { ResultsScreen } from "./components/ResultsScreen";
 import { TitleScreen } from "./components/TitleScreen";
 import { currentUser } from "./game/auth";
 import { applyRoundToStats } from "./game/elementStats";
+import { applyProgressResetOnce } from "./game/progressReset";
 import { defaultStore, recordRound } from "./game/scoreboard";
 import type { GameConfig, GameResult } from "./game/types";
 
@@ -24,7 +25,11 @@ type Screen =
 function App() {
   const [config, setConfig] = useState<GameConfig>(DEFAULT_CONFIG);
   const [screen, setScreen] = useState<Screen>({ kind: "title" });
-  const [user, setUser] = useState<string | null>(() => currentUser(defaultStore()));
+  const [user, setUser] = useState<string | null>(() => {
+    const store = defaultStore();
+    applyProgressResetOnce(store);
+    return currentUser(store);
+  });
 
   const goTitle = useCallback(() => {
     setScreen({ kind: "title" });

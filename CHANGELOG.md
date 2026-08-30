@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.11.3] - 2026-08-29
+
+### Changed
+
+- One-time wipe of every saved scoreboard and element-rank history (all accounts and guest) so ranking starts clean. Logins stay.
+
 ## [0.11.2] - 2026-08-29
 
 ### Changed
