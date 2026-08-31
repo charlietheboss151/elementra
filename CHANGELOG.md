@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.20.1] - 2026-08-31
+
+### Changed
+
+- Cosmica uses its official circular logo on the hub card and coming-soon page.
+
 ## [0.20.0] - 2026-08-31
 
 ### Added

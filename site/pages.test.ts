@@ -12,6 +12,7 @@ describe("site pages", () => {
     expect(hub).toContain('href="/cosmica/"');
     expect(hub).toContain("Elementra");
     expect(hub).toContain("Cosmica");
+    expect(hub).toContain("cosmica-logo.png");
     expect(hub).not.toContain('id="root"');
   });
 
@@ -23,6 +24,7 @@ describe("site pages", () => {
 
   it("gives Cosmica its own page that links back home", () => {
     const cosmica = readFileSync(resolve(root, "cosmica/index.html"), "utf8");
+    expect(cosmica).toContain("cosmica-logo.png");
     expect(cosmica).toContain("Cosmica");
     expect(cosmica).toContain('href="/"');
     expect(cosmica).toContain('href="/elementra/"');
