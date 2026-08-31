@@ -85,10 +85,10 @@ export default defineConfig({
   base: "/",
   plugins: [react(), usernameClaimPlugin()],
   server: {
-    // Bind IPv4. Default "localhost" was IPv6-only (::1), so 127.0.0.1:5173
-    // refused and extra Vite copies jumped to 5174.
-    host: "127.0.0.1",
+    // Listen on all interfaces so port-forwarded / tunnel URLs work in cloud dev.
+    host: true,
     port: 5173,
     strictPort: true,
+    allowedHosts: true,
   },
 });
