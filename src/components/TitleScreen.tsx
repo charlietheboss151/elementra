@@ -35,6 +35,9 @@ export function TitleScreen({ user, onUserChange, onStart }: TitleScreenProps) {
 
   return (
     <div className="screen title">
+      <a className="text-button title-hub-link" href="/">
+        All games
+      </a>
       <h1 className="sr-only">Elementra: the periodic table guessing game</h1>
       <img
         className="brand-logo"

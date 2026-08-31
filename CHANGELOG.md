@@ -7,9 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.20.0] - 2026-08-31
+
 ### Added
 
+- Site landing at charlietheboss.com with cards for Elementra and Cosmica.
+- Cosmica coming-soon page at `/cosmica/`.
 - Deploy SSH helper (`scripts/setup-deploy-ssh.sh`), `Host elementra` config example, and `scripts/deploy.sh` for charlietheboss.com.
+
+### Changed
+
+- Elementra now lives at `/elementra/` instead of the site root.
 
 ## [0.19.1] - 2026-08-30
 

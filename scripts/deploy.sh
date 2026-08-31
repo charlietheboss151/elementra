@@ -5,7 +5,7 @@ SSH_HOST="${ELEMENTRA_SSH_HOST:-elementra}"
 REMOTE_SRC="${ELEMENTRA_REMOTE_SRC:-~/src/elementra}"
 REMOTE_WEB="${ELEMENTRA_REMOTE_WEB:-~/public_html}"
 
-echo "Deploying Elementra to ${SSH_HOST}..."
+echo "Deploying charlietheboss.com to ${SSH_HOST}..."
 
 ssh "${SSH_HOST}" bash -s <<EOF
 set -euo pipefail
@@ -23,3 +23,5 @@ echo "Deployed commit: \$(git rev-parse --short HEAD)"
 EOF
 
 echo "Live site: https://charlietheboss.com"
+echo "Elementra: https://charlietheboss.com/elementra/"
+echo "Cosmica:   https://charlietheboss.com/cosmica/"

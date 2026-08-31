@@ -12,6 +12,8 @@ describe("TitleScreen", () => {
     expect(html).toContain('aria-label="Close"');
     expect(html).toContain("brand-logo");
     expect(html).toContain("Charlie Bishop");
+    expect(html).toContain('href="/"');
+    expect(html).toContain("All games");
     expect(html).not.toContain("Element group");
   });
 });

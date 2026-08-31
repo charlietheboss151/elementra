@@ -1,0 +1,155 @@
+:root {
+  --bg: #08111c;
+  --text: #e7eef8;
+  --muted: #93a4bb;
+  --accent: #3ee0b0;
+  --accent-2: #7cc4ff;
+  --line: rgba(180, 210, 255, 0.14);
+  --sans: "DM Sans", "Segoe UI", sans-serif;
+  --display: "Fraunces", Georgia, serif;
+  color: var(--text);
+  background:
+    radial-gradient(900px 480px at 8% -8%, #16324f 0%, transparent 55%),
+    radial-gradient(700px 420px at 92% 0%, #2a1848 0%, transparent 50%),
+    var(--bg);
+  font-family: var(--sans);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  min-height: 100%;
+}
+
+body.hub {
+  margin: 0;
+  padding: 48px 20px 72px;
+}
+
+.hub-hero {
+  width: min(880px, 100%);
+  margin: 0 auto 40px;
+}
+
+.hub-kicker,
+.hub-card-kicker {
+  margin: 0 0 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: 0.72rem;
+  color: var(--accent);
+}
+
+.hub-hero h1 {
+  margin: 0 0 12px;
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: clamp(2.4rem, 6vw, 4.2rem);
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+}
+
+.hub-lede {
+  margin: 0;
+  max-width: 46ch;
+  color: var(--muted);
+  font-size: 1.08rem;
+  line-height: 1.5;
+}
+
+.hub-grid {
+  width: min(980px, 100%);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.hub-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 18px 18px 20px;
+  border-radius: 20px;
+  border: 1px solid var(--line);
+  background: linear-gradient(180deg, rgba(16, 27, 44, 0.92), rgba(10, 16, 28, 0.92));
+  color: inherit;
+  text-decoration: none;
+  box-shadow: 0 24px 50px rgba(0, 0, 0, 0.28);
+  transition:
+    transform 0.18s ease,
+    border-color 0.18s ease,
+    box-shadow 0.18s ease;
+}
+
+.hub-card:hover,
+.hub-card:focus-visible {
+  transform: translateY(-4px);
+  border-color: rgba(180, 210, 255, 0.32);
+  box-shadow: 0 28px 60px rgba(0, 0, 0, 0.4);
+  outline: none;
+}
+
+.hub-card-art {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  margin: 4px 0 16px;
+  border-radius: 14px;
+}
+
+.hub-card-art--cosmica {
+  overflow: hidden;
+  background: #070616;
+}
+
+.hub-card-art--cosmica svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.hub-card h2 {
+  margin: 0 0 8px;
+  font-family: var(--display);
+  font-size: 1.85rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+}
+
+.hub-card p {
+  margin: 0 0 18px;
+  color: var(--muted);
+  line-height: 1.45;
+  flex: 1;
+}
+
+.hub-card-go {
+  font-weight: 700;
+  color: var(--accent-2);
+}
+
+.hub-card--cosmica .hub-card-kicker {
+  color: #c9b6ff;
+}
+
+.hub-card--cosmica .hub-card-go {
+  color: #c9b6ff;
+}
+
+@media (max-width: 720px) {
+  body.hub {
+    padding: 28px 14px 48px;
+  }
+
+  .hub-grid {
+    grid-template-columns: 1fr;
+  }
+}

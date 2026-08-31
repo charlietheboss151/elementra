@@ -2,13 +2,12 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/jpeg" href="./src/assets/logo.jpg" />
-    <link rel="apple-touch-icon" href="./src/assets/logo.jpg" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <title>Elementra: the periodic table guessing game</title>
+    <title>Charlie Bishop — games</title>
     <meta
       name="description"
-      content="Elementra is a fast-paced periodic table challenge inspired by geography games like Seterra. Test how well you know the elements by finding them on an interactive periodic table. Identify elements by their name, symbol, atomic number, or clues about their properties. Race against the clock, build streaks, improve your accuracy, and work your way from the easiest elements to the most challenging ones. Can you master all 118 elements?"
+      content="Games by Charlie Bishop. Play Elementra, a periodic table challenge, and Cosmica, a space guessing game."
     />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -16,9 +15,53 @@
       href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,700;1,9..40,400&family=Fraunces:opsz,wght@9..144,560;9..144,800&display=swap"
       rel="stylesheet"
     />
+    <link rel="stylesheet" href="/site/hub.css" />
   </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
+  <body class="hub">
+    <header class="hub-hero">
+      <p class="hub-kicker">Charlie Bishop</p>
+      <h1>Pick a game</h1>
+      <p class="hub-lede">
+        Fast guessing games for the periodic table and the night sky. Play on a computer or a
+        phone.
+      </p>
+    </header>
+
+    <main class="hub-grid">
+      <a class="hub-card hub-card--elementra" href="/elementra/">
+        <span class="hub-card-kicker">Play now</span>
+        <img class="hub-card-art" src="./src/assets/logo.jpg" alt="" />
+        <h2>Elementra</h2>
+        <p>Find elements by name, symbol, number, or clues. Race the clock across all 118.</p>
+        <span class="hub-card-go">Open Elementra</span>
+      </a>
+
+      <a class="hub-card hub-card--cosmica" href="/cosmica/">
+        <span class="hub-card-kicker">Coming soon</span>
+        <span class="hub-card-art hub-card-art--cosmica" aria-hidden="true">
+          <svg viewBox="0 0 320 180" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <radialGradient id="nebula" cx="50%" cy="40%" r="70%">
+                <stop offset="0%" stop-color="#7b5cff" />
+                <stop offset="45%" stop-color="#2a1b64" />
+                <stop offset="100%" stop-color="#070616" />
+              </radialGradient>
+            </defs>
+            <rect width="320" height="180" fill="url(#nebula)" />
+            <circle cx="250" cy="48" r="22" fill="#f4e8c4" />
+            <circle cx="250" cy="48" r="34" fill="none" stroke="rgba(244,232,196,0.35)" stroke-width="2" />
+            <circle cx="250" cy="48" r="48" fill="none" stroke="rgba(124,196,255,0.25)" stroke-width="1.5" />
+            <circle cx="62" cy="128" r="3" fill="#fff" />
+            <circle cx="88" cy="40" r="2" fill="#c9e4ff" />
+            <circle cx="140" cy="72" r="1.5" fill="#fff" />
+            <circle cx="190" cy="150" r="2.2" fill="#ffd6a8" />
+            <circle cx="40" cy="58" r="1.8" fill="#fff" />
+          </svg>
+        </span>
+        <h2>Cosmica</h2>
+        <p>Name the planets, stars, and constellations. Same race-the-clock energy, out in space.</p>
+        <span class="hub-card-go">Open Cosmica</span>
+      </a>
+    </main>
   </body>
 </html>

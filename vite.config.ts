@@ -1,8 +1,12 @@
 import type { IncomingMessage } from "node:http";
+import { dirname, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
 import react from "@vitejs/plugin-react";
 import type { Connect, Plugin, ViteDevServer } from "vite";
 import { defineConfig } from "vite";
 import { USERNAME_TAKEN, usernameLooksValid } from "./src/game/usernames.ts";
+
+const rootDir = dirname(fileURLToPath(import.meta.url));
 
 function readBody(req: IncomingMessage): Promise<string> {
   return new Promise((resolve, reject) => {
@@ -11,6 +15,32 @@ function readBody(req: IncomingMessage): Promise<string> {
     req.on("end", () => resolve(Buffer.concat(chunks).toString("utf8")));
     req.on("error", reject);
   });
+}
+
+function rewriteGamePaths(req: IncomingMessage) {
+  if (!req.url) return;
+  const [path, query] = req.url.split("?");
+  if (path !== "/elementra" && path !== "/cosmica") return;
+  req.url = `${path}/${query ? `?${query}` : ""}`;
+}
+
+function subdirectoryIndexPlugin(): Plugin {
+  const attach = (server: ViteDevServer | { middlewares: { use: (fn: Connect.NextHandleFunction) => void } }) => {
+    server.middlewares.use((req, _res, next) => {
+      rewriteGamePaths(req as IncomingMessage);
+      next();
+    });
+  };
+
+  return {
+    name: "subdirectory-index",
+    configureServer(server) {
+      attach(server);
+    },
+    configurePreviewServer(server) {
+      attach(server);
+    },
+  };
 }
 
 function usernameClaimPlugin(): Plugin {
@@ -80,10 +110,20 @@ function usernameClaimPlugin(): Plugin {
 }
 
 export default defineConfig({
-  // Apex domain (charlietheboss.com). Logo and other files are bundled into
-  // /assets so they still load; do not hard-code /logo.jpg.
+  // Apex hub at /, games at /elementra/ and /cosmica/. Bundled files go under
+  // /assets; do not hard-code /logo.jpg.
   base: "/",
-  plugins: [react(), usernameClaimPlugin()],
+  appType: "mpa",
+  plugins: [subdirectoryIndexPlugin(), react(), usernameClaimPlugin()],
+  build: {
+    rollupOptions: {
+      input: {
+        hub: resolve(rootDir, "index.html"),
+        elementra: resolve(rootDir, "elementra/index.html"),
+        cosmica: resolve(rootDir, "cosmica/index.html"),
+      },
+    },
+  },
   server: {
     // Listen on all interfaces so port-forwarded / tunnel URLs work in cloud dev.
     host: true,
