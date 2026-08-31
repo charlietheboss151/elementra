@@ -1,0 +1,8 @@
+# Copy the Host block into ~/.ssh/config (chmod 600).
+# Generate a key first: ./scripts/setup-deploy-ssh.sh
+
+Host elementra
+  HostName 192.64.87.248
+  User charlie
+  IdentityFile ~/.ssh/elementra_ed25519
+  IdentitiesOnly yes

@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Deploy SSH helper (`scripts/setup-deploy-ssh.sh`), `Host elementra` config example, and `scripts/deploy.sh` for charlietheboss.com.
+
 ## [0.19.1] - 2026-08-30
 
 ### Changed

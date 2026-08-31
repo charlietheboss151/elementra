@@ -153,5 +153,10 @@ vite.config.ts.timestamp-*
 *.sln
 *.sw?
 dist-ssr
-*.local
+  *.local
+
+# SSH private keys (never commit)
+.ssh/
+**/elementra_ed25519
+**/elementra_ed25519.pub
 

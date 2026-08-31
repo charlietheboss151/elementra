@@ -48,4 +48,32 @@ npm run lint     # oxlint
 
 `npm run build` writes production files to `dist/` with site-root URLs (`base: '/'`) for [charlietheboss.com](https://charlietheboss.com). The title art is bundled into `/assets` (not a raw `/logo.jpg`). Upload the contents of `dist/`, not the project source. Preserve `public_html/.well-known/` if you rsync onto the live docroot. Username claims use `api/usernames.php` when the host runs PHP; names are stored in `elementra-usernames.json` next to `public_html`. If PHP is not enabled, two people on different devices can still pick the same name (this browser still blocks a duplicate).
 
+## Deploy (charlietheboss.com)
+
+Production lives on `charlie@192.64.87.248` in `~/src/elementra`, with the site root at `~/public_html/`.
+
+### One-time SSH setup
+
+```bash
+./scripts/setup-deploy-ssh.sh
+```
+
+That creates `~/.ssh/elementra_ed25519` and adds a `Host elementra` block to `~/.ssh/config` (see `deploy/ssh-config.example`). Copy the printed public key into `~/.ssh/authorized_keys` on the server — the script prints a one-liner you can run from any machine that already has access.
+
+First connect (accept the host key once):
+
+```bash
+ssh elementra 'echo ok'
+```
+
+### Deploy a release
+
+From a clean `main` that you want live:
+
+```bash
+./scripts/deploy.sh
+```
+
+The script pulls `main` on the server, runs `npm ci && npm run build`, and rsyncs `dist/` to `~/public_html/` (keeping `.well-known`). Override paths with `ELEMENTRA_SSH_HOST`, `ELEMENTRA_REMOTE_SRC`, or `ELEMENTRA_REMOTE_WEB` if needed.
+
 This project is licensed under the [GNU General Public License v3.0](LICENSE).
