@@ -1,6 +1,6 @@
 import { ELEMENTS } from "../data/elements";
 import { previewFactsFor } from "../game/elementFacts";
-import { ElementTileButton, handleTileClick, tileClass, tileIsIdentified, type TileViewProps } from "./elementTile";
+import { ElementTileButton, handleTileClick, tileClass, tileIsIdentified, tileShowCheckmark, type TileViewProps } from "./elementTile";
 
 export function PeriodicTable({
   reveal,
@@ -55,6 +55,7 @@ export function PeriodicTable({
               correctAtomicNumber,
             )}
             explorerFacts={explorer ? previewFactsFor(element) : undefined}
+            showCheckmark={tileShowCheckmark(element.atomicNumber, answeredMarks, resolution)}
             disabled={disabled}
           />
         ))}

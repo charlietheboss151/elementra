@@ -14,22 +14,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Site landing at charlietheboss.com with cards for Elementra and Cosmica.
 - Cosmica coming-soon page at `/cosmica/`.
 - Deploy SSH helper (`scripts/setup-deploy-ssh.sh`), `Host elementra` config example, and `scripts/deploy.sh` for charlietheboss.com.
+- On the setup screen, hover or focus any tile in the preview table to pop it forward and read element-specific trivia.
 
 ### Changed
 
 - Elementra now lives at `/elementra/` instead of the site root.
-
-## [0.19.1] - 2026-08-30
-
-### Changed
-
-- Setup-screen hover cards now show element-specific trivia instead of generic family and phase blurbs.
-
-## [0.19.0] - 2026-08-30
-
-### Added
-
-- On the setup screen, hover or focus any tile in the preview table to pop it forward and read the element name plus a few quick facts.
+- Correct tiles show the full name, symbol, and number, a checkmark, and a stronger pop so it is easier to see what is left at the end of a round.
 
 ## [0.18.1] - 2026-08-29
 
