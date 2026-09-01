@@ -21,8 +21,9 @@ npm run build
 rsync -a --delete --exclude ".well-known" --exclude "cosmica" dist/ ${REMOTE_WEB}/
 bash ${REMOTE_SRC}/scripts/start-account-server.sh
 cp ${REMOTE_SRC}/deploy/nginx-elementra-api.conf \${HOME}/elementra-nginx-api.conf
-if ! crontab -l 2>/dev/null | grep -q start-account-server.sh; then
-  (crontab -l 2>/dev/null; echo "@reboot bash \$HOME/src/elementra/scripts/start-account-server.sh") | crontab -
+existing="\$(crontab -l 2>/dev/null || true)"
+if ! echo "\$existing" | grep -q start-account-server.sh; then
+  printf '%s\\n' "\$existing" "@reboot bash \$HOME/src/elementra/scripts/start-account-server.sh" | crontab -
 fi
 echo "Deployed commit: \$(git rev-parse --short HEAD)"
 echo "Note: Cosmica deploys separately from ~/src/cosmica (see cosmica repo)."
