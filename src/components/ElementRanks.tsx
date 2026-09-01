@@ -39,7 +39,7 @@ export function ElementRanks({ user }: ElementRanksProps) {
       <p className="lede">
         Best is the element you hit on the first try most. A 2nd or 3rd try ranks lower.
         Worst is the one you miss the most.
-        {user ? "" : " Log in from the title screen to keep this with your account."}
+        {user ? "" : " Log in from the title screen to keep this with your account on any device."}
       </p>
       {rows.length === 0 ? (
         <p className="lede">Play a round and the elements you answer will show up here.</p>

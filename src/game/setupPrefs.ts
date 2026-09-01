@@ -18,19 +18,20 @@ function isElementSet(value: unknown): value is ElementSetId {
   return typeof value === "string" && (ELEMENT_SET_IDS as readonly string[]).includes(value);
 }
 
+export function setupFromUnknown(value: unknown): GameConfig | null {
+  if (!value || typeof value !== "object" || Array.isArray(value)) return null;
+  const rec = value as Record<string, unknown>;
+  const modeId = typeof rec.modeId === "string" ? rec.modeId : "";
+  if (!GAME_MODES.some((mode) => mode.id === modeId)) return null;
+  if (!isElementSet(rec.elementSet)) return null;
+  if (typeof rec.timed !== "boolean") return null;
+  return { modeId, elementSet: rec.elementSet, timed: rec.timed };
+}
+
 export function parseSetup(raw: string | null): GameConfig {
   if (!raw) return { ...DEFAULT_CONFIG };
   try {
-    const parsed: unknown = JSON.parse(raw);
-    if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) {
-      return { ...DEFAULT_CONFIG };
-    }
-    const rec = parsed as Record<string, unknown>;
-    const modeId = typeof rec.modeId === "string" ? rec.modeId : "";
-    if (!GAME_MODES.some((mode) => mode.id === modeId)) return { ...DEFAULT_CONFIG };
-    if (!isElementSet(rec.elementSet)) return { ...DEFAULT_CONFIG };
-    if (typeof rec.timed !== "boolean") return { ...DEFAULT_CONFIG };
-    return { modeId, elementSet: rec.elementSet, timed: rec.timed };
+    return setupFromUnknown(JSON.parse(raw)) ?? { ...DEFAULT_CONFIG };
   } catch {
     return { ...DEFAULT_CONFIG };
   }

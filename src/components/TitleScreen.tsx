@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import brandLogo from "../assets/logo.jpg";
 import { unlockSpeech } from "../audio/speech";
 import { playUi, unlockAudio } from "../audio/sounds";
-import { currentUser, logout } from "../game/auth";
+import { accountToken, currentUser, logout } from "../game/auth";
 import { defaultStore } from "../game/scoreboard";
 import { AuthCard } from "./AuthCard";
 
@@ -63,6 +63,11 @@ export function TitleScreen({ user, onUserChange, onStart }: TitleScreenProps) {
           >
             Log out
           </button>
+        </p>
+      ) : null}
+      {user && !accountToken(defaultStore()) ? (
+        <p className="auth-status-line">
+          Log out and log in once to use this account on other devices.
         </p>
       ) : null}
       {authOpen && !user ? (

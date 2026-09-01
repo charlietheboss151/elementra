@@ -111,6 +111,11 @@ export function boardKey(user: string | null): string {
   return user ? `${SCOREBOARD_KEY}:${user}` : SCOREBOARD_KEY;
 }
 
+export function parseEntries(parsed: unknown): ScoreboardEntry[] {
+  if (!Array.isArray(parsed)) return [];
+  return parsed.filter(isEntry).map(normalizeEntry);
+}
+
 export function loadEntries(
   store: ScoreboardStore = defaultStore(),
   user: string | null = null,
@@ -118,9 +123,7 @@ export function loadEntries(
   try {
     const raw = store.getItem(boardKey(user));
     if (!raw) return [];
-    const parsed: unknown = JSON.parse(raw);
-    if (!Array.isArray(parsed)) return [];
-    return parsed.filter(isEntry).map(normalizeEntry);
+    return parseEntries(JSON.parse(raw));
   } catch {
     return [];
   }

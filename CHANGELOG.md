@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.21.0] - 2026-08-31
+
+### Added
+
+- Log in on another phone or computer with the same name and password. Scoreboard, element ranks, and setup follow the account.
+
+### Changed
+
+- Register copy says the account works on any device, not only this browser.
+
 ## [0.20.2] - 2026-08-31
 
 ### Changed

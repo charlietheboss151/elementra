@@ -1,11 +1,11 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { GameScreen } from "./components/GameScreen";
 import { HomeScreen } from "./components/HomeScreen";
 import { PerfHud } from "./components/PerfHud";
 import { SoundMenu } from "./components/SoundMenu";
 import { ResultsScreen } from "./components/ResultsScreen";
 import { TitleScreen } from "./components/TitleScreen";
-import { currentUser } from "./game/auth";
+import { currentUser, syncAccount } from "./game/auth";
 import { applyRoundToStats } from "./game/elementStats";
 import { applyProgressResetOnce } from "./game/progressReset";
 import { defaultStore, recordRound } from "./game/scoreboard";
@@ -29,6 +29,15 @@ function App() {
   );
   const [screen, setScreen] = useState<Screen>({ kind: "title" });
 
+  useEffect(() => {
+    const store = defaultStore();
+    void syncAccount(store).then((ok) => {
+      if (!ok) return;
+      const who = currentUser(store);
+      if (who) setConfig(loadSetup(store, who));
+    });
+  }, []);
+
   const changeUser = useCallback((next: string | null) => {
     setUser(next);
     setConfig(loadSetup(defaultStore(), next));
@@ -38,6 +47,7 @@ function App() {
     (next: GameConfig) => {
       saveSetup(next, defaultStore(), user);
       setConfig(next);
+      void syncAccount(defaultStore());
     },
     [user],
   );
@@ -58,6 +68,7 @@ function App() {
     const who = currentUser(defaultStore());
     const entry = recordRound(result, defaultStore(), Date.now(), who);
     applyRoundToStats({}, result, defaultStore(), who);
+    void syncAccount(defaultStore());
     return entry;
   }, []);
 

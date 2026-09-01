@@ -1,14 +1,23 @@
+import {
+  type AccountClient,
+  serverAccountClient,
+} from "./accountApi";
+import {
+  applyProgress,
+  emptyProgress,
+  mergeProgress,
+  readProgress,
+} from "./accountProgress";
 import type { ScoreboardStore } from "./scoreboard";
 import {
   USERNAME_TAKEN,
-  claimUsernameOnServer,
   normalizeUsername,
   usernameLooksValid,
-  type ClaimUsername,
 } from "./usernames";
 
 export const AUTH_KEY = "elementra-accounts-v1";
 export const SESSION_KEY = "elementra-session-v1";
+export const TOKEN_KEY = "elementra-token-v1";
 
 export type AuthResult = { ok: true } | { ok: false; error: string };
 
@@ -54,20 +63,65 @@ export function currentUser(store: ScoreboardStore): string | null {
   }
 }
 
+export function accountToken(store: ScoreboardStore): string | null {
+  try {
+    const raw = store.getItem(TOKEN_KEY);
+    if (!raw) return null;
+    const parsed: unknown = JSON.parse(raw);
+    return typeof parsed === "string" && parsed.length > 0 ? parsed : null;
+  } catch {
+    return null;
+  }
+}
+
 function setSession(store: ScoreboardStore, username: string | null) {
   if (username) store.setItem(SESSION_KEY, JSON.stringify(username));
   else store.setItem(SESSION_KEY, "null");
 }
 
+function setToken(store: ScoreboardStore, token: string | null) {
+  if (token) store.setItem(TOKEN_KEY, JSON.stringify(token));
+  else store.setItem(TOKEN_KEY, "null");
+}
+
+async function cacheLocalAccount(store: ScoreboardStore, username: string, password: string) {
+  const book = loadBook(store);
+  const salt = randomSalt();
+  book[username] = { salt, hash: await hashSecret(password, salt) };
+  store.setItem(AUTH_KEY, JSON.stringify(book));
+}
+
+async function localPasswordMatches(
+  store: ScoreboardStore,
+  username: string,
+  password: string,
+): Promise<boolean> {
+  const account = loadBook(store)[username];
+  if (!account) return false;
+  return (await hashSecret(password, account.salt)) === account.hash;
+}
+
+function finishLogin(
+  store: ScoreboardStore,
+  username: string,
+  token: string,
+  progress: ReturnType<typeof mergeProgress>,
+) {
+  setSession(store, username);
+  setToken(store, token);
+  applyProgress(store, username, progress);
+}
+
 export function logout(store: ScoreboardStore) {
   setSession(store, null);
+  setToken(store, null);
 }
 
 export async function register(
   name: string,
   password: string,
   store: ScoreboardStore,
-  claim: ClaimUsername = claimUsernameOnServer,
+  client: AccountClient = serverAccountClient,
 ): Promise<AuthResult> {
   const username = normalizeUsername(name);
   if (!usernameLooksValid(username)) {
@@ -80,29 +134,112 @@ export async function register(
   if (book[username]) {
     return { ok: false, error: USERNAME_TAKEN };
   }
-  const reserved = await claim(username);
-  if (!reserved.ok) return reserved;
-  const salt = randomSalt();
-  book[username] = { salt, hash: await hashSecret(password, salt) };
-  store.setItem(AUTH_KEY, JSON.stringify(book));
+
+  const remote = await client.register(username, password, emptyProgress());
+  if (!remote.ok && remote.code !== "network") return remote;
+
+  await cacheLocalAccount(store, username, password);
+  if (remote.ok) {
+    finishLogin(store, username, remote.token, mergeProgress(emptyProgress(), remote.progress));
+    return { ok: true };
+  }
+
   setSession(store, username);
+  setToken(store, null);
   return { ok: true };
+}
+
+async function uploadLocalAccount(
+  username: string,
+  password: string,
+  store: ScoreboardStore,
+  client: AccountClient,
+): Promise<AuthResult> {
+  const progress = readProgress(store, username);
+  const created = await client.register(username, password, progress);
+  if (created.ok) {
+    finishLogin(store, username, created.token, mergeProgress(progress, created.progress));
+    return { ok: true };
+  }
+  if (created.code === "network") {
+    setSession(store, username);
+    return { ok: true };
+  }
+  if (created.code === "taken") {
+    const bound = await client.bind(username, password, progress);
+    if (bound.ok) {
+      finishLogin(store, username, bound.token, mergeProgress(progress, bound.progress));
+      return { ok: true };
+    }
+    if (bound.code === "network") {
+      setSession(store, username);
+      return { ok: true };
+    }
+    setSession(store, username);
+    setToken(store, null);
+    return { ok: true };
+  }
+  return created;
 }
 
 export async function login(
   name: string,
   password: string,
   store: ScoreboardStore,
+  client: AccountClient = serverAccountClient,
 ): Promise<AuthResult> {
   const username = normalizeUsername(name);
-  const account = loadBook(store)[username];
-  if (!account) {
-    return { ok: false, error: "No account with that name on this device." };
+  const localOk = await localPasswordMatches(store, username, password);
+  const remote = await client.login(username, password);
+
+  if (remote.ok) {
+    await cacheLocalAccount(store, username, password);
+    finishLogin(
+      store,
+      username,
+      remote.token,
+      mergeProgress(readProgress(store, username), remote.progress),
+    );
+    const pushed = await client.sync(remote.token, readProgress(store, username));
+    if (pushed.ok) applyProgress(store, username, pushed.progress);
+    return { ok: true };
   }
-  const hash = await hashSecret(password, account.salt);
-  if (hash !== account.hash) {
+
+  if (remote.code === "wrong") {
     return { ok: false, error: "Wrong password." };
   }
-  setSession(store, username);
-  return { ok: true };
+
+  if (localOk) {
+    if (remote.code === "network") {
+      setSession(store, username);
+      return { ok: true };
+    }
+    return uploadLocalAccount(username, password, store, client);
+  }
+
+  if (remote.code === "unbound") {
+    return {
+      ok: false,
+      error: "Log in on the device you registered first, then you can use other devices.",
+    };
+  }
+
+  if (remote.code === "missing") {
+    return { ok: false, error: "No account with that name." };
+  }
+
+  return { ok: false, error: remote.error };
+}
+
+export async function syncAccount(
+  store: ScoreboardStore,
+  client: AccountClient = serverAccountClient,
+): Promise<boolean> {
+  const user = currentUser(store);
+  const token = accountToken(store);
+  if (!user || !token) return false;
+  const remote = await client.sync(token, readProgress(store, user));
+  if (!remote.ok) return false;
+  applyProgress(store, user, remote.progress);
+  return true;
 }
