@@ -20,7 +20,7 @@ function readBody(req: IncomingMessage): Promise<string> {
 function rewriteGamePaths(req: IncomingMessage) {
   if (!req.url) return;
   const [path, query] = req.url.split("?");
-  if (path !== "/elementra" && path !== "/cosmica") return;
+  if (path !== "/elementra") return;
   req.url = `${path}/${query ? `?${query}` : ""}`;
 }
 
@@ -110,8 +110,7 @@ function usernameClaimPlugin(): Plugin {
 }
 
 export default defineConfig({
-  // Apex hub at /, games at /elementra/ and /cosmica/. Bundled files go under
-  // /assets; do not hard-code /logo.jpg.
+  // Apex hub at / and Elementra at /elementra/. Cosmica deploys from its own repo.
   base: "/",
   appType: "mpa",
   plugins: [subdirectoryIndexPlugin(), react(), usernameClaimPlugin()],
@@ -120,7 +119,6 @@ export default defineConfig({
       input: {
         hub: resolve(rootDir, "index.html"),
         elementra: resolve(rootDir, "elementra/index.html"),
-        cosmica: resolve(rootDir, "cosmica/index.html"),
       },
     },
   },

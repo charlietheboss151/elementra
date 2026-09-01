@@ -3,7 +3,7 @@
 This repo is the [charlietheboss.com](https://charlietheboss.com) site. The home page is a landing with two games:
 
 - **[Elementra](https://charlietheboss.com/elementra/)** — a fast-paced periodic table challenge inspired by geography games like Seterra. Find elements by name, symbol, atomic number, property clues, or by typing the name from the symbol.
-- **[Cosmica](https://charlietheboss.com/cosmica/)** — a space guessing game (coming soon).
+- **[Cosmica](https://charlietheboss.com/cosmica/)** — an interactive Solar System map game (separate repo: [charlietheboss151/cosmica](https://github.com/charlietheboss151/cosmica)).
 
 Play on a computer or a phone.
 
@@ -39,13 +39,13 @@ Open **http://127.0.0.1:5173** (http, not https):
 
 - `/` — site landing
 - `/elementra/` — Elementra
-- `/cosmica/` — Cosmica (coming soon)
+- `/cosmica/` — Cosmica (built and deployed from the [cosmica](https://github.com/charlietheboss151/cosmica) repo)
 
 The dev server uses port 5173 and accepts forwarded URLs from cloud IDEs. There are no env files or secrets.
 
 ## How it is built
 
-Vite + React + TypeScript, as a multi-page site. The hub and Cosmica pages are static HTML. Elementra is the React app under `elementra/`. Element facts live in one table (`src/data/elements.ts`). Game modes are registered in `src/game/modes.ts` so new modes can reuse the same data and scoring.
+Vite + React + TypeScript, as a multi-page site. The hub is static HTML. Elementra is the React app under `elementra/`. Cosmica is a separate repository and deploys to the same host at `/cosmica/`. Element facts live in one table (`src/data/elements.ts`). Game modes are registered in `src/game/modes.ts` so new modes can reuse the same data and scoring.
 
 ```bash
 npm run dev      # http://127.0.0.1:5173 (port 5173; fails if already taken)
@@ -55,7 +55,7 @@ npm run preview  # serve the dist/ build locally
 npm run lint     # oxlint
 ```
 
-`npm run build` writes production files to `dist/` with site-root URLs (`base: '/'`) for [charlietheboss.com](https://charlietheboss.com): `dist/index.html` is the hub, `dist/elementra/` is the game, `dist/cosmica/` is Cosmica. The title art is bundled into `/assets` (not a raw `/logo.jpg`). Upload the contents of `dist/`, not the project source. Preserve `public_html/.well-known/` if you rsync onto the live docroot. Username claims use `api/usernames.php` when the host runs PHP; names are stored in `elementra-usernames.json` next to `public_html`. If PHP is not enabled, two people on different devices can still pick the same name (this browser still blocks a duplicate).
+`npm run build` writes production files to `dist/` with site-root URLs (`base: '/'`) for [charlietheboss.com](https://charlietheboss.com): `dist/index.html` is the hub and `dist/elementra/` is the game. Cosmica is **not** built from this repo — deploy it from `charlietheboss151/cosmica`. The Elementra deploy script skips `public_html/cosmica/` so it does not overwrite the live Cosmica game. The title art is bundled into `/assets` (not a raw `/logo.jpg`). Upload the contents of `dist/`, not the project source. Preserve `public_html/.well-known/` if you rsync onto the live docroot. Username claims use `api/usernames.php` when the host runs PHP; names are stored in `elementra-usernames.json` next to `public_html`. If PHP is not enabled, two people on different devices can still pick the same name (this browser still blocks a duplicate).
 
 ## Deploy (charlietheboss.com)
 
@@ -83,6 +83,6 @@ From a clean `main` that you want live:
 ./scripts/deploy.sh
 ```
 
-The script pulls `main` on the server, runs `npm ci && npm run build`, and rsyncs `dist/` to `~/public_html/` (keeping `.well-known`). After deploy: [charlietheboss.com](https://charlietheboss.com), [Elementra](https://charlietheboss.com/elementra/), [Cosmica](https://charlietheboss.com/cosmica/). Override paths with `ELEMENTRA_SSH_HOST`, `ELEMENTRA_REMOTE_SRC`, or `ELEMENTRA_REMOTE_WEB` if needed.
+The script pulls `main` on the server, runs `npm ci && npm run build`, and rsyncs `dist/` to `~/public_html/` (keeping `.well-known` and **`cosmica/`**). Deploy Cosmica separately from its repo (`npm run deploy` in [cosmica](https://github.com/charlietheboss151/cosmica)). After deploy: [charlietheboss.com](https://charlietheboss.com), [Elementra](https://charlietheboss.com/elementra/), [Cosmica](https://charlietheboss.com/cosmica/). Override paths with `ELEMENTRA_SSH_HOST`, `ELEMENTRA_REMOTE_SRC`, or `ELEMENTRA_REMOTE_WEB` if needed.
 
 This project is licensed under the [GNU General Public License v3.0](LICENSE).

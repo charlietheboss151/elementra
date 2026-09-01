@@ -18,8 +18,9 @@ cd ${REMOTE_SRC}
 git pull --ff-only origin main
 npm ci
 npm run build
-rsync -a --delete --exclude ".well-known" dist/ ${REMOTE_WEB}/
+rsync -a --delete --exclude ".well-known" --exclude "cosmica" dist/ ${REMOTE_WEB}/
 echo "Deployed commit: \$(git rev-parse --short HEAD)"
+echo "Note: Cosmica deploys separately from ~/src/cosmica (see cosmica repo)."
 EOF
 
 echo "Live site: https://charlietheboss.com"
