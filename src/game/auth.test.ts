@@ -6,6 +6,7 @@ import {
   TOKEN_KEY,
   accountToken,
   currentUser,
+  hashSecret,
   login,
   logout,
   register,
@@ -100,6 +101,13 @@ describe("auth", () => {
     expect(deviceB.getItem("elementra-scoreboard-v1:henry")).toContain("run-1");
   });
 
+  it("does not create an account when the server is unreachable", async () => {
+    const store = memoryKv();
+    const result = await register("henry", "secret12", store, offlineAccountClient());
+    expect(result.ok).toBe(false);
+    expect(currentUser(store)).toBeNull();
+  });
+
   it("still logs in from the local cache when the account server is offline", async () => {
     const store = memoryKv();
     expect((await register("henry", "secret12", store, memoryAccountClient())).ok).toBe(true);
@@ -109,12 +117,15 @@ describe("auth", () => {
     expect(currentUser(store)).toBe("henry");
   });
 
-  it("uploads a local-only account so a second device can log in", async () => {
+  it("uploads a previously local account so a second device can log in", async () => {
     const server = memoryAccountClient();
     const deviceA = memoryKv();
-    expect((await register("henry", "secret12", deviceA, offlineAccountClient())).ok).toBe(true);
+    const salt = "aa".repeat(16);
+    deviceA.setItem(
+      AUTH_KEY,
+      JSON.stringify({ henry: { salt, hash: await hashSecret("secret12", salt) } }),
+    );
     deviceA.setItem("elementra-scoreboard-v1:henry", JSON.stringify([sampleEntry]));
-    logout(deviceA);
 
     expect((await login("henry", "secret12", deviceA, server)).ok).toBe(true);
     expect(accountToken(deviceA)).toBeTruthy();

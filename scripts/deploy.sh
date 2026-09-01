@@ -19,8 +19,14 @@ git pull --ff-only origin main
 npm ci
 npm run build
 rsync -a --delete --exclude ".well-known" --exclude "cosmica" dist/ ${REMOTE_WEB}/
+bash ${REMOTE_SRC}/scripts/start-account-server.sh
+cp ${REMOTE_SRC}/deploy/nginx-elementra-api.conf \${HOME}/elementra-nginx-api.conf
+if ! crontab -l 2>/dev/null | grep -q start-account-server.sh; then
+  (crontab -l 2>/dev/null; echo "@reboot bash \$HOME/src/elementra/scripts/start-account-server.sh") | crontab -
+fi
 echo "Deployed commit: \$(git rev-parse --short HEAD)"
 echo "Note: Cosmica deploys separately from ~/src/cosmica (see cosmica repo)."
+echo "Note: nginx must proxy /api/ to 127.0.0.1:8788 (see ~/elementra-nginx-api.conf)."
 EOF
 
 echo "Live site: https://charlietheboss.com"

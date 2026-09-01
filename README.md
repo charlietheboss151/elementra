@@ -15,7 +15,7 @@ Play on a computer or a phone.
 - **Groups** — Common elements for a short beginner round, a chemical family, or the whole table.
 - **Scoring** — three guesses each. A first try is 1 point; later tries score less. A round is every element in the group you picked.
 - **Hint** — on large groups, lights the period row; on All or Common, a second tap lights the family.
-- **Progress** — scoreboard and element ranks save to your account when you register or log in, so they follow you to another phone or computer. Ranks show the top 3 until you tap Show more. Register or log in is optional (a popup you can close). Usernames are unique.
+- **Progress** — scoreboard and element ranks save to your account when you register or log in, so they follow you to another phone, computer, or browser. Ranks show the top 3 until you tap Show more. Register or log in is optional (a popup you can close). Usernames are unique.
 - **Sound** — the top-right menu mutes voices, effects, or both. Name questions are spoken so you hear the name.
 
 Atomic-number questions use a shuffled list so you cannot count across the table. Mixed Practice can ask those too, plus names, symbols, and property clues.
@@ -55,7 +55,7 @@ npm run preview  # serve the dist/ build locally
 npm run lint     # oxlint
 ```
 
-`npm run build` writes production files to `dist/` with site-root URLs (`base: '/'`) for [charlietheboss.com](https://charlietheboss.com): `dist/index.html` is the hub and `dist/elementra/` is the game. Cosmica is **not** built from this repo — deploy it from `charlietheboss151/cosmica`. The Elementra deploy script skips `public_html/cosmica/` so it does not overwrite the live Cosmica game. The title art is bundled into `/assets` (not a raw `/logo.jpg`). Upload the contents of `dist/`, not the project source. Preserve `public_html/.well-known/` if you rsync onto the live docroot. Accounts use `api/account.php` when the host runs PHP: passwords are hashed on the server, and scoreboard, ranks, and setup store in `elementra-accounts.json` next to `public_html`. Username uniqueness still uses `api/usernames.php` / `elementra-usernames.json`. If PHP is not enabled, you can still register in one browser; other devices will not see that account.
+`npm run build` writes production files to `dist/` with site-root URLs (`base: '/'`) for [charlietheboss.com](https://charlietheboss.com): `dist/index.html` is the hub and `dist/elementra/` is the game. Cosmica is **not** built from this repo — deploy it from `charlietheboss151/cosmica`. The Elementra deploy script skips `public_html/cosmica/` so it does not overwrite the live Cosmica game. The title art is bundled into `/assets` (not a raw `/logo.jpg`). Upload the contents of `dist/`, not the project source. Preserve `public_html/.well-known/` if you rsync onto the live docroot. Accounts are stored by `server/account-server.mjs` (port 8788). Production nginx must proxy `/api/` to that process (`deploy/nginx-elementra-api.conf`); `sudo bash scripts/install-elementra-api-nginx.sh` on the server installs it. Local `npm run dev` mocks the same API in Vite.
 
 ## Deploy (charlietheboss.com)
 

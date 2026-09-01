@@ -136,16 +136,10 @@ export async function register(
   }
 
   const remote = await client.register(username, password, emptyProgress());
-  if (!remote.ok && remote.code !== "network") return remote;
+  if (!remote.ok) return remote;
 
   await cacheLocalAccount(store, username, password);
-  if (remote.ok) {
-    finishLogin(store, username, remote.token, mergeProgress(emptyProgress(), remote.progress));
-    return { ok: true };
-  }
-
-  setSession(store, username);
-  setToken(store, null);
+  finishLogin(store, username, remote.token, mergeProgress(emptyProgress(), remote.progress));
   return { ok: true };
 }
 

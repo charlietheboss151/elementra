@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.21.2] - 2026-08-31
+
+### Fixed
+
+- Register and log in talk to the account server on every device. The same name and password now work on another phone, computer, or browser once nginx proxies `/api/` (live nginx was downloading the PHP file instead of running it).
+
 ## [0.21.1] - 2026-08-31
 
 ### Fixed
