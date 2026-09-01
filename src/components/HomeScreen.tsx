@@ -166,7 +166,7 @@ export function HomeScreen({ config, user, onChange, onPlay, onBack }: HomeScree
               ? "Family, room-temperature state, period, and other facts stack until they point to one element. During play, names, symbols, atomic numbers, and family colors stay hidden so the clues have to do the work."
               : typeMode
                 ? "You see the symbol and atomic number. Type the English name. Aluminium and sulphur count. Three guesses, same score as clicking."
-                : "This is your map of the elements. Match the clue, click the tile, and watch the table light up as you go — green for a first-try strike, gold when you needed a second look, orange on a last-chance save. Miss all three and the real answer flares red, then every mark stays so you can see the round take shape. Hover any tile here for a quick fact card."}
+                : "This is your map of the elements. Match the clue, click the tile, and watch the table light up as you go — green for a first-try strike, gold when you needed a second look, orange on a last-chance save. Miss all three and the real answer flares red, then every mark stays so you can see the round take shape. Tap or hover any tile here for a quick fact card."}
         </p>
         {typeMode ? (
           <p className="type-answer-preview">Fe → Iron · Au → Gold · Na → Sodium</p>

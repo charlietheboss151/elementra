@@ -42,5 +42,7 @@ describe("PeriodicTable", () => {
     expect(html).toContain('role="tooltip"');
     expect(html).toContain("Hydrogen (H)");
     expect(html).toContain("tile-tip-facts");
+    expect(html).toMatch(/data-atomic-number="1"[^>]*data-grid-column="1"/);
+    expect(html).toMatch(/data-atomic-number="2"[^>]*data-grid-column="18"/);
   });
 });

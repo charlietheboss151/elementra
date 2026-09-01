@@ -143,6 +143,7 @@ export function ElementTileButton({
       style={style}
       data-atomic-number={element.atomicNumber}
       data-grid-row={style?.gridRow}
+      data-grid-column={style?.gridColumn}
       disabled={explorer ? undefined : disabled}
       aria-disabled={explorer ? true : undefined}
       tabIndex={explorer ? 0 : undefined}

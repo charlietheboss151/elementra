@@ -888,11 +888,17 @@ button {
 }
 
 .tile--explorer .tile-tip {
+  --tip-x: -50%;
+  --tip-y: 6px;
+  --tip-arrow-left: 50%;
+  --tip-arrow-right: auto;
+  --tip-arrow-margin-left: -6px;
   position: absolute;
   left: 50%;
+  right: auto;
   bottom: calc(100% + 10px);
-  transform: translateX(-50%) translateY(6px);
-  width: min(250px, 74vw);
+  transform: translateX(var(--tip-x)) translateY(var(--tip-y));
+  width: min(250px, calc(100vw - 32px));
   padding: 10px 12px;
   border-radius: 12px;
   border: 1px solid var(--line);
@@ -914,17 +920,11 @@ button {
   content: "";
   position: absolute;
   top: 100%;
-  left: 50%;
-  margin-left: -6px;
+  left: var(--tip-arrow-left);
+  right: var(--tip-arrow-right);
+  margin-left: var(--tip-arrow-margin-left);
   border: 6px solid transparent;
   border-top-color: #0d1828;
-}
-
-.tile--explorer:hover .tile-tip,
-.tile--explorer:focus-visible .tile-tip {
-  opacity: 1;
-  visibility: visible;
-  transform: translateX(-50%) translateY(0);
 }
 
 .tile--explorer[data-grid-row="6"] .tile-tip,
@@ -933,18 +933,7 @@ button {
 .tile--explorer[data-grid-row="10"] .tile-tip {
   bottom: auto;
   top: calc(100% + 10px);
-  transform: translateX(-50%) translateY(-6px);
-}
-
-.tile--explorer[data-grid-row="6"]:hover .tile-tip,
-.tile--explorer[data-grid-row="6"]:focus-visible .tile-tip,
-.tile--explorer[data-grid-row="7"]:hover .tile-tip,
-.tile--explorer[data-grid-row="7"]:focus-visible .tile-tip,
-.tile--explorer[data-grid-row="9"]:hover .tile-tip,
-.tile--explorer[data-grid-row="9"]:focus-visible .tile-tip,
-.tile--explorer[data-grid-row="10"]:hover .tile-tip,
-.tile--explorer[data-grid-row="10"]:focus-visible .tile-tip {
-  transform: translateX(-50%) translateY(0);
+  --tip-y: -6px;
 }
 
 .tile--explorer[data-grid-row="6"] .tile-tip::after,
@@ -955,6 +944,44 @@ button {
   bottom: 100%;
   border-top-color: transparent;
   border-bottom-color: #0d1828;
+}
+
+.tile--explorer[data-grid-column="1"] .tile-tip,
+.tile--explorer[data-grid-column="2"] .tile-tip,
+.tile--explorer[data-grid-column="3"] .tile-tip,
+.tile--explorer[data-grid-column="4"] .tile-tip,
+.tile--explorer[data-grid-column="5"] .tile-tip,
+.tile--explorer[data-grid-column="6"] .tile-tip,
+.tile--explorer[data-grid-column="7"] .tile-tip,
+.tile--explorer[data-grid-column="8"] .tile-tip {
+  left: 0;
+  right: auto;
+  --tip-x: 0;
+  --tip-arrow-left: 12px;
+  --tip-arrow-margin-left: 0;
+}
+
+.tile--explorer[data-grid-column="11"] .tile-tip,
+.tile--explorer[data-grid-column="12"] .tile-tip,
+.tile--explorer[data-grid-column="13"] .tile-tip,
+.tile--explorer[data-grid-column="14"] .tile-tip,
+.tile--explorer[data-grid-column="15"] .tile-tip,
+.tile--explorer[data-grid-column="16"] .tile-tip,
+.tile--explorer[data-grid-column="17"] .tile-tip,
+.tile--explorer[data-grid-column="18"] .tile-tip {
+  left: auto;
+  right: 0;
+  --tip-x: 0;
+  --tip-arrow-left: auto;
+  --tip-arrow-right: 12px;
+  --tip-arrow-margin-left: 0;
+}
+
+.tile--explorer:hover .tile-tip,
+.tile--explorer:focus-visible .tile-tip {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(var(--tip-x)) translateY(0);
 }
 
 .tile-tip-title {
