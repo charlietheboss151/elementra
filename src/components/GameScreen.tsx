@@ -201,6 +201,7 @@ export function GameScreen({ config, onComplete, onQuit }: GameScreenProps) {
       ) : usesListLayout(config.modeId, game.question.clueKind) ? (
         <ElementList
           elements={game.listElements}
+          searchable
           reveal={game.question.reveal}
           hint={game.hint}
           correctAtomicNumber={game.question.target.atomicNumber}

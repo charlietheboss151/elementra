@@ -18,7 +18,7 @@ Play on a computer or a phone.
 - **Progress** — scoreboard and element ranks save to your account when you register or log in, so they follow you to another phone, computer, or browser. Ranks show the top 3 until you tap Show more. Register or log in is optional (a popup you can close). Usernames are unique.
 - **Sound** — the top-right menu mutes voices, effects, or both. Name questions are spoken so you hear the name.
 
-Atomic-number questions use a shuffled list so you cannot count across the table. Mixed Practice can ask those too, plus names, symbols, and property clues.
+Atomic-number questions use a shuffled list so you cannot count across the table. Type a name or symbol in the search box to bring that element to the top. Mixed Practice can ask atomic-number questions too, plus names, symbols, and property clues.
 
 <img src="docs/setup.png" alt="Setup: tap a mode logo, then pick an element group" width="720">
 

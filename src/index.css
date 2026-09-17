@@ -1138,6 +1138,29 @@ button {
   gap: 8px;
 }
 
+.list-search {
+  display: grid;
+  gap: 6px;
+  margin: 0 0 12px;
+  max-width: 22rem;
+}
+
+.list-search label {
+  display: block;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.list-search input {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  background: var(--bg-elev);
+  color: var(--text);
+  font: inherit;
+}
+
 .tile,
 .f-placeholder {
   border: 0;
@@ -1559,7 +1582,8 @@ button {
     flex-direction: column;
   }
 
-  .type-answer input {
+  .type-answer input,
+  .list-search input {
     font-size: 16px;
     min-height: 44px;
   }
