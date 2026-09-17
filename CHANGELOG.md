@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.23.12] - 2026-09-16
+
+### Changed
+
+- Find-by-name and Find-by-symbol gold tiles glow a little, like atomic number.
+
 ## [0.23.11] - 2026-09-16
 
 ### Changed
