@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.23.14] - 2026-09-16
+
+### Changed
+
+- Find-by-name icon shows a gold “Find Gold” prompt like gameplay, not a search bar.
+
 ## [0.23.13] - 2026-09-16
 
 ### Changed
