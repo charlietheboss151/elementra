@@ -164,91 +164,106 @@ export function HomeScreen({
 
   return (
     <div className="screen home">
-      <nav className="hud-nav" aria-label="Elementra">
-        <p className="hud-brand">
-          <AtomMark className="hud-atom" />
-          <span className="brand-mark">Elementra</span>
-        </p>
-        <div className="hud-nav-links">
+      <div className="hud-shell">
+        <nav className="hud-nav" aria-label="Elementra">
+          <p className="hud-brand">
+            <AtomMark className="hud-atom" />
+            <span className="brand-mark">Elementra</span>
+          </p>
           <span className="hud-nav-btn is-current">
             <span className="hud-nav-ico" aria-hidden="true">
               ⌂
             </span>
             Home
           </span>
-          <button type="button" className="hud-nav-btn" onClick={openSettings}>
-            <span className="hud-nav-ico" aria-hidden="true">
-              ⚙
-            </span>
-            Settings
-          </button>
-          <button type="button" className="hud-nav-btn" onClick={openStats}>
-            <span className="hud-nav-ico" aria-hidden="true">
-              ▤
-            </span>
-            Stats
-          </button>
-          <button type="button" className="hud-nav-btn" onClick={openTable}>
-            <span className="hud-nav-ico" aria-hidden="true">
-              ▦
-            </span>
-            Periodic table
-          </button>
-          <button type="button" className="hud-nav-btn" onClick={openHelp}>
-            <span className="hud-nav-ico" aria-hidden="true">
-              ?
-            </span>
-            How to Play
-          </button>
-        </div>
-      </nav>
+          <div className="hud-nav-links">
+            <button type="button" className="hud-nav-btn" onClick={openSettings}>
+              <span className="hud-nav-ico" aria-hidden="true">
+                ⚙
+              </span>
+              Settings
+            </button>
+            <button type="button" className="hud-nav-btn" onClick={openStats}>
+              <span className="hud-nav-ico" aria-hidden="true">
+                ▤
+              </span>
+              Stats
+            </button>
+            <button type="button" className="hud-nav-btn" onClick={openTable}>
+              <span className="hud-nav-ico" aria-hidden="true">
+                ▦
+              </span>
+              Periodic table
+            </button>
+            <button type="button" className="hud-nav-btn" onClick={openHelp}>
+              <span className="hud-nav-ico" aria-hidden="true">
+                ?
+              </span>
+              How to Play
+            </button>
+          </div>
+          <svg className="hud-nav-circuit" viewBox="0 0 1200 20" preserveAspectRatio="none" aria-hidden="true">
+            <path d="M0 16 H72 L92 4 H1200" fill="none" stroke="currentColor" strokeWidth="1.7" />
+          </svg>
+        </nav>
 
-      <header className="setup-bar hud-hero">
-        <div className="hud-hero-copy">
-          <button
-            type="button"
-            className="text-button setup-back"
-            onClick={() => {
-              playUi();
-              onBack();
-            }}
-          >
-            ← Back
-          </button>
-          <h1>
-            <span className="brand-mark">Elementra</span>
-          </h1>
-          <p className="setup-kicker">Choose a mode</p>
-        </div>
-        <p className="hud-tagline">
-          <span>The periodic table guessing game</span>
-          <AtomMark className="hud-atom hud-atom-lg" />
-        </p>
-      </header>
-
-      <section className="mode-pick" aria-label="Play a mode">
-        <div className="mode-bodies">
-          {GAME_MODES.map((mode) => (
+        <header className="setup-bar hud-hero">
+          <div className="hud-hero-copy">
             <button
-              key={mode.id}
               type="button"
-              className={`mode-body ${config.modeId === mode.id ? "is-selected" : ""}`}
-              aria-label={mode.shortTitle}
+              className="text-button setup-back"
               onClick={() => {
                 playUi();
-                const next = { ...config, modeId: mode.id };
-                onChange(next);
-                setPickingModeId(mode.id);
+                onBack();
               }}
             >
-              <img className="mode-body-art" src={MODE_LOGOS[mode.id]} alt="" width={280} height={210} />
-              <span className="mode-body-label">{mode.shortTitle}</span>
+              ← Back
             </button>
-          ))}
-        </div>
-      </section>
+            <h1>
+              <span className="brand-mark">Elementra</span>
+            </h1>
+            <p className="setup-kicker">Choose a mode</p>
+          </div>
+          <p className="hud-tagline">
+            <span className="hud-tagline-copy">
+              <span>The periodic table</span>
+              <span>guessing game</span>
+            </span>
+            <svg className="hud-tagline-trace" viewBox="0 0 72 56" aria-hidden="true">
+              <path d="M0 14 H40 L58 28 H72" fill="none" stroke="currentColor" strokeWidth="1.4" />
+              <path d="M8 42 H40 L58 28" fill="none" stroke="currentColor" strokeWidth="1.4" />
+            </svg>
+            <AtomMark className="hud-atom hud-atom-lg" />
+          </p>
+        </header>
 
-      <p className="hud-footer">Explore · Learn · Discover</p>
+        <section className="mode-pick" aria-label="Play a mode">
+          <div className="mode-bodies">
+            {GAME_MODES.map((mode) => (
+              <button
+                key={mode.id}
+                type="button"
+                className={`mode-body ${config.modeId === mode.id ? "is-selected" : ""}`}
+                aria-label={mode.shortTitle}
+                onClick={() => {
+                  playUi();
+                  const next = { ...config, modeId: mode.id };
+                  onChange(next);
+                  setPickingModeId(mode.id);
+                }}
+              >
+                <img className="mode-body-art" src={MODE_LOGOS[mode.id]} alt="" width={280} height={210} />
+                <span className="mode-body-label">{mode.shortTitle}</span>
+              </button>
+            ))}
+          </div>
+        </section>
+
+        <p className="hud-footer">
+          <AtomMark className="hud-atom hud-atom-sm" />
+          <span>Explore · Learn · Discover</span>
+        </p>
+      </div>
 
       {pickingMode ? (
         <div

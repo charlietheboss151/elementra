@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.28.2] - 2026-09-16
+
+### Changed
+
+- Choose-a-mode uses a full-bleed honeycomb HUD: circuit top bar, title block, 3×2 mode grid, and atom footer matching the mock.
+
 ## [0.28.1] - 2026-09-16
 
 ### Fixed
