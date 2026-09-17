@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.28.3] - 2026-09-16
+
+### Changed
+
+- HUD type uses Audiowide for Elementra, Orbitron for labels and headings, and Exo 2 for body text.
+
 ## [0.28.2] - 2026-09-16
 
 ### Changed

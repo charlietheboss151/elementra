@@ -11,8 +11,9 @@
   --wrong: #ff6b85;
   --correct: #3ee0b0;
   --shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
-  --sans: "DM Sans", "Segoe UI", sans-serif;
-  --display: "Fraunces", Georgia, serif;
+  --sans: "Exo 2", "Segoe UI", sans-serif;
+  --display: "Orbitron", "Segoe UI", sans-serif;
+  --mark: "Audiowide", "Orbitron", sans-serif;
   --tile: 1fr;
   color: var(--text);
   background: radial-gradient(1200px 600px at 10% -10%, #16324f 0%, var(--bg) 55%);
@@ -191,8 +192,8 @@ h1,
 h2,
 h3 {
   font-family: var(--display);
-  font-weight: 560;
-  letter-spacing: -0.03em;
+  font-weight: 700;
+  letter-spacing: 0.04em;
   margin: 0;
 }
 
@@ -214,9 +215,11 @@ button {
 .eyebrow,
 .mode-chip,
 .prompt-kicker {
+  font-family: var(--display);
   text-transform: uppercase;
-  letter-spacing: 0.16em;
-  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  font-size: 0.68rem;
+  font-weight: 600;
   color: var(--accent);
   margin: 0 0 8px;
 }
@@ -376,10 +379,11 @@ html:has(.screen.home) .perf-hud {
   border: 0;
   background: transparent;
   color: #9fd9ff;
-  font: inherit;
-  font-size: 0.9rem;
-  font-weight: 650;
-  letter-spacing: 0.03em;
+  font-family: var(--display);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
   border-radius: 10px;
 }
 
@@ -458,10 +462,12 @@ button.hud-nav-btn:focus-visible {
   flex-direction: column;
   gap: 10px;
   margin: 0;
+  font-family: var(--display);
   text-align: right;
   text-transform: uppercase;
-  letter-spacing: 0.2em;
-  font-size: 0.68rem;
+  letter-spacing: 0.22em;
+  font-size: 0.62rem;
+  font-weight: 600;
   line-height: 1.2;
   color: #9fd4ee;
 }
@@ -479,10 +485,12 @@ button.hud-nav-btn:focus-visible {
   align-items: center;
   gap: 8px;
   margin: 20px 0 0;
+  font-family: var(--display);
   text-align: center;
   text-transform: uppercase;
-  letter-spacing: 0.32em;
-  font-size: 0.7rem;
+  letter-spacing: 0.36em;
+  font-size: 0.62rem;
+  font-weight: 600;
   color: rgba(142, 200, 232, 0.72);
 }
 
@@ -498,10 +506,10 @@ button.hud-nav-btn:focus-visible {
 }
 
 .brand-mark {
-  font-family: var(--sans);
-  font-weight: 800;
+  font-family: var(--mark);
+  font-weight: 400;
   font-size: clamp(1.85rem, 4.2vw, 2.7rem);
-  letter-spacing: -0.04em;
+  letter-spacing: 0.06em;
   background-image: linear-gradient(100deg, #3ee0b0 0%, #7cc4ff 48%, #c9a6ff 100%);
   background-color: transparent;
   -webkit-background-clip: text;
@@ -524,9 +532,9 @@ button.hud-nav-btn:focus-visible {
   margin: 6px 0 0;
   color: #eef6ff;
   font-family: var(--sans);
-  font-weight: 500;
-  font-size: 1.22rem;
-  letter-spacing: 0;
+  font-weight: 600;
+  font-size: 1.28rem;
+  letter-spacing: 0.02em;
 }
 
 .about {
@@ -730,8 +738,8 @@ button.hud-nav-btn:focus-visible {
 .byline-name {
   font-family: var(--display);
   font-size: 1.2rem;
-  font-weight: 560;
-  letter-spacing: -0.02em;
+  font-weight: 700;
+  letter-spacing: 0.04em;
   color: var(--accent-2);
 }
 
@@ -826,9 +834,10 @@ button.hud-nav-btn:focus-visible {
 }
 
 .mode-body-label {
-  font-size: 0.78rem;
+  font-family: var(--display);
+  font-size: 0.72rem;
   font-weight: 700;
-  letter-spacing: 0.18em;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
   text-align: center;
   color: #8ee7ff;
@@ -1038,8 +1047,11 @@ button.hud-nav-btn:focus-visible {
   background: var(--accent);
   color: #06281f;
   border: 0;
+  font-family: var(--display);
   font-weight: 700;
   font-size: 1.05rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
 }
 
 .play-button:hover,
@@ -1126,7 +1138,7 @@ button.hud-nav-btn:focus-visible {
   font-family: var(--display);
   font-size: clamp(3rem, 10vw, 5rem);
   line-height: 1;
-  font-weight: 560;
+  font-weight: 700;
 }
 
 .type-answer label {
@@ -1228,7 +1240,7 @@ button.hud-nav-btn:focus-visible {
   margin-top: 6px;
   font-family: var(--display);
   font-size: clamp(1.2rem, 3vw, 1.8rem);
-  font-weight: 560;
+  font-weight: 700;
 }
 
 @keyframes wrong-pick-pop {
