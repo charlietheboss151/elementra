@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.23.22] - 2026-09-16
+
+### Changed
+
+- Mixed icon’s gold Au tile has the same sparkle as the other modes.
+
 ## [0.23.21] - 2026-09-16
 
 ### Changed
