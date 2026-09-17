@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.23.16] - 2026-09-16
+
+### Changed
+
+- Atomic number icon uses a search field and a shuffled tile grid, like gameplay.
+
 ## [0.23.15] - 2026-09-16
 
 ### Changed
