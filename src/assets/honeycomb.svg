@@ -1,12 +1,11 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="69.282" height="60" viewBox="0 0 69.282 60">
-  <g fill="#3ec8ff" fill-opacity="0.045" stroke="#5ee7ff" stroke-opacity="0.5" stroke-width="1.15" stroke-linejoin="round">
-    <path d="M17.321 0L34.641 10L34.641 30L17.321 40L0 30L0 10Z"/>
-    <path d="M51.962 0L69.282 10L69.282 30L51.962 40L34.641 30L34.641 10Z"/>
-    <path d="M34.641 30L51.962 40L51.962 60L34.641 70L17.321 60L17.321 40Z"/>
-    <path d="M34.641-30L51.962-20L51.962 0L34.641 10L17.321 0L17.321-20Z"/>
-    <path d="M0 30L17.321 40L17.321 60L0 70L-17.321 60L-17.321 40Z"/>
-    <path d="M69.282 30L86.603 40L86.603 60L69.282 70L51.962 60L51.962 40Z"/>
-    <path d="M0-30L17.321-20L17.321 0L0 10L-17.321 0L-17.321-20Z"/>
-    <path d="M69.282-30L86.603-20L86.603 0L69.282 10L51.962 0L51.962-20Z"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="72" height="41.569" viewBox="0 0 72 41.569">
+  <!-- Seamless flat-top honeycomb (same orientation as the HUD mock). Tile = 3s × √3 s. -->
+  <g fill="#2a7ab0" fill-opacity="0.14" stroke="#6ee9ff" stroke-opacity="0.42" stroke-width="0.9" stroke-linejoin="round">
+    <path d="M48 20.785 L36 41.569 L12 41.569 L0 20.785 L12 0 L36 0 Z"/>
+    <path d="M84 0 L72 20.785 L48 20.785 L36 0 L48 -20.785 L72 -20.785 Z"/>
+    <path d="M84 41.569 L72 62.354 L48 62.354 L36 41.569 L48 20.785 L72 20.785 Z"/>
+    <path d="M12 0 L0 20.785 L-24 20.785 L-36 0 L-24 -20.785 L0 -20.785 Z"/>
+    <path d="M12 41.569 L0 62.354 L-24 62.354 L-36 41.569 L-24 20.785 L0 20.785 Z"/>
+    <path d="M120 20.785 L108 41.569 L84 41.569 L72 20.785 L84 0 L108 0 Z"/>
   </g>
 </svg>

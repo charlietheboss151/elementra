@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.28.15] - 2026-09-17
+
+### Fixed
+
+- Choose-a-mode honeycomb uses flat-top cells like the mock, runs top to bottom, and fades behind the mode cards instead of sitting in a cropped side strip.
+
 ## [0.28.14] - 2026-09-17
 
 ### Changed
