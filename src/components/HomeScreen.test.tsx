@@ -84,4 +84,20 @@ describe("HomeScreen", () => {
     expect(html).toContain("Element ranks");
     expect(html).toContain("Rounds played");
   });
+
+  it("opens how to play from the nav button", () => {
+    const html = renderToStaticMarkup(
+      <HomeScreen
+        config={config}
+        user={null}
+        onChange={() => undefined}
+        onPlay={() => undefined}
+        onBack={() => undefined}
+        onOpenSettings={() => undefined}
+        startHelpOpen
+      />,
+    );
+    expect(html).toContain('aria-labelledby="how-title"');
+    expect(html).toContain("A first try is 1 point");
+  });
 });

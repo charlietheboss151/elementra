@@ -15,6 +15,7 @@ import {
 } from "../game/types";
 import { CategoryLegend } from "./CategoryLegend";
 import { PeriodicTable } from "./PeriodicTable";
+import { HowToPlayDialog } from "./HowToPlayDialog";
 import { StatsDialog } from "./StatsDialog";
 
 function TimerNote({ timed }: { timed: boolean }) {
@@ -61,6 +62,7 @@ interface HomeScreenProps {
   startPickingModeId?: string | null;
   startTableOpen?: boolean;
   startStatsOpen?: boolean;
+  startHelpOpen?: boolean;
 }
 
 export function HomeScreen({
@@ -73,10 +75,12 @@ export function HomeScreen({
   startPickingModeId = null,
   startTableOpen = false,
   startStatsOpen = false,
+  startHelpOpen = false,
 }: HomeScreenProps) {
   const [pickingModeId, setPickingModeId] = useState<string | null>(startPickingModeId);
   const [tableOpen, setTableOpen] = useState(startTableOpen);
   const [statsOpen, setStatsOpen] = useState(startStatsOpen);
+  const [helpOpen, setHelpOpen] = useState(startHelpOpen);
   const pickingMode = GAME_MODES.find((mode) => mode.id === pickingModeId) ?? null;
   const playModeId = pickingMode?.id ?? config.modeId;
   const pool = poolForSet(config.elementSet);
@@ -100,10 +104,16 @@ export function HomeScreen({
     setStatsOpen(false);
   };
 
+  const closeHelp = () => {
+    playUi();
+    setHelpOpen(false);
+  };
+
   const openTable = () => {
     playUi();
     setPickingModeId(null);
     setStatsOpen(false);
+    setHelpOpen(false);
     setTableOpen(true);
   };
 
@@ -111,7 +121,16 @@ export function HomeScreen({
     playUi();
     setPickingModeId(null);
     setTableOpen(false);
+    setHelpOpen(false);
     setStatsOpen(true);
+  };
+
+  const openHelp = () => {
+    playUi();
+    setPickingModeId(null);
+    setTableOpen(false);
+    setStatsOpen(false);
+    setHelpOpen(true);
   };
 
   const openSettings = () => {
@@ -119,30 +138,28 @@ export function HomeScreen({
     setPickingModeId(null);
     setTableOpen(false);
     setStatsOpen(false);
+    setHelpOpen(false);
     onOpenSettings();
   };
 
   useEffect(() => {
-    if (!pickingModeId && !tableOpen && !statsOpen) return;
+    if (!pickingModeId && !tableOpen && !statsOpen && !helpOpen) return;
     const onKey = (event: KeyboardEvent) => {
       if (event.key !== "Escape") return;
       if (pickingModeId) closeGroupMenu();
       else if (tableOpen) closeTable();
-      else closeStats();
+      else if (statsOpen) closeStats();
+      else closeHelp();
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [pickingModeId, tableOpen, statsOpen]);
+  }, [pickingModeId, tableOpen, statsOpen, helpOpen]);
 
   const playWith = (next: GameConfig) => {
     unlockAudio();
     unlockSpeech();
     playUi();
     onPlay(next);
-  };
-
-  const comingSoon = () => {
-    playUi();
   };
 
   return (
@@ -177,7 +194,7 @@ export function HomeScreen({
             </span>
             Periodic table
           </button>
-          <button type="button" className="hud-nav-btn" onClick={comingSoon}>
+          <button type="button" className="hud-nav-btn" onClick={openHelp}>
             <span className="hud-nav-ico" aria-hidden="true">
               ?
             </span>
@@ -346,6 +363,7 @@ export function HomeScreen({
       ) : null}
 
       {statsOpen ? <StatsDialog user={user} onClose={closeStats} /> : null}
+      {helpOpen ? <HowToPlayDialog onClose={closeHelp} /> : null}
     </div>
   );
 }
