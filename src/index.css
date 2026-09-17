@@ -285,7 +285,7 @@ html:has(.screen.home) .perf-hud {
   z-index: -2;
   pointer-events: none;
   background:
-    linear-gradient(to bottom, rgba(2, 21, 38, 0.2) 0, rgba(2, 21, 38, 0.2) 58px, #021526 128px),
+    linear-gradient(to bottom, rgba(2, 21, 38, 0.4) 0, rgba(2, 21, 38, 0.55) 52px, #021526 108px),
     radial-gradient(ellipse 70% 42% at 50% 8%, rgba(36, 130, 200, 0.28), transparent 58%),
     url("./assets/hud-bg.png") center top / 100% auto no-repeat,
     #021526;
@@ -304,7 +304,7 @@ html:has(.screen.home) .perf-hud {
   background-repeat: repeat;
   background-position: 0 0;
   opacity: 0.95;
-  -webkit-mask-image: linear-gradient(
+  --hex-mask-x: linear-gradient(
     90deg,
     #000 0%,
     #000 8%,
@@ -321,23 +321,25 @@ html:has(.screen.home) .perf-hud {
     #000 92%,
     #000 100%
   );
-  mask-image: linear-gradient(
-    90deg,
-    #000 0%,
-    #000 8%,
-    rgba(0, 0, 0, 0.88) 18%,
-    rgba(0, 0, 0, 0.62) 28%,
-    rgba(0, 0, 0, 0.32) 38%,
-    rgba(0, 0, 0, 0.12) 46%,
-    rgba(0, 0, 0, 0.05) 50%,
-    rgba(0, 0, 0, 0.05) 50%,
-    rgba(0, 0, 0, 0.12) 54%,
-    rgba(0, 0, 0, 0.32) 62%,
-    rgba(0, 0, 0, 0.62) 72%,
-    rgba(0, 0, 0, 0.88) 82%,
-    #000 92%,
-    #000 100%
+  --hex-mask-y: linear-gradient(
+    180deg,
+    transparent 0,
+    transparent 78px,
+    rgba(0, 0, 0, 0.45) 112px,
+    #000 148px,
+    #000 calc(100% - 112px),
+    rgba(0, 0, 0, 0.4) calc(100% - 80px),
+    transparent calc(100% - 48px),
+    transparent 100%
   );
+  -webkit-mask-image: var(--hex-mask-x), var(--hex-mask-y);
+  -webkit-mask-size: 100% 100%, 100% 100%;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-composite: source-in;
+  mask-image: var(--hex-mask-x), var(--hex-mask-y);
+  mask-size: 100% 100%, 100% 100%;
+  mask-repeat: no-repeat;
+  mask-composite: intersect;
 }
 
 .hud-shell {
@@ -2130,7 +2132,7 @@ button.hud-nav-btn:focus-visible {
 
   .screen.home::before {
     background:
-      linear-gradient(to bottom, rgba(2, 21, 38, 0.2) 0, rgba(2, 21, 38, 0.2) 48px, #021526 110px),
+      linear-gradient(to bottom, rgba(2, 21, 38, 0.5) 0, rgba(2, 21, 38, 0.72) 64px, #021526 120px),
       radial-gradient(ellipse 70% 28% at 50% 0%, rgba(36, 130, 200, 0.28), transparent 58%),
       url("./assets/hud-bg.png") center top / 100% auto no-repeat,
       #021526;
@@ -2139,7 +2141,7 @@ button.hud-nav-btn:focus-visible {
   .screen.home::after {
     opacity: 0.88;
     background-size: 102px 58.89px;
-    -webkit-mask-image: linear-gradient(
+    --hex-mask-x: linear-gradient(
       90deg,
       #000 0%,
       #000 10%,
@@ -2154,20 +2156,16 @@ button.hud-nav-btn:focus-visible {
       #000 90%,
       #000 100%
     );
-    mask-image: linear-gradient(
-      90deg,
-      #000 0%,
-      #000 10%,
-      rgba(0, 0, 0, 0.8) 20%,
-      rgba(0, 0, 0, 0.45) 32%,
-      rgba(0, 0, 0, 0.16) 42%,
-      rgba(0, 0, 0, 0.05) 50%,
-      rgba(0, 0, 0, 0.05) 50%,
-      rgba(0, 0, 0, 0.16) 58%,
-      rgba(0, 0, 0, 0.45) 68%,
-      rgba(0, 0, 0, 0.8) 80%,
-      #000 90%,
-      #000 100%
+    --hex-mask-y: linear-gradient(
+      180deg,
+      transparent 0,
+      transparent 268px,
+      rgba(0, 0, 0, 0.45) 304px,
+      #000 344px,
+      #000 calc(100% - 96px),
+      rgba(0, 0, 0, 0.35) calc(100% - 68px),
+      transparent calc(100% - 40px),
+      transparent 100%
     );
   }
 

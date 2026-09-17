@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.28.17] - 2026-09-17
+
+### Changed
+
+- Choose-a-mode honeycomb stays in the card band and no longer runs behind the top bar or footer.
+
 ## [0.28.16] - 2026-09-17
 
 ### Changed
