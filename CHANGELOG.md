@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.28.7] - 2026-09-16
+
+### Changed
+
+- Home, Settings, Stats, Periodic table, and How to Play use larger cyan HUD icons.
+
 ## [0.28.6] - 2026-09-16
 
 ### Changed

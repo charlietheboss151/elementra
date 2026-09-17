@@ -52,6 +52,63 @@ function AtomMark({ className }: { className?: string }) {
   );
 }
 
+function HudIcon({ name }: { name: "home" | "settings" | "stats" | "table" | "help" }) {
+  const common = {
+    className: "hud-nav-ico",
+    viewBox: "0 0 24 24",
+    fill: "none" as const,
+    stroke: "currentColor",
+    strokeWidth: 1.9,
+    strokeLinecap: "round" as const,
+    strokeLinejoin: "round" as const,
+    "aria-hidden": true as const,
+  };
+
+  if (name === "home") {
+    return (
+      <svg {...common}>
+        <path d="M3.8 11.2 12 4.2l8.2 7" />
+        <path d="M6.2 10.5V20h11.6v-9.5" />
+        <path d="M10 20v-6.2h4V20" />
+      </svg>
+    );
+  }
+
+  if (name === "settings") {
+    return (
+      <svg {...common}>
+        <path d="M10.3 3.3h3.4l.45 2.35 1.95.8 2.15-1.15 2.4 2.4-1.15 2.15.8 1.95 2.35.45v3.4l-2.35.45-.8 1.95 1.15 2.15-2.4 2.4-2.15-1.15-1.95.8-.45 2.35h-3.4l-.45-2.35-1.95-.8-2.15 1.15-2.4-2.4 1.15-2.15-.8-1.95L3.3 13.7v-3.4l2.35-.45.8-1.95-1.15-2.15 2.4-2.4 2.15 1.15 1.95-.8.45-2.35z" />
+        <circle cx="12" cy="12" r="2.7" />
+      </svg>
+    );
+  }
+
+  if (name === "stats") {
+    return (
+      <svg {...common}>
+        <path d="M5 19V11.5M10.5 19V7M16 19V4.8M21 19H3" />
+      </svg>
+    );
+  }
+
+  if (name === "table") {
+    return (
+      <svg {...common}>
+        <rect x="3.2" y="3.2" width="17.6" height="17.6" rx="2.2" />
+        <path d="M3.2 9.2h17.6M3.2 15h17.6M9.2 3.2v17.6M15 3.2v17.6" />
+      </svg>
+    );
+  }
+
+  return (
+    <svg {...common}>
+      <circle cx="12" cy="12" r="8.4" />
+      <path d="M9.3 9.2a2.8 2.8 0 1 1 2.7 3.5v1.2" />
+      <circle cx="12" cy="17.15" r="1.05" fill="currentColor" stroke="none" />
+    </svg>
+  );
+}
+
 interface HomeScreenProps {
   config: GameConfig;
   user: string | null;
@@ -171,34 +228,24 @@ export function HomeScreen({
             <span className="brand-mark">Elementra</span>
           </p>
           <span className="hud-nav-btn is-current">
-            <span className="hud-nav-ico" aria-hidden="true">
-              ⌂
-            </span>
+            <HudIcon name="home" />
             Home
           </span>
           <div className="hud-nav-links">
             <button type="button" className="hud-nav-btn" onClick={openSettings}>
-              <span className="hud-nav-ico" aria-hidden="true">
-                ⚙
-              </span>
+              <HudIcon name="settings" />
               Settings
             </button>
             <button type="button" className="hud-nav-btn" onClick={openStats}>
-              <span className="hud-nav-ico" aria-hidden="true">
-                ▤
-              </span>
+              <HudIcon name="stats" />
               Stats
             </button>
             <button type="button" className="hud-nav-btn" onClick={openTable}>
-              <span className="hud-nav-ico" aria-hidden="true">
-                ▦
-              </span>
+              <HudIcon name="table" />
               Periodic table
             </button>
             <button type="button" className="hud-nav-btn" onClick={openHelp}>
-              <span className="hud-nav-ico" aria-hidden="true">
-                ?
-              </span>
+              <HudIcon name="help" />
               How to Play
             </button>
           </div>

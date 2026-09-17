@@ -391,12 +391,12 @@ html:has(.screen.home) .perf-hud {
 .hud-nav-btn {
   display: inline-flex;
   align-items: center;
-  gap: 7px;
+  gap: 8px;
   margin: 0;
   padding: 8px 12px;
   border: 0;
   background: transparent;
-  color: #9fd9ff;
+  color: #c4eeff;
   font-family: var(--hud);
   font-size: 0.78rem;
   font-weight: 600;
@@ -417,8 +417,12 @@ button.hud-nav-btn:focus-visible {
 }
 
 .hud-nav-ico {
-  font-size: 0.95em;
-  opacity: 0.9;
+  width: 20px;
+  height: 20px;
+  flex: 0 0 auto;
+  display: block;
+  opacity: 1;
+  filter: drop-shadow(0 0 6px #3ec8ffdd);
 }
 
 .hud-hero {

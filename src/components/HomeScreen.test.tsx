@@ -28,6 +28,7 @@ describe("HomeScreen", () => {
     expect(html).toContain("Stats");
     expect(html).toContain("Periodic table");
     expect(html).toContain("How to Play");
+    expect(html).toContain("hud-nav-ico");
     expect(html).toContain("hud-shell");
     expect(html).toContain("hud-nav-circuit");
     expect(html).toContain("The periodic table");
