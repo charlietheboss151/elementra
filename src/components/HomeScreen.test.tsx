@@ -23,6 +23,9 @@ describe("HomeScreen", () => {
     expect(html).toContain("Type the name");
     expect(html).toContain("Mixed");
     expect(html).toContain("Choose a mode");
+    expect(html).toContain("Settings");
+    expect(html).toContain("Stats");
+    expect(html).toContain("How to Play");
     expect(html).not.toContain("Element group");
     expect(html).not.toContain("Start Find Element by Name");
     expect(html).not.toContain("Read the name, then click");

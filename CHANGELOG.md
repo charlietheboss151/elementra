@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.24.0] - 2026-09-16
+
+### Added
+
+- Choose-a-mode HUD with Home, Settings, Stats, and How to Play. Settings, Stats, and How to Play are buttons only for now.
+
+### Changed
+
+- Choose-a-mode uses the cyan honeycomb HUD from the mock, without the extra table and scoreboard on that screen.
+
 ## [0.23.23] - 2026-09-16
 
 ### Changed

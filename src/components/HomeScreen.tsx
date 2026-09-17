@@ -12,26 +12,40 @@ import {
   type ElementSetId,
   type GameConfig,
 } from "../game/types";
-import { CategoryLegend } from "./CategoryLegend";
-import { ElementList } from "./ElementList";
-import { ElementRanks } from "./ElementRanks";
-import { PeriodicTable } from "./PeriodicTable";
-import { Scoreboard } from "./Scoreboard";
-import { defaultStore, loadEntries } from "../game/scoreboard";
 
 function TimerNote({ timed }: { timed: boolean }) {
   if (!timed) return null;
   return ` (${QUESTION_TIME_MS / 1000}s each)`;
 }
 
-const PREVIEW_LINE: Record<string, string> = {
-  "find-element": "Click the named element on the table.",
-  "atomic-number": "A shuffled list, so you cannot count across.",
-  symbol: "Match the symbol on the table.",
-  properties: "Clues first, then the table — names stay hidden.",
-  "type-name": "See the symbol. Type the name.",
-  mixed: "Names, symbols, numbers, and clues, shuffled.",
-};
+function AtomMark({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 32 32" aria-hidden="true">
+      <ellipse cx="16" cy="16" rx="12" ry="5" fill="none" stroke="currentColor" strokeWidth="1.4" />
+      <ellipse
+        cx="16"
+        cy="16"
+        rx="12"
+        ry="5"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.4"
+        transform="rotate(60 16 16)"
+      />
+      <ellipse
+        cx="16"
+        cy="16"
+        rx="12"
+        ry="5"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.4"
+        transform="rotate(-60 16 16)"
+      />
+      <circle cx="16" cy="16" r="2.2" fill="currentColor" />
+    </svg>
+  );
+}
 
 interface HomeScreenProps {
   config: GameConfig;
@@ -44,7 +58,6 @@ interface HomeScreenProps {
 
 export function HomeScreen({
   config,
-  user,
   onChange,
   onPlay,
   onBack,
@@ -52,24 +65,12 @@ export function HomeScreen({
 }: HomeScreenProps) {
   const [pickingModeId, setPickingModeId] = useState<string | null>(startPickingModeId);
   const pickingMode = GAME_MODES.find((mode) => mode.id === pickingModeId) ?? null;
-  const selectedMode = GAME_MODES.find((mode) => mode.id === config.modeId);
   const playModeId = pickingMode?.id ?? config.modeId;
   const pool = poolForSet(config.elementSet);
   const poolCount = pool.length;
-  const previewList = [...pool].sort((a, b) => a.name.localeCompare(b.name));
   const listMode = usesListLayout(playModeId);
   const propertyMode = playModeId === "properties";
   const typeMode = usesTypeLayout(playModeId);
-  const boardProps = {
-    hint: { kind: null, period: null, category: null } as const,
-    correctAtomicNumber: null,
-    wrongGuesses: [] as number[],
-    resolution: null,
-    answeredMarks: {},
-    playableNumbers: pool.map((element) => element.atomicNumber),
-    disabled: true,
-    onSelect: () => undefined,
-  };
 
   const closeGroupMenu = () => {
     playUi();
@@ -92,23 +93,66 @@ export function HomeScreen({
     onPlay(next);
   };
 
+  const comingSoon = () => {
+    playUi();
+  };
+
   return (
     <div className="screen home">
-      <header className="setup-bar">
-        <button
-          type="button"
-          className="text-button setup-back"
-          onClick={() => {
-            playUi();
-            onBack();
-          }}
-        >
-          Back
-        </button>
-        <h1>
+      <nav className="hud-nav" aria-label="Elementra">
+        <p className="hud-brand">
+          <AtomMark className="hud-atom" />
           <span className="brand-mark">Elementra</span>
-        </h1>
-        <p className="setup-kicker">Choose a mode</p>
+        </p>
+        <div className="hud-nav-links">
+          <span className="hud-nav-btn is-current">
+            <span className="hud-nav-ico" aria-hidden="true">
+              ⌂
+            </span>
+            Home
+          </span>
+          <button type="button" className="hud-nav-btn" onClick={comingSoon}>
+            <span className="hud-nav-ico" aria-hidden="true">
+              ⚙
+            </span>
+            Settings
+          </button>
+          <button type="button" className="hud-nav-btn" onClick={comingSoon}>
+            <span className="hud-nav-ico" aria-hidden="true">
+              ▤
+            </span>
+            Stats
+          </button>
+          <button type="button" className="hud-nav-btn" onClick={comingSoon}>
+            <span className="hud-nav-ico" aria-hidden="true">
+              ?
+            </span>
+            How to Play
+          </button>
+        </div>
+      </nav>
+
+      <header className="setup-bar hud-hero">
+        <div className="hud-hero-copy">
+          <button
+            type="button"
+            className="text-button setup-back"
+            onClick={() => {
+              playUi();
+              onBack();
+            }}
+          >
+            ← Back
+          </button>
+          <h1>
+            <span className="brand-mark">Elementra</span>
+          </h1>
+          <p className="setup-kicker">Choose a mode</p>
+        </div>
+        <p className="hud-tagline">
+          <span>The periodic table guessing game</span>
+          <AtomMark className="hud-atom hud-atom-lg" />
+        </p>
       </header>
 
       <section className="mode-pick" aria-label="Play a mode">
@@ -132,6 +176,8 @@ export function HomeScreen({
           ))}
         </div>
       </section>
+
+      <p className="hud-footer">Explore · Learn · Discover</p>
 
       {pickingMode ? (
         <div
@@ -209,39 +255,6 @@ export function HomeScreen({
           </div>
         </div>
       ) : null}
-
-      <section className="preview">
-        <h2>{selectedMode?.shortTitle ?? "The table"}</h2>
-        <p>{PREVIEW_LINE[config.modeId] ?? "The table is the answer sheet."}</p>
-        {typeMode ? (
-          <p className="type-answer-preview">Fe → Iron · Au → Gold · Na → Sodium</p>
-        ) : listMode ? (
-          <ElementList
-            elements={previewList}
-            reveal={{ atomicNumber: false, symbol: true, name: true }}
-            {...boardProps}
-          />
-        ) : (
-          <PeriodicTable
-            explorer
-            reveal={
-              propertyMode
-                ? { atomicNumber: false, symbol: false, name: false }
-                : { atomicNumber: true, symbol: true, name: true }
-            }
-            {...boardProps}
-          />
-        )}
-        {typeMode ? null : <CategoryLegend />}
-      </section>
-
-      <ElementRanks user={user} />
-
-      <Scoreboard
-        title={user ? `${user}'s scoreboard` : "Scoreboard"}
-        entries={loadEntries(defaultStore(), user).slice(0, 12)}
-        empty="Play a round and your time and accuracy will show up here so you can track improvement."
-      />
     </div>
   );
 }

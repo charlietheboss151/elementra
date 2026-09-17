@@ -11,7 +11,7 @@ Play on a computer or a phone.
 
 ## Play (Elementra)
 
-- **Modes** — tap a mode logo, then pick an element group from the menu. Find by name, symbol, or atomic number; Property Clues; Type the name; or Mixed.
+- **Modes** — tap a mode logo, then pick an element group from the menu. Find by name, symbol, or atomic number; Property Clues; Type the name; or Mixed. The top bar has Home, Settings, Stats, and How to Play; Settings, Stats, and How to Play are placeholders for now.
 - **Groups** — Common elements for a short beginner round, a chemical family, or the whole table. The group menu opens after you choose a mode.
 - **Scoring** — three guesses each. A first try is 1 point; later tries score less. A round is every element in the group you picked.
 - **Hint** — on large groups, lights the period row; on All or Common, a second tap lights the family.
