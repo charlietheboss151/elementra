@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.28.25] - 2026-09-17
+
+### Changed
+
+- Find by name uses the original table around gold, before the Platinum and Mercury edits.
+
 ## [0.28.24] - 2026-09-17
 
 ### Changed
