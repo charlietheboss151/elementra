@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.28.13] - 2026-09-16
+
+### Fixed
+
+- Settings gear is an even six-tooth cog instead of a lopsided outline.
+
 ## [0.28.12] - 2026-09-16
 
 ### Changed
