@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.23.10] - 2026-09-16
+
+### Fixed
+
+- Type the name and Mixed icons no longer sit on a bright honeycomb fill.
+
 ## [0.23.9] - 2026-09-16
 
 ### Changed
