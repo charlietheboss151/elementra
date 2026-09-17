@@ -746,16 +746,17 @@ button.hud-nav-btn:focus-visible {
 
 .table-dialog {
   position: relative;
-  width: min(1120px, 100%);
+  width: min(1000px, calc(100vw - 32px));
   max-width: 100%;
   min-width: 0;
-  max-height: min(90vh, 860px);
-  overflow: auto;
+  max-height: calc(100vh - 24px);
+  overflow-x: hidden;
+  overflow-y: auto;
   overscroll-behavior: contain;
   background: linear-gradient(180deg, var(--bg-elev), var(--bg-elev-2));
   border: 1px solid var(--line);
   border-radius: 20px;
-  padding: 28px 20px 20px;
+  padding: 20px 14px 14px;
   box-shadow: var(--shadow);
 }
 
@@ -763,6 +764,45 @@ button.hud-nav-btn:focus-visible {
   margin: 0 36px 6px 0;
   font-family: var(--display);
   font-size: 1.7rem;
+}
+
+.table-dialog .table-wrap,
+.table-dialog .table-wrap--explorer {
+  overflow: hidden;
+  padding-bottom: 0;
+  min-width: 0;
+}
+
+.table-dialog .periodic-table {
+  min-width: 0;
+  width: 100%;
+  gap: 2px;
+  grid-template-columns: repeat(18, minmax(0, 1fr));
+  grid-template-rows: repeat(7, minmax(2.3rem, auto)) 0.4rem minmax(2.3rem, auto) minmax(2.3rem, auto);
+}
+
+.table-dialog .tile,
+.table-dialog .f-placeholder {
+  min-height: 2.3rem;
+  padding: 2px 3px;
+}
+
+.table-dialog .tile-name {
+  font-size: 0.5rem;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.table-dialog .periodic-table--explorer .tile.tile--explorer:hover,
+.table-dialog .periodic-table--explorer .tile.tile--explorer:focus-visible {
+  transform: scale(1.06);
+}
+
+.auth-overlay:has(.table-dialog) {
+  overflow: hidden;
+  padding: 12px;
 }
 
 .stats-dialog {
