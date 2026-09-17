@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.28.24] - 2026-09-17
+
+### Changed
+
+- Mode cards keep the original outline honeycomb and share the same background opacity.
+
 ## [0.28.23] - 2026-09-17
 
 ### Changed
