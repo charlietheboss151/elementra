@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { unlockSpeech } from "../audio/speech";
 import { playUi, unlockAudio } from "../audio/sounds";
+import { ELEMENTS } from "../data/elements";
 import { poolForSet, QUESTION_TIME_MS, setHasHints } from "../game/elementSets";
 import { familyHintAvailable } from "../game/hintCopy";
 import { MODE_LOGOS } from "../game/modeLogos";
@@ -12,6 +13,8 @@ import {
   type ElementSetId,
   type GameConfig,
 } from "../game/types";
+import { CategoryLegend } from "./CategoryLegend";
+import { PeriodicTable } from "./PeriodicTable";
 
 function TimerNote({ timed }: { timed: boolean }) {
   if (!timed) return null;
@@ -54,6 +57,7 @@ interface HomeScreenProps {
   onPlay: (config: GameConfig) => void;
   onBack: () => void;
   startPickingModeId?: string | null;
+  startTableOpen?: boolean;
 }
 
 export function HomeScreen({
@@ -62,8 +66,10 @@ export function HomeScreen({
   onPlay,
   onBack,
   startPickingModeId = null,
+  startTableOpen = false,
 }: HomeScreenProps) {
   const [pickingModeId, setPickingModeId] = useState<string | null>(startPickingModeId);
+  const [tableOpen, setTableOpen] = useState(startTableOpen);
   const pickingMode = GAME_MODES.find((mode) => mode.id === pickingModeId) ?? null;
   const playModeId = pickingMode?.id ?? config.modeId;
   const pool = poolForSet(config.elementSet);
@@ -77,14 +83,27 @@ export function HomeScreen({
     setPickingModeId(null);
   };
 
+  const closeTable = () => {
+    playUi();
+    setTableOpen(false);
+  };
+
+  const openTable = () => {
+    playUi();
+    setPickingModeId(null);
+    setTableOpen(true);
+  };
+
   useEffect(() => {
-    if (!pickingModeId) return;
+    if (!pickingModeId && !tableOpen) return;
     const onKey = (event: KeyboardEvent) => {
-      if (event.key === "Escape") closeGroupMenu();
+      if (event.key !== "Escape") return;
+      if (pickingModeId) closeGroupMenu();
+      else closeTable();
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [pickingModeId]);
+  }, [pickingModeId, tableOpen]);
 
   const playWith = (next: GameConfig) => {
     unlockAudio();
@@ -122,6 +141,12 @@ export function HomeScreen({
               ▤
             </span>
             Stats
+          </button>
+          <button type="button" className="hud-nav-btn" onClick={openTable}>
+            <span className="hud-nav-ico" aria-hidden="true">
+              ▦
+            </span>
+            Periodic table
           </button>
           <button type="button" className="hud-nav-btn" onClick={comingSoon}>
             <span className="hud-nav-ico" aria-hidden="true">
@@ -252,6 +277,41 @@ export function HomeScreen({
             >
               Start
             </button>
+          </div>
+        </div>
+      ) : null}
+
+      {tableOpen ? (
+        <div
+          className="auth-overlay"
+          onClick={(event) => {
+            if (event.target === event.currentTarget) closeTable();
+          }}
+        >
+          <div
+            className="table-dialog"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="table-dialog-title"
+          >
+            <button type="button" className="auth-close" aria-label="Close" onClick={closeTable}>
+              ×
+            </button>
+            <h2 id="table-dialog-title">Periodic table</h2>
+            <p className="group-menu-lede">All 118 elements</p>
+            <PeriodicTable
+              explorer
+              reveal={{ atomicNumber: true, symbol: true, name: true }}
+              hint={{ kind: null, period: null, category: null }}
+              correctAtomicNumber={null}
+              wrongGuesses={[]}
+              resolution={null}
+              answeredMarks={{}}
+              playableNumbers={ELEMENTS.map((element) => element.atomicNumber)}
+              disabled
+              onSelect={() => undefined}
+            />
+            <CategoryLegend />
           </div>
         </div>
       ) : null}

@@ -720,6 +720,27 @@ button.hud-nav-btn:focus-visible {
   font-size: 1.7rem;
 }
 
+.table-dialog {
+  position: relative;
+  width: min(1120px, 100%);
+  max-width: 100%;
+  min-width: 0;
+  max-height: min(90vh, 860px);
+  overflow: auto;
+  overscroll-behavior: contain;
+  background: linear-gradient(180deg, var(--bg-elev), var(--bg-elev-2));
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  padding: 28px 20px 20px;
+  box-shadow: var(--shadow);
+}
+
+.table-dialog h2 {
+  margin: 0 36px 6px 0;
+  font-family: var(--display);
+  font-size: 1.7rem;
+}
+
 .group-menu-lede {
   margin: 0 0 10px;
   text-transform: uppercase;

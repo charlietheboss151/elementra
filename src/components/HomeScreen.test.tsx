@@ -25,6 +25,7 @@ describe("HomeScreen", () => {
     expect(html).toContain("Choose a mode");
     expect(html).toContain("Settings");
     expect(html).toContain("Stats");
+    expect(html).toContain("Periodic table");
     expect(html).toContain("How to Play");
     expect(html).not.toContain("Element group");
     expect(html).not.toContain("Start Find Element by Name");
@@ -46,5 +47,21 @@ describe("HomeScreen", () => {
     expect(html).toContain("Common elements");
     expect(html).toContain(">Start<");
     expect(html).toContain('aria-labelledby="group-menu-title"');
+  });
+
+  it("opens the complete periodic table from the nav button", () => {
+    const html = renderToStaticMarkup(
+      <HomeScreen
+        config={config}
+        user={null}
+        onChange={() => undefined}
+        onPlay={() => undefined}
+        onBack={() => undefined}
+        startTableOpen
+      />,
+    );
+    expect(html).toContain("All 118 elements");
+    expect(html).toContain("periodic-table--explorer");
+    expect(html).toContain('aria-labelledby="table-dialog-title"');
   });
 });
