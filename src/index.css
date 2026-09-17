@@ -35,15 +35,12 @@ body {
   margin: 0;
 }
 
-.sound-menu {
+.settings-fab {
   position: fixed;
   top: 8px;
   right: 8px;
   left: auto;
   z-index: 55;
-}
-
-.sound-menu-toggle {
   padding: 6px 10px;
   border: 1px solid var(--line);
   border-radius: 999px;
@@ -52,44 +49,71 @@ body {
   font-size: 0.78rem;
 }
 
-.sound-menu-toggle:hover,
-.sound-menu-toggle[aria-expanded="true"] {
+.settings-fab:hover,
+.settings-fab:focus-visible {
   color: var(--text);
   border-color: rgba(180, 210, 255, 0.28);
 }
 
-.sound-menu-panel {
-  position: absolute;
-  top: calc(100% + 8px);
-  right: 0;
-  left: auto;
-  min-width: 196px;
-  padding: 12px 12px 10px;
+.settings-dialog {
+  position: relative;
+  width: min(440px, 100%);
+  max-width: 100%;
+  min-width: 0;
+  max-height: min(88vh, 720px);
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
   background: linear-gradient(180deg, var(--bg-elev), var(--bg-elev-2));
   border: 1px solid var(--line);
-  border-radius: 14px;
+  border-radius: 20px;
+  padding: 28px 20px 20px;
   box-shadow: var(--shadow);
 }
 
-.sound-menu-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  margin-bottom: 8px;
-  color: var(--text);
-  font-size: 0.9rem;
+.settings-dialog h2 {
+  margin: 0 36px 10px 0;
+  font-family: var(--display);
+  font-size: 1.7rem;
 }
 
-.sound-menu-row input {
-  width: 16px;
-  height: 16px;
+.settings-dialog .group-menu-lede {
+  margin-top: 16px;
+}
+
+.settings-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin: 0 0 12px;
+  color: var(--text);
+  font-size: 0.95rem;
+}
+
+.settings-row span {
+  min-width: 0;
+}
+
+.settings-row small {
+  display: block;
+  margin-top: 3px;
+  color: var(--muted);
+  font-size: 0.8rem;
+  font-weight: 400;
+  line-height: 1.35;
+}
+
+.settings-row input {
+  width: 18px;
+  height: 18px;
+  margin-top: 2px;
+  flex: 0 0 auto;
   accent-color: var(--accent);
 }
 
-.sound-menu-mute {
-  margin-top: 4px;
-  padding-left: 0;
+html.ui-still .mode-body-art {
+  animation: none;
 }
 
 .perf-hud {
@@ -186,7 +210,7 @@ body:has(.screen.home) {
     radial-gradient(1200px 700px at 80% 110%, #041a33 0%, #02101c 55%);
 }
 
-html:has(.screen.home) .sound-menu {
+html:has(.screen.home) .settings-fab {
   display: none;
 }
 
@@ -429,7 +453,7 @@ button.hud-nav-btn:focus-visible {
 .auth-overlay {
   position: fixed;
   inset: 0;
-  z-index: 40;
+  z-index: 70;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1703,7 +1727,7 @@ button.hud-nav-btn:focus-visible {
     padding-top: 40px;
   }
 
-  .sound-menu {
+  .settings-fab {
     top: max(8px, env(safe-area-inset-top));
     right: max(8px, env(safe-area-inset-right));
   }

@@ -13,6 +13,7 @@ describe("HomeScreen", () => {
         onChange={() => undefined}
         onPlay={() => undefined}
         onBack={() => undefined}
+        onOpenSettings={() => undefined}
       />,
     );
     expect(html).toContain("mode-body-art");
@@ -40,6 +41,7 @@ describe("HomeScreen", () => {
         onChange={() => undefined}
         onPlay={() => undefined}
         onBack={() => undefined}
+        onOpenSettings={() => undefined}
         startPickingModeId="symbol"
       />,
     );
@@ -57,6 +59,7 @@ describe("HomeScreen", () => {
         onChange={() => undefined}
         onPlay={() => undefined}
         onBack={() => undefined}
+        onOpenSettings={() => undefined}
         startTableOpen
       />,
     );

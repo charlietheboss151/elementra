@@ -56,6 +56,7 @@ interface HomeScreenProps {
   onChange: (config: GameConfig) => void;
   onPlay: (config: GameConfig) => void;
   onBack: () => void;
+  onOpenSettings: () => void;
   startPickingModeId?: string | null;
   startTableOpen?: boolean;
 }
@@ -65,6 +66,7 @@ export function HomeScreen({
   onChange,
   onPlay,
   onBack,
+  onOpenSettings,
   startPickingModeId = null,
   startTableOpen = false,
 }: HomeScreenProps) {
@@ -112,6 +114,13 @@ export function HomeScreen({
     onPlay(next);
   };
 
+  const openSettings = () => {
+    playUi();
+    setPickingModeId(null);
+    setTableOpen(false);
+    onOpenSettings();
+  };
+
   const comingSoon = () => {
     playUi();
   };
@@ -130,7 +139,7 @@ export function HomeScreen({
             </span>
             Home
           </span>
-          <button type="button" className="hud-nav-btn" onClick={comingSoon}>
+          <button type="button" className="hud-nav-btn" onClick={openSettings}>
             <span className="hud-nav-ico" aria-hidden="true">
               ⚙
             </span>

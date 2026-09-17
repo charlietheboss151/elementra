@@ -2,15 +2,17 @@ import { useCallback, useEffect, useState } from "react";
 import { GameScreen } from "./components/GameScreen";
 import { HomeScreen } from "./components/HomeScreen";
 import { PerfHud } from "./components/PerfHud";
-import { SoundMenu } from "./components/SoundMenu";
 import { ResultsScreen } from "./components/ResultsScreen";
+import { SettingsDialog } from "./components/SettingsDialog";
 import { TitleScreen } from "./components/TitleScreen";
 import { currentUser, syncAccount } from "./game/auth";
 import { applyRoundToStats } from "./game/elementStats";
 import { applyProgressResetOnce } from "./game/progressReset";
 import { defaultStore, recordRound } from "./game/scoreboard";
 import { loadSetup, saveSetup } from "./game/setupPrefs";
+import { applyUiPrefs, loadUiPrefs } from "./game/uiPrefs";
 import type { GameConfig, GameResult } from "./game/types";
+import { playUi } from "./audio/sounds";
 
 type Screen =
   | { kind: "title" }
@@ -28,6 +30,12 @@ function App() {
     loadSetup(defaultStore(), currentUser(defaultStore())),
   );
   const [screen, setScreen] = useState<Screen>({ kind: "title" });
+  const [settingsOpen, setSettingsOpen] = useState(false);
+  const [showPerfHud, setShowPerfHud] = useState(() => loadUiPrefs().showPerfHud);
+
+  useEffect(() => {
+    applyUiPrefs(loadUiPrefs());
+  }, []);
 
   useEffect(() => {
     const store = defaultStore();
@@ -64,6 +72,16 @@ function App() {
     setScreen({ kind: "home" });
   }, []);
 
+  const openSettings = useCallback(() => {
+    setSettingsOpen(true);
+  }, []);
+
+  const closeSettings = useCallback(() => {
+    playUi();
+    setSettingsOpen(false);
+    setShowPerfHud(loadUiPrefs().showPerfHud);
+  }, []);
+
   const saveRun = useCallback((result: GameResult) => {
     const who = currentUser(defaultStore());
     const entry = recordRound(result, defaultStore(), Date.now(), who);
@@ -93,6 +111,7 @@ function App() {
         onChange={changeConfig}
         onPlay={(next) => start(next)}
         onBack={goTitle}
+        onOpenSettings={openSettings}
       />
     );
   } else if (screen.kind === "play") {
@@ -118,8 +137,15 @@ function App() {
 
   return (
     <>
-      <SoundMenu />
-      <PerfHud />
+      {screen.kind === "home" || settingsOpen ? null : (
+        <button type="button" className="settings-fab" onClick={openSettings}>
+          Settings
+        </button>
+      )}
+      {settingsOpen ? (
+        <SettingsDialog config={config} onChangeConfig={changeConfig} onClose={closeSettings} />
+      ) : null}
+      {showPerfHud ? <PerfHud /> : null}
       {body}
     </>
   );

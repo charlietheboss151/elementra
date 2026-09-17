@@ -11,12 +11,12 @@ Play on a computer or a phone.
 
 ## Play (Elementra)
 
-- **Modes** — tap a mode logo, then pick an element group from the menu. Find by name, symbol, or atomic number; Property Clues; Type the name; or Mixed. The top bar has Home, Settings, Stats, Periodic table, and How to Play. Periodic table opens the full table; Settings, Stats, and How to Play are placeholders for now.
+- **Modes** — tap a mode logo, then pick an element group from the menu. Find by name, symbol, or atomic number; Property Clues; Type the name; or Mixed. The top bar has Home, Settings, Stats, Periodic table, and How to Play. Settings and Periodic table work; Stats and How to Play are placeholders for now.
 - **Groups** — Common elements for a short beginner round, a chemical family, or the whole table. The group menu opens after you choose a mode.
 - **Scoring** — three guesses each. A first try is 1 point; later tries score less. A round is every element in the group you picked.
 - **Hint** — on large groups, lights the period row; on All or Common, a second tap lights the family.
 - **Progress** — scoreboard and element ranks save to your account when you register or log in, so they follow you to another phone, computer, or browser. Ranks show the top 3 until you tap Show more. Register or log in is optional (a popup you can close). Usernames are unique.
-- **Sound** — the top-right menu mutes voices, effects, or both. Name questions are spoken so you hear the name.
+- **Settings** — voices, sound effects, race-the-clock by default, fps readout, and still mode icons. Open Settings from the top bar (or the corner button on other screens). Name questions are spoken so you hear the name.
 
 Atomic-number questions use a shuffled list so you cannot count across the table. Type a name or symbol in the search box to bring that element to the top. Mixed Practice can ask atomic-number questions too, plus names, symbols, and property clues.
 
