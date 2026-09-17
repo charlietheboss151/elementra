@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.22.0] - 2026-09-16
+
+### Changed
+
+- Setup uses clickable mode logos like Cosmica. Element group is a menu after you pick a mode, not a row of pills on the home screen.
+
 ## [0.21.2] - 2026-08-31
 
 ### Fixed

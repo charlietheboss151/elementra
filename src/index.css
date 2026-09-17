@@ -432,14 +432,90 @@ button {
   box-shadow: var(--shadow);
 }
 
-.mode-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 10px;
-  margin: 16px 0 20px;
+.mode-pick {
+  margin: 8px 0 12px;
 }
 
-.mode-card,
+.mode-bodies {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px 18px;
+  align-items: start;
+  margin: 4px 0 8px;
+}
+
+.mode-body {
+  display: grid;
+  justify-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 8px 6px 4px;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  border-radius: 18px;
+}
+
+.mode-body-art {
+  display: block;
+  width: min(148px, 22vw);
+  height: min(148px, 22vw);
+  object-fit: contain;
+  filter:
+    drop-shadow(0 14px 28px #00000099)
+    drop-shadow(0 0 10px #3ee0b088)
+    drop-shadow(0 0 22px #7cc4ff66);
+  animation: mode-body-float 6s ease-in-out infinite;
+}
+
+.mode-body:nth-child(2) .mode-body-art {
+  animation-duration: 5.4s;
+  animation-delay: -1.2s;
+}
+
+.mode-body:nth-child(3) .mode-body-art {
+  animation-duration: 6.6s;
+  animation-delay: -2s;
+}
+
+.mode-body:nth-child(4) .mode-body-art {
+  animation-duration: 5.8s;
+  animation-delay: -0.6s;
+}
+
+.mode-body:nth-child(5) .mode-body-art {
+  animation-duration: 7s;
+  animation-delay: -2.8s;
+}
+
+.mode-body:nth-child(6) .mode-body-art {
+  animation-duration: 6.2s;
+  animation-delay: -1.8s;
+}
+
+.mode-body:hover .mode-body-art,
+.mode-body:focus-visible .mode-body-art {
+  animation: none;
+  transform: translateY(-8px) scale(1.08);
+  filter:
+    drop-shadow(0 18px 32px #000000aa)
+    drop-shadow(0 0 12px #3ee0b0cc)
+    drop-shadow(0 0 28px #7cc4ff99);
+}
+
+.mode-body-label {
+  font-size: 0.95rem;
+  font-weight: 650;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+.mode-body.is-selected .mode-body-label {
+  color: var(--accent);
+}
+
 .pills button,
 .play-button,
 .hint-button,
@@ -451,25 +527,68 @@ button {
   transition: transform 0.12s ease, border-color 0.12s ease, background 0.12s ease;
 }
 
-.mode-card {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  text-align: left;
-  padding: 14px;
-}
-
-.mode-card span,
 .hint-text {
   color: var(--muted);
   font-size: 0.92rem;
 }
 
-.mode-card.is-selected,
 .pills button.is-selected {
   border-color: var(--accent);
   background: rgba(62, 224, 176, 0.12);
   box-shadow: inset 0 0 0 1px rgba(62, 224, 176, 0.35);
+}
+
+.group-dialog {
+  position: relative;
+  width: min(560px, 100%);
+  max-height: min(88vh, 720px);
+  overflow: auto;
+  background: linear-gradient(180deg, var(--bg-elev), var(--bg-elev-2));
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  padding: 28px 20px 20px;
+  box-shadow: var(--shadow);
+}
+
+.group-dialog h2 {
+  margin: 0 36px 6px 0;
+  font-family: var(--display);
+  font-size: 1.7rem;
+}
+
+.group-menu-lede {
+  margin: 0 0 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-size: 0.72rem;
+  color: var(--muted);
+}
+
+@keyframes mode-body-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+@media (max-width: 900px) {
+  .mode-bodies {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .mode-body-art {
+    width: min(148px, 28vw);
+    height: min(148px, 28vw);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mode-body-art {
+    animation: none;
+  }
 }
 
 .setup-row {
@@ -509,7 +628,6 @@ button {
 }
 
 .play-button:hover,
-.mode-card:hover,
 .pills button:hover,
 .hint-button:hover {
   transform: translateY(-1px);
@@ -1412,9 +1530,19 @@ button {
   .text-button,
   .hint-button,
   .pills button,
-  .mode-card,
+  .mode-body,
   .auth-close {
     min-height: 44px;
+  }
+
+  .mode-bodies {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .mode-body-art {
+    width: min(148px, 36vw);
+    height: min(148px, 36vw);
   }
 
   .setup-card,

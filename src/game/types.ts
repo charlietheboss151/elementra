@@ -58,6 +58,7 @@ export interface GameResult {
 export interface GameModeDefinition {
   id: string;
   title: string;
+  shortTitle: string;
   description: string;
   clueKinds: (elementSet: ElementSetId) => ClueKind[];
 }

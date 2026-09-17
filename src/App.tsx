@@ -91,7 +91,7 @@ function App() {
         config={config}
         user={user}
         onChange={changeConfig}
-        onPlay={() => start()}
+        onPlay={(next) => start(next)}
         onBack={goTitle}
       />
     );
