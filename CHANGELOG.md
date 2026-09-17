@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.23.11] - 2026-09-16
+
+### Changed
+
+- Mode icons no longer have little element symbols in the background.
+
 ## [0.23.10] - 2026-09-16
 
 ### Fixed
