@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.23.7] - 2026-09-16
+
+### Changed
+
+- Mode icons use richer table, clue, and gold-Au artwork.
+
 ## [0.23.6] - 2026-09-16
 
 ### Changed
