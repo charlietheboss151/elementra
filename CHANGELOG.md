@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.23.17] - 2026-09-16
+
+### Changed
+
+- Atomic number title and Property clues labels are larger and easier to read.
+
 ## [0.23.16] - 2026-09-16
 
 ### Changed
