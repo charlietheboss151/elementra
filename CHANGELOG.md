@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.28.11] - 2026-09-16
+
+### Changed
+
+- Mixed mode card honeycomb is a brighter navy so it matches the other mode icons.
+
 ## [0.28.10] - 2026-09-16
 
 ### Added
