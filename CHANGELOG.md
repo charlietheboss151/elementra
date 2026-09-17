@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.28.18] - 2026-09-17
+
+### Changed
+
+- Choose-a-mode honeycomb is quieter and stays farther from the top bar and footer.
+
 ## [0.28.17] - 2026-09-17
 
 ### Changed

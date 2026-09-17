@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="72" height="41.569" viewBox="0 0 72 41.569">
   <!-- Seamless flat-top honeycomb (same orientation as the HUD mock). Tile = 3s × √3 s. -->
-  <g fill="#2a7ab0" fill-opacity="0.14" stroke="#6ee9ff" stroke-opacity="0.42" stroke-width="0.9" stroke-linejoin="round">
+  <g fill="#2a7ab0" fill-opacity="0.08" stroke="#6ee9ff" stroke-opacity="0.26" stroke-width="0.7" stroke-linejoin="round">
     <path d="M48 20.785 L36 41.569 L12 41.569 L0 20.785 L12 0 L36 0 Z"/>
     <path d="M84 0 L72 20.785 L48 20.785 L36 0 L48 -20.785 L72 -20.785 Z"/>
     <path d="M84 41.569 L72 62.354 L48 62.354 L36 41.569 L48 20.785 L72 20.785 Z"/>
