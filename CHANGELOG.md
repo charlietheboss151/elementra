@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.23.23] - 2026-09-16
+
+### Changed
+
+- Mode icons are packed 4:3 cards so they no longer sit in empty honeycomb.
+
 ## [0.23.22] - 2026-09-16
 
 ### Changed

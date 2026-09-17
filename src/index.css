@@ -460,10 +460,11 @@ button {
 
 .mode-body-art {
   display: block;
-  width: min(210px, 34vw);
-  height: min(210px, 34vw);
-  object-fit: contain;
-  border-radius: 28px;
+  width: min(280px, 42vw);
+  height: auto;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: 22px;
   filter:
     drop-shadow(0 10px 22px #00000088)
     drop-shadow(0 0 14px #3ec8ff66);
@@ -584,8 +585,9 @@ button {
   }
 
   .mode-body-art {
-    width: min(200px, 40vw);
-    height: min(200px, 40vw);
+    width: min(260px, 46vw);
+    height: auto;
+    aspect-ratio: 4 / 3;
   }
 }
 
@@ -1572,8 +1574,9 @@ button {
   }
 
   .mode-body-art {
-    width: min(180px, 44vw);
-    height: min(180px, 44vw);
+    width: min(240px, 48vw);
+    height: auto;
+    aspect-ratio: 4 / 3;
   }
 
   .setup-card,
