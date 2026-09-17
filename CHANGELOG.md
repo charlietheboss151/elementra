@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.28.8] - 2026-09-16
+
+### Changed
+
+- Edge hexes tile as a staggered honeycomb instead of a straight column of outlines.
+
 ## [0.28.7] - 2026-09-16
 
 ### Changed
