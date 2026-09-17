@@ -33,6 +33,7 @@ describe("HomeScreen", () => {
     expect(html).toContain("hud-nav-circuit");
     expect(html).toContain("The periodic table");
     expect(html).toContain("guessing game");
+    expect(html).toContain("hud-footer-rule");
     expect(html).toContain("Explore · Learn · Discover");
     expect(html).not.toContain("Element group");
     expect(html).not.toContain("Start Find Element by Name");

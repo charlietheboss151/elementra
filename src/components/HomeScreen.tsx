@@ -306,10 +306,14 @@ export function HomeScreen({
           </div>
         </section>
 
-        <p className="hud-footer">
-          <AtomMark className="hud-atom hud-atom-sm" />
-          <span>Explore · Learn · Discover</span>
-        </p>
+        <footer className="hud-footer">
+          <div className="hud-footer-rule" aria-hidden="true">
+            <span className="hud-footer-rule-line" />
+            <AtomMark className="hud-atom hud-atom-footer" />
+            <span className="hud-footer-rule-line" />
+          </div>
+          <p className="hud-footer-copy">Explore · Learn · Discover</p>
+        </footer>
       </div>
 
       {pickingMode ? (
