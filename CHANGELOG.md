@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.23.2] - 2026-09-16
+
+### Changed
+
+- Mode logos use neon tile icons that match the Find-by-name / Atomic number / Symbol layout.
+
 ## [0.23.1] - 2026-09-16
 
 ### Fixed
