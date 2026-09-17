@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.23.3] - 2026-09-16
+
+### Changed
+
+- Mode icons drop the outer neon frame and sit larger on the choose-a-mode screen.
+
 ## [0.23.2] - 2026-09-16
 
 ### Changed

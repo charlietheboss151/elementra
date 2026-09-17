@@ -448,9 +448,9 @@ button {
 .mode-body {
   display: grid;
   justify-items: center;
-  gap: 8px;
+  gap: 6px;
   width: 100%;
-  padding: 8px 6px 4px;
+  padding: 2px;
   border: 0;
   background: transparent;
   color: inherit;
@@ -460,8 +460,8 @@ button {
 
 .mode-body-art {
   display: block;
-  width: min(168px, 28vw);
-  height: min(168px, 28vw);
+  width: min(210px, 34vw);
+  height: min(210px, 34vw);
   object-fit: contain;
   filter:
     drop-shadow(0 10px 22px #00000088)
@@ -583,8 +583,8 @@ button {
   }
 
   .mode-body-art {
-    width: min(168px, 32vw);
-    height: min(168px, 32vw);
+    width: min(200px, 40vw);
+    height: min(200px, 40vw);
   }
 }
 
@@ -1571,8 +1571,8 @@ button {
   }
 
   .mode-body-art {
-    width: min(148px, 36vw);
-    height: min(148px, 36vw);
+    width: min(180px, 44vw);
+    height: min(180px, 44vw);
   }
 
   .setup-card,
