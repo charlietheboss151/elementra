@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.28.9] - 2026-09-16
+
+### Changed
+
+- Choose-a-mode uses Outfit for Elementra and Rajdhani for HUD labels instead of Audiowide and Orbitron.
+
 ## [0.28.8] - 2026-09-16
 
 ### Changed
