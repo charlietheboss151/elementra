@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.28.16] - 2026-09-17
+
+### Changed
+
+- Choose-a-mode honeycomb cells are larger, so fewer hexes sit behind the HUD.
+
 ## [0.28.15] - 2026-09-17
 
 ### Fixed
