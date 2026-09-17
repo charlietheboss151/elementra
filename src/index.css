@@ -463,6 +463,7 @@ button {
   width: min(210px, 34vw);
   height: min(210px, 34vw);
   object-fit: contain;
+  border-radius: 28px;
   filter:
     drop-shadow(0 10px 22px #00000088)
     drop-shadow(0 0 14px #3ec8ff66);
