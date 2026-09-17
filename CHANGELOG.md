@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.23.18] - 2026-09-16
+
+### Changed
+
+- Mixed icon’s gold Au tile is larger than the other element tiles.
+
 ## [0.23.17] - 2026-09-16
 
 ### Changed
