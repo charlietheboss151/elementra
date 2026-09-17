@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.28.20] - 2026-09-17
+
+### Changed
+
+- Find by name fills the empty cells beside gold. Atomic number uses the real shuffled-list play layout.
+
 ## [0.28.19] - 2026-09-17
 
 ### Changed
