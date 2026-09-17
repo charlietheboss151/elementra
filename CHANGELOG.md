@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.27.0] - 2026-09-16
+
+### Added
+
+- Stats shows saved element ranks and dated rounds, the same progress as your account.
+
 ## [0.26.0] - 2026-09-16
 
 ### Added

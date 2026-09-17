@@ -67,4 +67,21 @@ describe("HomeScreen", () => {
     expect(html).toContain("periodic-table--explorer");
     expect(html).toContain('aria-labelledby="table-dialog-title"');
   });
+
+  it("opens stats with ranks and rounds played", () => {
+    const html = renderToStaticMarkup(
+      <HomeScreen
+        config={config}
+        user={null}
+        onChange={() => undefined}
+        onPlay={() => undefined}
+        onBack={() => undefined}
+        onOpenSettings={() => undefined}
+        startStatsOpen
+      />,
+    );
+    expect(html).toContain('aria-labelledby="stats-title"');
+    expect(html).toContain("Element ranks");
+    expect(html).toContain("Rounds played");
+  });
 });

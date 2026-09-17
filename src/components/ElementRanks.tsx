@@ -12,11 +12,12 @@ export function rankRowsToShow<T>(rows: T[], expanded: boolean, limit = RANK_PRE
 
 interface ElementRanksProps {
   user: string | null;
+  startExpanded?: boolean;
 }
 
-export function ElementRanks({ user }: ElementRanksProps) {
+export function ElementRanks({ user, startExpanded = false }: ElementRanksProps) {
   const [order, setOrder] = useState<RankOrder>("best");
-  const [expanded, setExpanded] = useState(false);
+  const [expanded, setExpanded] = useState(startExpanded);
   const rows = rankElements(loadElementStats(defaultStore(), user), order);
   const visible = rankRowsToShow(rows, expanded);
   const canToggle = rows.length > RANK_PREVIEW;

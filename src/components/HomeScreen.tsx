@@ -15,6 +15,7 @@ import {
 } from "../game/types";
 import { CategoryLegend } from "./CategoryLegend";
 import { PeriodicTable } from "./PeriodicTable";
+import { StatsDialog } from "./StatsDialog";
 
 function TimerNote({ timed }: { timed: boolean }) {
   if (!timed) return null;
@@ -59,19 +60,23 @@ interface HomeScreenProps {
   onOpenSettings: () => void;
   startPickingModeId?: string | null;
   startTableOpen?: boolean;
+  startStatsOpen?: boolean;
 }
 
 export function HomeScreen({
   config,
+  user,
   onChange,
   onPlay,
   onBack,
   onOpenSettings,
   startPickingModeId = null,
   startTableOpen = false,
+  startStatsOpen = false,
 }: HomeScreenProps) {
   const [pickingModeId, setPickingModeId] = useState<string | null>(startPickingModeId);
   const [tableOpen, setTableOpen] = useState(startTableOpen);
+  const [statsOpen, setStatsOpen] = useState(startStatsOpen);
   const pickingMode = GAME_MODES.find((mode) => mode.id === pickingModeId) ?? null;
   const playModeId = pickingMode?.id ?? config.modeId;
   const pool = poolForSet(config.elementSet);
@@ -90,35 +95,50 @@ export function HomeScreen({
     setTableOpen(false);
   };
 
+  const closeStats = () => {
+    playUi();
+    setStatsOpen(false);
+  };
+
   const openTable = () => {
     playUi();
     setPickingModeId(null);
+    setStatsOpen(false);
     setTableOpen(true);
   };
 
-  useEffect(() => {
-    if (!pickingModeId && !tableOpen) return;
-    const onKey = (event: KeyboardEvent) => {
-      if (event.key !== "Escape") return;
-      if (pickingModeId) closeGroupMenu();
-      else closeTable();
-    };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [pickingModeId, tableOpen]);
-
-  const playWith = (next: GameConfig) => {
-    unlockAudio();
-    unlockSpeech();
+  const openStats = () => {
     playUi();
-    onPlay(next);
+    setPickingModeId(null);
+    setTableOpen(false);
+    setStatsOpen(true);
   };
 
   const openSettings = () => {
     playUi();
     setPickingModeId(null);
     setTableOpen(false);
+    setStatsOpen(false);
     onOpenSettings();
+  };
+
+  useEffect(() => {
+    if (!pickingModeId && !tableOpen && !statsOpen) return;
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key !== "Escape") return;
+      if (pickingModeId) closeGroupMenu();
+      else if (tableOpen) closeTable();
+      else closeStats();
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [pickingModeId, tableOpen, statsOpen]);
+
+  const playWith = (next: GameConfig) => {
+    unlockAudio();
+    unlockSpeech();
+    playUi();
+    onPlay(next);
   };
 
   const comingSoon = () => {
@@ -145,7 +165,7 @@ export function HomeScreen({
             </span>
             Settings
           </button>
-          <button type="button" className="hud-nav-btn" onClick={comingSoon}>
+          <button type="button" className="hud-nav-btn" onClick={openStats}>
             <span className="hud-nav-ico" aria-hidden="true">
               ▤
             </span>
@@ -324,6 +344,8 @@ export function HomeScreen({
           </div>
         </div>
       ) : null}
+
+      {statsOpen ? <StatsDialog user={user} onClose={closeStats} /> : null}
     </div>
   );
 }
