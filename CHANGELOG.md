@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.23.8] - 2026-09-16
+
+### Changed
+
+- Every mode icon has a faint hexagon and mini periodic-table background.
+
 ## [0.23.7] - 2026-09-16
 
 ### Changed
