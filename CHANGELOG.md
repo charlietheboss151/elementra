@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.28.14] - 2026-09-17
+
+### Changed
+
+- Honeycomb runs top to bottom on the sides and fades farther behind the mode cards, closer to the mock.
+
 ## [0.28.13] - 2026-09-16
 
 ### Fixed
