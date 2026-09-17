@@ -374,8 +374,12 @@ button.hud-nav-btn:focus-visible {
 }
 
 .screen.home .brand-mark {
-  background: linear-gradient(100deg, #3ec8ff 0%, #6a7bff 42%, #e56bff 100%);
-  filter: drop-shadow(0 0 16px rgba(62, 200, 255, 0.45));
+  background-image: linear-gradient(100deg, #3ec8ff 0%, #6a7bff 42%, #e56bff 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: #7cc4ff;
+  filter: none;
 }
 
 .screen.home .setup-bar h1 .brand-mark {
@@ -417,14 +421,16 @@ button.hud-nav-btn:focus-visible {
 }
 
 .brand-mark {
+  font-family: var(--sans);
   font-weight: 800;
   font-size: clamp(1.85rem, 4.2vw, 2.7rem);
   letter-spacing: -0.04em;
-  background: linear-gradient(100deg, #3ee0b0 0%, #7cc4ff 48%, #c9a6ff 100%);
+  background-image: linear-gradient(100deg, #3ee0b0 0%, #7cc4ff 48%, #c9a6ff 100%);
+  background-color: transparent;
   -webkit-background-clip: text;
   background-clip: text;
-  color: transparent;
-  filter: drop-shadow(0 0 14px rgba(62, 224, 176, 0.4));
+  -webkit-text-fill-color: transparent;
+  color: #7cc4ff;
 }
 
 .brand-sub {
