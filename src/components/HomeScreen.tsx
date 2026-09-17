@@ -299,7 +299,7 @@ export function HomeScreen({
                   setPickingModeId(mode.id);
                 }}
               >
-                <img className="mode-body-art" src={MODE_LOGOS[mode.id]} alt="" width={280} height={210} />
+                <img className="mode-body-art" src={MODE_LOGOS[mode.id]} alt="" width={322} height={242} />
                 <span className="mode-body-label">{mode.shortTitle}</span>
               </button>
             ))}

@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.28.19] - 2026-09-17
+
+### Changed
+
+- Choose-a-mode cards are 15% larger so they fill more of the HUD.
+
 ## [0.28.18] - 2026-09-17
 
 ### Changed
