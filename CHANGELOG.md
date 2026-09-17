@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.28.12] - 2026-09-16
+
+### Changed
+
+- Choose-a-mode HUD, honeycomb, footer, and mode grid fit a phone screen without leftover desktop gaps.
+
 ## [0.28.11] - 2026-09-16
 
 ### Changed

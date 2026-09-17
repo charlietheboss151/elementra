@@ -227,11 +227,11 @@ export function HomeScreen({
             <AtomMark className="hud-atom" />
             <span className="brand-mark">Elementra</span>
           </p>
-          <span className="hud-nav-btn is-current">
-            <HudIcon name="home" />
-            Home
-          </span>
           <div className="hud-nav-links">
+            <span className="hud-nav-btn is-current hud-nav-home">
+              <HudIcon name="home" />
+              Home
+            </span>
             <button type="button" className="hud-nav-btn" onClick={openSettings}>
               <HudIcon name="settings" />
               Settings
